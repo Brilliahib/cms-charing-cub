@@ -50,36 +50,6 @@ export default function Sidenav({ children, session }: SidenavProps) {
               icon: LayoutDashboardIcon,
               active: pathname === "/dashboard/admin",
             },
-            {
-              href: "/dashboard/admin/article",
-              label: "Artikel",
-              icon: Newspaper,
-              active: pathname === "/dashboard/admin/article",
-            },
-            {
-              href: "/dashboard/admin/article/types",
-              label: "Tipe Artikel",
-              icon: FileType2,
-              active: pathname.startsWith("/dashboard/admin/article/types"),
-            },
-            {
-              href: "/dashboard/admin/games",
-              label: "Games",
-              icon: Gamepad2,
-              active: pathname === "/dashboard/admin/games",
-            },
-            {
-              href: "/dashboard/admin/games/types",
-              label: "Tipe Games",
-              icon: Gamepad,
-              active: pathname.startsWith("/dashboard/admin/games/types"),
-            },
-            {
-              href: "/dashboard/admin/users",
-              label: "Pengguna",
-              icon: User,
-              active: pathname.startsWith("/dashboard/admin/users"),
-            },
           ]
         : [
             {
@@ -87,42 +57,6 @@ export default function Sidenav({ children, session }: SidenavProps) {
               label: "Dashboard",
               icon: LayoutDashboardIcon,
               active: pathname === "/dashboard",
-            },
-            {
-              href: "/dashboard/tracking",
-              label: "Tracking",
-              icon: ChartSpline,
-              active: pathname.startsWith("/dashboard/tracking"),
-            },
-            {
-              href: "/dashboard/games",
-              label: "Permainan",
-              icon: Gamepad2,
-              active: pathname.startsWith("/dashboard/games"),
-            },
-            {
-              href: "/dashboard/studies/speaks",
-              label: "Belajar",
-              icon: BookOpen,
-              active: pathname.startsWith("/dashboard/studies/speaks"),
-            },
-            {
-              href: "/dashboard/videos",
-              label: "Video",
-              icon: Video,
-              active: pathname.startsWith("/dashboard/videos"),
-            },
-            {
-              href: "/dashboard/articles",
-              label: "Artikel",
-              icon: Newspaper,
-              active: pathname.startsWith("/dashboard/articles"),
-            },
-            {
-              href: "/dashboard/detect",
-              label: "Deteksi",
-              icon: Camera,
-              active: pathname.startsWith("/dashboard/detect"),
             },
           ]),
       {

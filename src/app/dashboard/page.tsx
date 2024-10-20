@@ -2,7 +2,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import DashboardTitle from "@/components/atoms/typography/DashboardTitle";
-import DashboardWrapper from "@/components/organism/dashboard/DashboardWrapper";
 
 export default function Dashboard() {
   const { data: session } = useSession();

@@ -18,8 +18,8 @@ export default function SideNavL({ links }: SideNavLProps) {
             className="flex text-left justify-center items-center gap-2 font-semibold"
           >
             <Image
-              src="/images/logo_full.png"
-              alt="Tumbuh Sahabat"
+              src="/images/logo.png"
+              alt="Charing Cub"
               width={100}
               height={100}
             />
