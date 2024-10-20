@@ -29,7 +29,9 @@ export default function RootLayout({
     <html lang="id" className={`${poppins.variable} antialiased`}>
       <body>
         <GlobalProvider>
-          <main className="font-poppins">{children}</main>
+          <main className="font-poppins mx-auto px-4 max-w-[1400px]">
+            {children}
+          </main>
           <Toaster />
         </GlobalProvider>
       </body>
