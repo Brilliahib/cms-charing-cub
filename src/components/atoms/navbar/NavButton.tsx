@@ -16,7 +16,7 @@ export default function NavButton({ links }: NavHeaderProps) {
       <div className="hidden items-center gap-4 md:flex">
         <div className="hidden items-center gap-4 md:flex">
           <>
-            <Button>
+            <Button variant={"unique"}>
               <Link href="/login">Login</Link>
             </Button>
             <Button variant="outline">
@@ -59,7 +59,7 @@ export default function NavButton({ links }: NavHeaderProps) {
 
               <>
                 <div className="flex flex-col space-y-4">
-                  <Button>
+                  <Button variant={"unique"}>
                     <Link href="/login">Login</Link>
                   </Button>
                   <Button variant="outline">
