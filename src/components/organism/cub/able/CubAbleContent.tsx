@@ -11,7 +11,7 @@ export default function CubAbleContent() {
                 Day Care for Children with Disabilities
               </span>
               <h1 className="font-bold md:text-7xl text-4xl bg-gradient-to-r from-primary via-[#79919A] to-[#EED584] bg-clip-text text-transparent">
-                Inclusive, loving childcare
+                Inclusive, Loving Childcare
               </h1>
               <p>
                 Provide your child with the compassionate and specialized care

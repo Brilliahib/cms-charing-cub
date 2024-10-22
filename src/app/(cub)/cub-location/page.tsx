@@ -4,7 +4,6 @@ import Navbar from "@/components/organism/navbar/Navbar";
 export default function CubLocationPage() {
   return (
     <>
-      <Navbar />
       <CubLocationContent />
     </>
   );
