@@ -3,23 +3,11 @@
 import { PropsWithChildren, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import {
-  Book,
-  CalendarFold,
-  ClipboardCheck,
-  CircleHelpIcon,
   LayoutDashboardIcon,
   Settings2Icon,
   LucideIcon,
-  User,
-  TimerReset,
-  ChartSpline,
-  Gamepad2,
-  Camera,
   Newspaper,
-  FileType2,
-  Gamepad,
-  Video,
-  BookOpen,
+  Handshake,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -49,6 +37,18 @@ export default function Sidenav({ children, session }: SidenavProps) {
               label: "Dashboard",
               icon: LayoutDashboardIcon,
               active: pathname === "/dashboard/admin",
+            },
+            {
+              href: "/dashboard/admin/article",
+              label: "Article",
+              icon: Newspaper,
+              active: pathname === "/dashboard/admin/article",
+            },
+            {
+              href: "/dashboard/admin/partner",
+              label: "Partnership",
+              icon: Handshake,
+              active: pathname === "/dashboard/admin/partner",
             },
           ]
         : [
