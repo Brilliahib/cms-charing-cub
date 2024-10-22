@@ -16,16 +16,20 @@ export default function Navbar() {
   const pathname = usePathname();
   const links = [
     {
-      href: "/",
-      label: "Home",
+      href: "/cub-location",
+      label: "Cub Location",
     },
     {
-      href: "/helps",
-      label: "Help",
+      href: "/cub-nest",
+      label: "Cub Nest",
     },
     {
-      href: "/partnerships",
-      label: "Partnership",
+      href: "/cub-care",
+      label: "Cub Care",
+    },
+    {
+      href: "/cub-able",
+      label: "Cub Able",
     },
   ];
 

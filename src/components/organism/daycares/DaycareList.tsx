@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 export default function DaycareList() {
-  const { data: session, status } = useSession();
   const { data, isPending } = useGetAllDaycare();
   return (
     <>
