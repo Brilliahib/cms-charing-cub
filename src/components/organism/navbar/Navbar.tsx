@@ -20,11 +20,11 @@ export default function Navbar() {
       label: "Home",
     },
     {
-      href: "/about",
+      href: "/helps",
       label: "Help",
     },
     {
-      href: "/contact",
+      href: "/partnerships",
       label: "Partnership",
     },
   ];

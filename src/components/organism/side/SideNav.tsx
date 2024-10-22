@@ -45,10 +45,10 @@ export default function Sidenav({ children, session }: SidenavProps) {
               active: pathname === "/dashboard/admin/article",
             },
             {
-              href: "/dashboard/admin/partner",
-              label: "Partnership",
+              href: "/dashboard/admin/daycares",
+              label: "Daycare",
               icon: Handshake,
-              active: pathname === "/dashboard/admin/partner",
+              active: pathname === "/dashboard/admin/daycares",
             },
           ]
         : [
