@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Figtree } from "next/font/google";
 import "./globals.css";
 import GlobalProvider from "@/components/organism/GlobalProvider";
 import { Toaster } from "@/components/ui/toaster";

@@ -36,10 +36,10 @@ export default function SideNavL({ links }: SideNavLProps) {
         </div>
       </div>
 
-      {/* <div className="absolute -bottom-24 -right-12 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-primary/20 to-primary/10 blur-xl"></div>
+      <div className="absolute -bottom-24 -right-12 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-primary/20 to-primary/10 blur-xl"></div>
       <div className="absolute -left-36 bottom-36 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-primary/20 to-primary/10 blur-xl"></div>
-      <div className="absolute -right-36 top-36 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-primary/20 to-primary/10 blur-xl"></div>
-      <div className="absolute -left-36 top-2 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-primary/20 to-primary/10 blur-xl"></div> */}
+      <div className="absolute -right-36 top-36 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-[#EED584]/20 to-[#EED584]/10 blur-xl"></div>
+      <div className="absolute -left-36 top-2 -z-10 h-64 w-64 rounded-full bg-gradient-to-tr from-[#EED584]/20 to-[#EED584]/10 blur-xl"></div>
     </div>
   );
 }

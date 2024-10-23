@@ -8,6 +8,7 @@ import {
   LucideIcon,
   Newspaper,
   Handshake,
+  Users,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -42,13 +43,19 @@ export default function Sidenav({ children, session }: SidenavProps) {
               href: "/dashboard/admin/article",
               label: "Article",
               icon: Newspaper,
-              active: pathname === "/dashboard/admin/article",
+              active: pathname.startsWith("/dashboard/admin/article"),
             },
             {
               href: "/dashboard/admin/daycares",
               label: "Daycare",
               icon: Handshake,
-              active: pathname === "/dashboard/admin/daycares",
+              active: pathname.startsWith("/dashboard/admin/daycares"),
+            },
+            {
+              href: "/dashboard/admin/nannies",
+              label: "Nanny",
+              icon: Users,
+              active: pathname.startsWith("/dashboard/admin/nannies"),
             },
           ]
         : [
