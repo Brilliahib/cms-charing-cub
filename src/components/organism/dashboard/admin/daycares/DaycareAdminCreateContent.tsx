@@ -60,7 +60,7 @@ export default function DaycareCreateContent() {
     []
   );
 
-  const { mutate: addGameHandler, isPending } = useAddDaycare({
+  const { mutate: addDaycareHandler, isPending } = useAddDaycare({
     onError: (error: AxiosError<any>) => {
       toast({
         title: "Gagal menambahkan daycare!",
@@ -76,7 +76,7 @@ export default function DaycareCreateContent() {
       queryClient.invalidateQueries({
         queryKey: ["daycare-list"],
       });
-      router.push("/dashboard/admin/games");
+      router.push("/dashboard/admin/daycares");
     },
   });
 
@@ -115,7 +115,7 @@ export default function DaycareCreateContent() {
   });
 
   const onSubmit = (body: DaycareType) => {
-    addGameHandler(body);
+    addDaycareHandler(body);
   };
 
   const removeImage = () => {
@@ -132,7 +132,7 @@ export default function DaycareCreateContent() {
   };
 
   return (
-    <div className="w-full mt-6">
+    <div className="w-full py-8">
       <Card className="shadow-md">
         <CardContent className="py-4">
           <Form {...form}>
@@ -360,7 +360,7 @@ export default function DaycareCreateContent() {
 
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
-                  {isPending ? "Menambahkan..." : "Tambahkan Game"}
+                  {isPending ? "Menambahkan..." : "Tambahkan Daycare"}
                 </Button>
               </div>
             </form>

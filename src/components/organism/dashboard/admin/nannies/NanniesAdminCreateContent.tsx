@@ -92,7 +92,7 @@ export default function NanniesCreateContent() {
   };
 
   return (
-    <div className="w-full mt-6">
+    <div className="w-full py-8">
       <Card className="shadow-md">
         <CardContent className="py-4">
           <Form {...form}>

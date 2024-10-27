@@ -144,7 +144,7 @@ export default function DialogCreateArticle({
                           <SelectGroup>
                             <SelectLabel>Tipe Artikel</SelectLabel>
                             <SelectItem value="1">Gaya Hidup Sehat</SelectItem>
-                            <SelectItem value="2">Kenali Gejala</SelectItem>
+                            <SelectItem value="1">Kenali Gejala</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>

@@ -87,7 +87,7 @@ export default function RegisterForm() {
         description: "Anda berhasil mendaftar",
         variant: "success",
       });
-      return router.push("/dashboard/tracking");
+      return router.push("/dashboard");
     },
   });
 
