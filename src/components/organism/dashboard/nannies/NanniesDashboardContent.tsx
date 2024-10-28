@@ -107,6 +107,7 @@ export default function NanniesDashboardContent() {
       {isDialogOpen && (
         <DialogBookingNannies
           open={isDialogOpen}
+          id={selectedNannyId as number}
           setOpen={setIsDialogOpen}
           name={selectedNannyName}
         />
