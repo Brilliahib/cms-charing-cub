@@ -10,16 +10,18 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { Clock, MapPin, MessageSquareMore } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function DaycareDashboardContent() {
   const { data, isPending } = useGetAllDaycare();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredData =
-    data?.data.filter((daycare) =>
-      daycare.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) || [];
+  const filteredData = Array.isArray(data?.data)
+    ? data.data.filter((daycare) =>
+        daycare.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   return (
     <>
@@ -108,8 +110,9 @@ export default function DaycareDashboardContent() {
                   </div>
                   <div className="flex gap-4">
                     <Button variant={"outline"} className="w-full">
-                      <MessageSquareMore className="h-4 w-4" />
-                      Message
+                      <Link href={`/dashboard/daycares/${daycare.id}`}>
+                        See Details
+                      </Link>
                     </Button>
                     <Button className="w-full">Book Now</Button>
                   </div>
