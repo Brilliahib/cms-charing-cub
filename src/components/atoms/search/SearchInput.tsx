@@ -20,7 +20,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   return (
     <>
       <div className="flex items-center">
-        <div className="h-full flex justify-center items-center h-9 rounded-l-lg border border-input border-r-0 bg-gray-200 px-3">
+        <div className="flex justify-center items-center h-10 rounded-l-md bg-gray-200 px-3 py-2 text-sm">
           <Search className="h-4 w-4" />
         </div>
         <Input
