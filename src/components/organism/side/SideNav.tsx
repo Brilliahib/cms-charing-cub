@@ -10,6 +10,7 @@ import {
   Handshake,
   Users,
   HousePlus,
+  HandCoins,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -77,6 +78,12 @@ export default function Sidenav({ children, session }: SidenavProps) {
               label: "Nanny",
               icon: Users,
               active: pathname.startsWith("/dashboard/nannies"),
+            },
+            {
+              href: "/dashboard/bookings",
+              label: "Booking",
+              icon: HandCoins,
+              active: pathname.startsWith("/dashboard/bookings"),
             },
           ]),
       {
