@@ -21,7 +21,7 @@ export default function BookingDashboardContent() {
     ) || [];
   return (
     <>
-      <div className="py-8 space-y-8">
+      <div className="py-4 space-y-8">
         <div className="flex justify-between">
           <SearchInput onSearch={setSearchQuery} />
         </div>

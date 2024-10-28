@@ -11,6 +11,7 @@ import {
   Users,
   HousePlus,
   HandCoins,
+  MessageCircleMore,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -87,8 +88,14 @@ export default function Sidenav({ children, session }: SidenavProps) {
             },
           ]),
       {
+        href: "/dashboard/messages",
+        label: "Message",
+        active: pathname.startsWith("/dashboard/messages"),
+        icon: MessageCircleMore,
+      },
+      {
         href: "/dashboard/settings",
-        label: "Pengaturan",
+        label: "Setting",
         active: pathname.startsWith("/dashboard/settings"),
         icon: Settings2Icon,
       },
