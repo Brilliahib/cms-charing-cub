@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Menu } from "lucide-react";
+import { House, LogOut, Menu, Settings } from "lucide-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 
@@ -89,14 +89,23 @@ export default function SideNavHeader({ session, links }: SideNavHeaderProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className="cursor-pointer">
-              <Link href="/dashboard/settings">Settings</Link>
+              <Link href="/">
+                <House /> Home
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href="/dashboard/settings">
+                <Settings /> Settings
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="text-destructive cursor-pointer focus:text-destructive focus:bg-destructive/20"
               onClick={() => signOut({ callbackUrl: "/login" })}
             >
-              Keluar
+              {" "}
+              <LogOut />
+              Log Out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

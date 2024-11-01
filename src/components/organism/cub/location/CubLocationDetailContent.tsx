@@ -4,15 +4,21 @@ import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
 import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
-import { Clock, MapPin, Phone } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
+import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface DaycareDetailProps {
   id: number;
@@ -34,12 +40,16 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
     setPreviewImage(`${baseUrl}/${imageUrl}`);
   };
 
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: false })
+  );
+
   return (
     <div className="mx-auto px-4 max-w-[1400px]">
-      <div className="space-y-4 md:space-y-12">
+      <div className="space-y-4 md:space-y-6">
         <Card>
-          <CardContent className="md:p-8 p-4">
-            <div className="md:flex gap-4 xl:max-h-[500px] md:max-h-[500px]">
+          <CardContent className="md:p-8 p-6">
+            <div className="flex md:flex-row flex-col gap-4 xl:max-h-[500px] md:max-h-[500px]">
               {/* Preview image */}
               <div className="md:w-8/12">
                 <Image
@@ -53,8 +63,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
               {/* List images */}
               <div className="md:w-4/12">
-                <ScrollArea className="h-[500px]">
-                  <div className="space-y-4 md:block flex">
+                <ScrollArea className="md:h-[500px]">
+                  <div className="md:space-y-4 md:block flex md:gap-0 gap-4">
                     {data?.data.facility_images?.map((facilityImage) => (
                       <Image
                         key={facilityImage.id}
@@ -62,56 +72,63 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                         alt={data?.data.name ?? "Daycare Facility"}
                         width={1000}
                         height={1000}
-                        className="object-cover w-full flex-1 cursor-pointer rounded-xl"
+                        className="object-cover md:w-full w-[150px] h-full flex-1 cursor-pointer rounded-xl"
                         onClick={() =>
                           handleImageClick(facilityImage.image_url)
                         }
                       />
                     ))}
                   </div>
+                  <ScrollBar className="flex" orientation="horizontal" />
                 </ScrollArea>
               </div>
             </div>
           </CardContent>
         </Card>
-        <div className="md:flex gap-4 md:gap-8">
-          <div className="w-8/12">
-            <Card>
-              <CardContent className="md:p-8 p-4">
-                <div className="space-y-4 md:space-y-8">
-                  <div className="space-y-4">
-                    <div>
-                      <h1 className="font-bold md:text-3xl text-xl">
-                        {data?.data.name}
-                      </h1>
+        <div className="flex md:flex-row flex-col gap-4 md:gap-6">
+          <div className="md:w-8/12">
+            <div className="md:space-y-6 space-y-4">
+              <Card>
+                <CardContent className="md:p-8 p-6">
+                  <div className="space-y-4 md:space-y-8">
+                    <div className="space-y-4">
+                      <div>
+                        <h1 className="md:text-3xl text-xl font-paytone">
+                          {data?.data.name}
+                        </h1>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RatingStars rating={data?.data.rating || 0} />{" "}
+                        <span className="text-sm text-muted-foreground">
+                          ({data?.data.reviewers_count})
+                        </span>
+                      </div>
+                      <div className="space-y-4 text-muted-foreground">
+                        <div className="flex gap-2">
+                          <MapPin className="h-5 w-5 md:flex hidden" />
+                          <p>{data?.data.location}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-5 w-5" />
+                          <p>{data?.data.opening_days}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-5 w-5" />
+                          <p>{data?.data.phone_number}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex gap-4 md:gap-8">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-5 w-5" />
-                        <p>{data?.data.location}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-5 w-5" />
-                        <p>{data?.data.opening_days}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-5 w-5" />
-                        <p>{data?.data.phone_number}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RatingStars rating={data?.data.rating || 0} />{" "}
-                      <span className="text-sm text-muted-foreground">
-                        ({data?.data.reviewers_count})
-                      </span>
+                    <div className="space-y-2">
+                      <h1 className="font-bold">About Daycare</h1>
+                      <p className="text-muted-foreground">
+                        {data?.data.description}
+                      </p>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <h1 className="font-bold">About Daycare</h1>
-                    <p className="text-muted-foreground">
-                      {data?.data.description}
-                    </p>
-                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="md:p-8 p-6">
                   <div className="space-y-4">
                     <h1 className="font-bold">Our Nannies</h1>
                     <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
@@ -139,44 +156,66 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       )}
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="md:p-8 p-6">
                   <div className="space-y-4">
                     <h1 className="font-bold">From Happy Customer</h1>
-                    <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-                      {data?.data.reviews?.map((review) => (
-                        <Card className="bg-secondary border-0" key={review.id}>
-                          <CardContent className="p-4 flex flex-col justify-between h-full">
-                            <div className="space-y-4">
-                              <div className="flex items-center space-x-2">
-                                <RatingStars rating={review.rating || 0} />
+                    <div>
+                      <Carousel plugins={[plugin.current]}>
+                        <CarouselContent>
+                          {data?.data.reviews?.map((review) => (
+                            <CarouselItem
+                              className="pl-1 md:basis-1/2 lg:basis-1/2"
+                              key={review.id}
+                            >
+                              <div className="py-2 px-4 h-full">
+                                <Card
+                                  className="bg-secondary border-0 h-full"
+                                  key={review.id}
+                                >
+                                  <CardContent className="p-4 flex flex-col justify-between h-full">
+                                    <div className="space-y-4">
+                                      <div className="flex items-center space-x-2">
+                                        <RatingStars
+                                          rating={review.rating || 0}
+                                        />
+                                      </div>
+                                      <div className="flex-grow">
+                                        <p>{review.comment}</p>
+                                      </div>
+                                    </div>
+                                    {/* profile reviewers */}
+                                    <div className="flex gap-2 items-center mt-4">
+                                      <Avatar className="border border-muted">
+                                        <AvatarFallback className="text-gray-700 bg-white">
+                                          {generateFallbackFromName(
+                                            review.user.name
+                                          )}
+                                        </AvatarFallback>
+                                      </Avatar>
+                                      <p className="font-semibold text-sm">
+                                        {review.user.name}
+                                      </p>
+                                    </div>
+                                  </CardContent>
+                                </Card>
                               </div>
-                              <div className="flex-grow">
-                                <p>{review.comment}</p>
-                              </div>
-                            </div>
-                            {/* profile reviewers */}
-                            <div className="flex gap-2 items-center mt-4">
-                              <Avatar className="border border-muted">
-                                <AvatarFallback className="text-gray-700 bg-white">
-                                  {generateFallbackFromName(review.user.name)}
-                                </AvatarFallback>
-                              </Avatar>
-                              <p className="font-semibold text-sm">
-                                {review.user.name}
-                              </p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                      </Carousel>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-          <div className="w-4/12">
-            <Card>
-              <CardContent className="md:p-8 p-4">
-                <div className="space-y-4">
+          <div className="md:w-4/12">
+            <Card className="sticky top-24">
+              <CardContent className="md:p-8 p-6">
+                <div className="md:space-y-8 space-y-6">
                   <div className="space-y-4">
                     <h1 className="font-bold">Start from</h1>
                     <div>
@@ -185,6 +224,41 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                         <span className="text-sm font-normal">/day</span>
                       </h1>
                     </div>
+                  </div>
+                  <div className="bg-secondary rounded-xl p-4 space-y-4">
+                    <h1 className="font-bold">The benefit you get</h1>
+                    <ul className="space-y-4">
+                      <li>
+                        <div className="flex gap-4 items-center">
+                          <BadgeCheck className="text-green-500" />
+                          <p>Safe and Comfortable Environment</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex gap-4 items-center">
+                          <BadgeCheck className="text-green-500" />
+                          <p>Early Learning and Development Programs</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex gap-4 items-center">
+                          <BadgeCheck className="text-green-500" />
+                          <p>Socialization and Interaction</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex gap-4 items-center">
+                          <BadgeCheck className="text-green-500" />
+                          <p>Clean and Hygienic Environment</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex gap-4 items-center">
+                          <BadgeCheck className="text-green-500" />
+                          <p>Trained and Experienced Staff</p>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                   <div>
                     <Button className="w-full rounded-full" size={"lg"}>

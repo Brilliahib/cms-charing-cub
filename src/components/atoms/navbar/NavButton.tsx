@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { ChevronDown, LayoutDashboard, LogOut, Menu } from "lucide-react";
 import Image from "next/image";
 import { Link as NavbarLink } from "@/components/organism/navbar/Navbar";
 import NavLink from "./NavLink";
@@ -29,13 +29,10 @@ export default function NavButton({ links }: NavHeaderProps) {
         {session ? (
           <DropdownMenu>
             <div className="flex items-center gap-5">
-              <h4 className="hidden font-semibold md:block">
-                {session.user.name}
-              </h4>
               <DropdownMenuTrigger asChild>
                 <Button variant="tertiary" size="icon" className="rounded-full">
                   <Avatar className="border border-muted">
-                    <AvatarFallback className="text-gray-700">
+                    <AvatarFallback className="text-gray-700 bg-white">
                       {generateFallbackFromName(session.user.name)}
                     </AvatarFallback>
                   </Avatar>
@@ -49,14 +46,18 @@ export default function NavButton({ links }: NavHeaderProps) {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/dashboard">
+                  <LayoutDashboard /> Dashboard
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="text-destructive cursor-pointer focus:text-destructive focus:bg-destructive/20"
                 onClick={() => signOut({ callbackUrl: "/login" })}
               >
-                Keluar
+                {" "}
+                <LogOut />
+                Log Out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -114,7 +115,7 @@ export default function NavButton({ links }: NavHeaderProps) {
                         className="rounded-full"
                       >
                         <Avatar className="border border-muted">
-                          <AvatarFallback className="text-gray-700">
+                          <AvatarFallback className="text-gray-700 bg-white">
                             {generateFallbackFromName(session.user.name)}
                           </AvatarFallback>
                         </Avatar>

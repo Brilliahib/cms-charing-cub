@@ -12,6 +12,10 @@ export const getAllDaycareHandler =
   async (): Promise<GetAllDaycareResponse> => {
     const { data } = await api.get<GetAllDaycareResponse>("/daycares");
 
+    if (!data || !Array.isArray(data.data)) {
+      return { data: [] };
+    }
+
     return data;
   };
 

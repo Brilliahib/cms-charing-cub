@@ -15,8 +15,8 @@ export default function NavLink({ href, label, active }: Link) {
       className={cn(
         "text-sm flex items-center rounded px-5 py-2 font-semibold",
         {
-          "hover:bg-accent": !active,
-          "bg-accent": active,
+          "text-black hover:text-primary": !active,
+          "text-primary": active,
         }
       )}
     >

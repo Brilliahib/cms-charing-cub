@@ -23,22 +23,22 @@ export default function Navbar() {
       {
         href: "/cub-location",
         label: "Cub Location",
-        active: pathname === "/cub-location",
+        active: pathname.startsWith("/cub-location"),
       },
       {
         href: "/cub-nest",
         label: "Cub Nest",
-        active: pathname === "/cub-nest",
+        active: pathname.startsWith("/cub-nest"),
       },
       {
         href: "/cub-care",
         label: "Cub Care",
-        active: pathname === "/cub-care",
+        active: pathname.startsWith("/cub-care"),
       },
       {
         href: "/cub-able",
         label: "Cub Able",
-        active: pathname === "/cub-able",
+        active: pathname.startsWith("/cub-able"),
       },
     ],
     [pathname]
@@ -46,8 +46,8 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="w-full bg-white z-50 sticky top-0">
-        <div className="flex md:mb-8 justify-between py-2 bg-white mx-auto px-4 max-w-[1400px]">
+      <div className="w-full bg-background z-50 sticky top-0 md:mb-0 mb-6">
+        <div className="flex md:mb-8 justify-between bg-background py-2 mx-auto px-4 max-w-[1400px]">
           <NavL />
           <nav className="hidden items-center font-semibold md:flex">
             {links.map((link) => (
