@@ -14,6 +14,7 @@ export interface DayCare {
   phone_number: string;
   rating: number;
   reviewers_count: number;
+  price: number;
   facility_images: FacilityImages[];
   nannies: Nannies[];
 }
@@ -41,12 +42,14 @@ export interface DayCareDetail {
   description: string;
   location: string;
   location_tracking: string;
+  location_maps: string;
   opening_hours: Date;
   closing_hours: Date;
   opening_days: string;
   phone_number: string;
   rating: number;
   reviewers_count: number;
+  price: number;
   facility_images: FacilityImages[];
   nannies: NanniesDaycare[];
   reviews: DaycareReviews[];

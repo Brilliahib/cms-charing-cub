@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Figtree } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import GlobalProvider from "@/components/organism/GlobalProvider";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
 });
 

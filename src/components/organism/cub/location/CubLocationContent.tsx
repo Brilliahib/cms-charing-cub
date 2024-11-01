@@ -6,9 +6,18 @@ import { baseUrl } from "@/utils/app";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CubLocationContent() {
   const { data, isPending } = useGetAllDaycare();
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  if (!data?.data || data.data.length === 0) {
+    return <p>No daycares available</p>;
+  }
   return (
     <>
       <div className="mx-auto px-4 max-w-[1400px]">
@@ -32,7 +41,11 @@ export default function CubLocationContent() {
                     </div>
                     <div className="space-y-4">
                       {data?.data.map((daycare) => (
-                        <div key={daycare.id} className="flex gap-4 md:gap-6">
+                        <Link
+                          href={`/cub-location/${daycare.id}`}
+                          key={daycare.id}
+                          className="flex gap-4 md:gap-6"
+                        >
                           <div className="p-5 bg-gradient-to-tr from-primary flex justify-center to-secondary rounded-xl">
                             <Image
                               src={`${baseUrl}/${daycare.images}`}
@@ -73,7 +86,7 @@ export default function CubLocationContent() {
                                 : "Invalid time"}
                             </p>
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </div>
