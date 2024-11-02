@@ -1,6 +1,7 @@
 "use client";
 
 import RatingStars from "@/components/atoms/rating/RatingStar";
+import SearchInput from "@/components/atoms/search/SearchInput";
 import SectionTitle from "@/components/atoms/typography/SectionTitle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -27,13 +28,24 @@ import { useState } from "react";
 export default function CubCareContent() {
   const { data, isPending } = useGetAllNannies();
 
+  const [query, setQuery] = useState("");
+
+  const onSearch = (value: string) => {
+    setQuery(value);
+  };
+
+  const filteredNannies = data?.data?.filter((nannies) =>
+    nannies.name.toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
     <div className="mx-auto px-4 max-w-[1400px]">
-      <div className="md:space-y-8 space-y-4">
+      <div className="space-y-8">
         <SectionTitle
           title="Cub Care"
           subtitle="Connecting Your Child With Loving Nannies"
         />
+        <SearchInput onSearch={onSearch} />
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
@@ -66,15 +78,26 @@ export default function CubCareContent() {
                       />
                       <div className="space-y-2">
                         <h1 className="font-bold">{nannies.name}</h1>
-                        <div className="flex items-center space-x-2">
-                          <RatingStars rating={nannies.rating || 0} />{" "}
-                          <span className="text-muted-foreground text-sm">
-                            ({nannies.rating_count})
-                          </span>
-                        </div>
                         <p className="text-muted-foreground">
                           {formatPrice(nannies.price_full)}
                         </p>
+                        <div className="flex justify-between">
+                          <div className="flex items-center space-x-2">
+                            <RatingStars rating={nannies.rating || 0} />{" "}
+                            <span className="text-muted-foreground text-sm">
+                              ({nannies.rating_count})
+                            </span>
+                          </div>
+                          <div>
+                            <Image
+                              src={`${baseUrl}/${nannies.daycare_profile}`}
+                              alt={nannies.daycare_name}
+                              width={1000}
+                              height={1000}
+                              className="w-[30px] object-cover h-[30px] rounded-full"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CardContent>

@@ -20,15 +20,15 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   return (
     <>
       <div className="flex items-center">
-        <div className="flex justify-center items-center h-10 rounded-l-md bg-gray-200 px-3 py-2 text-sm">
+        <div className="flex justify-center items-center h-10 rounded-l-full bg-white pl-6 pr-2 py-6 text-sm">
           <Search className="h-4 w-4" />
         </div>
         <Input
           type="text"
-          placeholder="Cari data..."
+          placeholder="What are you looking for?"
           value={query}
           onChange={handleChange}
-          className="w-full md:max-w-xs w-full border rounded-l-none rounded-r-lg px-4 py-2 focus:outline-none"
+          className="w-full bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-full py-6 focus:outline-none"
         />
       </div>
     </>

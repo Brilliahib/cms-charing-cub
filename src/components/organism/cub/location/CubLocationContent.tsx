@@ -9,17 +9,29 @@ import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import SearchInput from "@/components/atoms/search/SearchInput";
+import { useState } from "react";
 
 export default function CubLocationContent() {
   const { data, isPending } = useGetAllDaycare();
+  const [query, setQuery] = useState("");
+
+  const onSearch = (value: string) => {
+    setQuery(value);
+  };
+
+  const filteredDaycares = data?.data?.filter((daycare) =>
+    daycare.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <div className="mx-auto px-4 max-w-[1400px]">
-      <div className="md:space-y-8 space-y-4">
+      <div className="space-y-8">
         <SectionTitle
           title="Cub Location"
           subtitle="Find Your Daycare In Here"
         />
+        <SearchInput onSearch={onSearch} />
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-6 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
@@ -42,24 +54,22 @@ export default function CubLocationContent() {
                 </CardContent>
               </Card>
             ))
-          ) : !data?.data ||
-            data.data.length === 0 ||
-            !Array.isArray(data.data) ? (
+          ) : !filteredDaycares || filteredDaycares.length === 0 ? (
             <p>No daycares available</p>
           ) : (
-            data.data.map((daycare) => (
+            filteredDaycares.map((daycare) => (
               <Link href={`/cub-location/${daycare.id}`} key={daycare.id}>
                 <Card className="border-0 shadow-none">
                   <CardContent className="p-4">
-                    <div className="space-y-4">
+                    <div className="flex md:flex-col flex-row md:gap-0 gap-4 md:space-y-4">
                       <Image
                         src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
                         alt={daycare.name}
                         width={1000}
                         height={1000}
-                        className="w-full object-cover md:h-[200px] rounded-xl"
+                        className="md:w-full w-[120px] object-cover md:h-[200px] h-[100px] rounded-xl"
                       />
-                      <div className="space-y-2">
+                      <div className="md:space-y-2">
                         <h1 className="font-bold">{daycare.name}</h1>
                         <div className="flex gap-2 items-center">
                           <MapPin className="h-8 w-8" />
