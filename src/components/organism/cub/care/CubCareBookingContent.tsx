@@ -27,15 +27,17 @@ import { AxiosError } from "axios";
 import { format } from "date-fns";
 import { BadgeCheck, Clock, Phone } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface CubCareBookingParams {
   id: number;
 }
 
-export default function CubCareBookingContent({ id }: CubCareBookingParams) {
-  const { data } = useGetDetailNannies({ id });
+export default function CubCareBookingContent() {
+  const { id } = useParams();
+
+  const { data } = useGetDetailNannies({ id: Number(id) });
 
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -44,7 +46,7 @@ export default function CubCareBookingContent({ id }: CubCareBookingParams) {
   const form = useForm<BookingNanniesType>({
     resolver: zodResolver(bookingNanniesSchema),
     defaultValues: {
-      nanny_id: id,
+      nanny_id: Number(id),
       name_babies: "",
       age_babies: 0,
       special_request: "",
@@ -70,12 +72,12 @@ export default function CubCareBookingContent({ id }: CubCareBookingParams) {
       queryClient.invalidateQueries({
         queryKey: ["nannies-list"],
       });
-      router.refresh();
+      router.push("/dashboard/booking");
     },
   });
 
   const onSubmit = (body: BookingNanniesType) => {
-    addBookingNanniesHandler({ ...body, nanny_id: id });
+    addBookingNanniesHandler({ ...body, nanny_id: Number(id) });
   };
 
   const createdYear = data?.data.created_at
@@ -92,7 +94,7 @@ export default function CubCareBookingContent({ id }: CubCareBookingParams) {
                   <div className="flex justify-center">
                     <Image
                       src={`${baseUrl}/${data?.data.images}`}
-                      alt={data?.data.name ?? ""}
+                      alt={data?.data.name ?? "Nannies"}
                       width={1000}
                       height={1000}
                       className="w-[400px] object-cover md:h-[400px] rounded-xl"
@@ -213,7 +215,7 @@ export default function CubCareBookingContent({ id }: CubCareBookingParams) {
                               <FormControl>
                                 <Input
                                   type="text"
-                                  placeholder="Enter baby name in here"
+                                  placeholder="Masukkan nama bayi"
                                   {...field}
                                 />
                               </FormControl>
@@ -293,7 +295,7 @@ export default function CubCareBookingContent({ id }: CubCareBookingParams) {
                               <FormLabel>Special Request</FormLabel>
                               <FormControl>
                                 <Textarea
-                                  placeholder="Enter special request in here"
+                                  placeholder="Masukkan special request"
                                   {...field}
                                 />
                               </FormControl>
@@ -302,12 +304,7 @@ export default function CubCareBookingContent({ id }: CubCareBookingParams) {
                           )}
                         />
                         <div className="flex justify-end">
-                          <Button
-                            type="submit"
-                            disabled={isPending}
-                            size={"lg"}
-                            className="w-full rounded-full"
-                          >
+                          <Button type="submit" disabled={isPending}>
                             {isPending ? "Loading..." : "Booking Now"}
                           </Button>
                         </div>

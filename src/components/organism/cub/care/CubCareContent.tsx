@@ -68,13 +68,13 @@ export default function CubCareContent() {
               <Link key={nannies.id} href={`/cub-care/${nannies.id}`}>
                 <Card>
                   <CardContent className="p-4">
-                    <div className="space-y-4">
+                    <div className="space-y-4 flex md:flex-col flex-row md:gap-0 gap-4">
                       <Image
                         src={`${baseUrl}/${nannies.images}`}
                         alt={nannies.name}
                         width={1000}
                         height={1000}
-                        className="w-full object-cover md:h-[200px] h-[150px] rounded-xl bg-primary/60"
+                        className="md:w-full w-[150px] object-cover md:h-[200px] h-[150px] rounded-xl bg-primary/60"
                       />
                       <div className="space-y-2">
                         <h1 className="font-bold">{nannies.name}</h1>

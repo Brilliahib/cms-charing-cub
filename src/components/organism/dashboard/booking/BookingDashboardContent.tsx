@@ -22,8 +22,11 @@ export default function BookingDashboardContent() {
   return (
     <>
       <div className="py-4 space-y-8">
-        <div className="flex justify-between">
-          <SearchInput onSearch={setSearchQuery} />
+        <div className="flex w-full">
+          <SearchInput
+            onSearch={setSearchQuery}
+            className="border md:min-w-[300px]"
+          />
         </div>
         <DataTable columns={bookingNanniesColumns} data={filteredData} />
       </div>

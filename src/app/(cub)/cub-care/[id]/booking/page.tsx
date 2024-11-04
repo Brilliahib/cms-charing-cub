@@ -7,7 +7,7 @@ interface CubCareBookingParams {
 export default function CubCareBookingPage({ params }: CubCareBookingParams) {
   return (
     <>
-      <CubCareBookingContent id={params.id} />
+      <CubCareBookingContent />
     </>
   );
 }

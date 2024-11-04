@@ -30,8 +30,8 @@ interface SideNavHeaderProps {
 
 export default function SideNavHeader({ session, links }: SideNavHeaderProps) {
   return (
-    <header className="fixed left-0 right-0 z-40 h-14 lg:h-[60px] lg:px-6">
-      <div className="flex h-full w-full  items-center justify-between gap-4 bg-background px-4 md:justify-end md:px-16">
+    <header className="fixed left-0 right-0 z-40 h-14 lg:h-[60px] lg:px-6 bg-white">
+      <div className="flex h-full w-full items-center justify-between gap-4 bg-white px-4 md:justify-end md:px-16">
         <Sheet>
           <SheetTrigger asChild>
             <Button

@@ -3,12 +3,14 @@
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
+  className?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ onSearch, className }) => {
   const [query, setQuery] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +21,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
 
   return (
     <>
-      <div className="flex items-center">
+      <div className={cn(`flex items-center rounded-full ${className}`)}>
         <div className="flex justify-center items-center h-10 rounded-l-full bg-white pl-6 pr-2 py-6 text-sm">
           <Search className="h-4 w-4" />
         </div>

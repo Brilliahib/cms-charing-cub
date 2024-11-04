@@ -20,9 +20,11 @@ export default function CubLocationContent() {
     setQuery(value);
   };
 
-  const filteredDaycares = data?.data?.filter((daycare) =>
-    daycare.name.toLowerCase().includes(query.toLowerCase())
-  );
+  const filteredDaycares = Array.isArray(data?.data)
+    ? data.data.filter((daycare) =>
+        daycare.name.toLowerCase().includes(query.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="mx-auto px-4 max-w-[1400px]">
@@ -61,13 +63,13 @@ export default function CubLocationContent() {
               <Link href={`/cub-location/${daycare.id}`} key={daycare.id}>
                 <Card className="border-0 shadow-none">
                   <CardContent className="p-4">
-                    <div className="flex md:flex-col flex-row md:gap-0 gap-4 md:space-y-4">
+                    <div className="flex flex-col space-y-4">
                       <Image
                         src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
                         alt={daycare.name}
                         width={1000}
                         height={1000}
-                        className="md:w-full w-[120px] object-cover md:h-[200px] h-[100px] rounded-xl"
+                        className="w-full object-cover h-[200px] rounded-xl"
                       />
                       <div className="md:space-y-2">
                         <h1 className="font-bold">{daycare.name}</h1>
