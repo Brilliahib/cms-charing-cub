@@ -4,13 +4,16 @@ import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
+import { useToast } from "@/hooks/use-toast";
 import { useGetDetailNannies } from "@/http/nannies/get-detail-nannies";
 import { baseUrl } from "@/utils/app";
 import { formatPrice } from "@/utils/price";
 import { format } from "date-fns";
 import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface CubNestDetailProps {
   id: number;
@@ -18,10 +21,26 @@ interface CubNestDetailProps {
 
 export default function CubCareDetailContent({ id }: CubNestDetailProps) {
   const { data, isPending } = useGetDetailNannies({ id });
+  const session = useSession();
 
   const createdYear = data?.data.created_at
     ? format(new Date(data.data.created_at), "MMMM yyyy")
     : "";
+
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleBookingClick = () => {
+    if (!session.data?.access_token) {
+      toast({
+        title: "Not logged in yet",
+        description: "Please login to continue booking!",
+        variant: "destructive",
+      });
+    } else {
+      router.push(`/cub-care/${data?.data.id}/booking`);
+    }
+  };
 
   return (
     <div className="mx-auto px-4 max-w-[1400px]">
@@ -205,6 +224,7 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                   className="w-full rounded-full"
                   size={"lg"}
                   disabled={isPending}
+                  onClick={handleBookingClick}
                 >
                   {isPending ? "Loading..." : "Book Now"}
                 </Button>

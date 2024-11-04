@@ -10,6 +10,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
 import { generateFallbackFromName } from "@/utils/misc";
@@ -18,6 +19,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 interface DaycareDetailProps {
@@ -43,6 +46,21 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
   );
+
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleBookingClick = () => {
+    if (!session.data?.access_token) {
+      toast({
+        title: "Not logged in yet",
+        description: "Please login to continue booking!",
+        variant: "destructive",
+      });
+    } else {
+      router.push(`/cub-location/${data?.data.id}/booking`);
+    }
+  };
 
   return (
     <div className="mx-auto px-4 max-w-[1400px]">
@@ -261,7 +279,11 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                     </ul>
                   </div>
                   <div>
-                    <Button className="w-full rounded-full" size={"lg"}>
+                    <Button
+                      className="w-full rounded-full"
+                      size={"lg"}
+                      onClick={handleBookingClick}
+                    >
                       Book Now
                     </Button>
                   </div>
