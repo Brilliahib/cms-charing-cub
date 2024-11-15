@@ -25,7 +25,7 @@ export const useGetDetailDaycare = (
   options?: Partial<UseQueryOptions<GetDetailDaycareResponse, AxiosError>>
 ) => {
   return useQuery({
-    queryKey: ["daycare-list"],
+    queryKey: ["daycare-detail"],
     queryFn: () => getDetailDaycareHandler({ id }),
     ...options,
   });

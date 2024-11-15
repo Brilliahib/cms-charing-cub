@@ -1,5 +1,6 @@
 "use client";
 
+import DialogGiveRateDaycare from "@/components/atoms/dialog/DialogGiveRateDaycare";
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ interface DaycareDetailProps {
 export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const session = useSession();
   const { data, isPending } = useGetDetailDaycare({ id });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -62,237 +64,258 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
     }
   };
 
-  return (
-    <div className="mx-auto px-4 max-w-[1400px]">
-      <div className="space-y-4 md:space-y-6">
-        <Card>
-          <CardContent className="md:p-8 p-6">
-            <div className="flex md:flex-row flex-col gap-4 xl:max-h-[500px] md:max-h-[500px]">
-              {/* Preview image */}
-              <div className="md:w-8/12">
-                <Image
-                  src={previewImage ?? ""}
-                  alt={data?.data.name ?? ""}
-                  width={1000}
-                  height={1000}
-                  className="w-full object-cover md:h-full rounded-xl"
-                />
-              </div>
+  const handleGiveRating = () => {
+    setIsDialogOpen(true);
+  };
 
-              {/* List images */}
-              <div className="md:w-4/12">
-                <ScrollArea className="md:h-[500px]">
-                  <div className="md:space-y-4 md:block flex md:gap-0 gap-4">
-                    {data?.data.facility_images?.map((facilityImage) => (
-                      <Image
-                        key={facilityImage.id}
-                        src={`${baseUrl}/${facilityImage.image_url}`}
-                        alt={data?.data.name ?? "Daycare Facility"}
-                        width={1000}
-                        height={1000}
-                        className="object-cover md:w-full w-[150px] h-full flex-1 cursor-pointer rounded-xl"
-                        onClick={() =>
-                          handleImageClick(facilityImage.image_url)
-                        }
-                      />
-                    ))}
-                  </div>
-                  <ScrollBar className="flex" orientation="horizontal" />
-                </ScrollArea>
+  return (
+    <>
+      <div className="mx-auto px-4 max-w-[1400px]">
+        <div className="space-y-4 md:space-y-6">
+          <Card>
+            <CardContent className="md:p-8 p-6">
+              <div className="flex md:flex-row flex-col gap-4 xl:max-h-[500px] md:max-h-[500px]">
+                {/* Preview image */}
+                <div className="md:w-8/12">
+                  <Image
+                    src={previewImage ?? ""}
+                    alt={data?.data.name ?? ""}
+                    width={1000}
+                    height={1000}
+                    className="w-full object-cover md:h-full rounded-xl"
+                  />
+                </div>
+
+                {/* List images */}
+                <div className="md:w-4/12">
+                  <ScrollArea className="md:h-[500px]">
+                    <div className="md:space-y-4 md:block flex md:gap-0 gap-4">
+                      {data?.data.facility_images?.map((facilityImage) => (
+                        <Image
+                          key={facilityImage.id}
+                          src={`${baseUrl}/${facilityImage.image_url}`}
+                          alt={data?.data.name ?? "Daycare Facility"}
+                          width={1000}
+                          height={1000}
+                          className="object-cover md:w-full w-[150px] h-full flex-1 cursor-pointer rounded-xl"
+                          onClick={() =>
+                            handleImageClick(facilityImage.image_url)
+                          }
+                        />
+                      ))}
+                    </div>
+                    <ScrollBar className="flex" orientation="horizontal" />
+                  </ScrollArea>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <div className="flex md:flex-row flex-col gap-4 md:gap-6">
+            <div className="md:w-8/12">
+              <div className="md:space-y-6 space-y-4">
+                <Card>
+                  <CardContent className="md:p-8 p-6">
+                    <div className="space-y-4 md:space-y-8">
+                      <div className="space-y-4">
+                        <div>
+                          <h1 className="md:text-3xl text-xl font-paytone">
+                            {data?.data.name}
+                          </h1>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RatingStars rating={data?.data.rating || 0} />{" "}
+                          <span className="text-sm text-muted-foreground">
+                            ({data?.data.reviewers_count})
+                          </span>
+                        </div>
+                        <div className="space-y-4 text-muted-foreground">
+                          <div className="flex gap-2">
+                            <MapPin className="h-5 w-5 md:flex hidden" />
+                            <p>{data?.data.location}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-5 w-5" />
+                            <p>{data?.data.opening_days}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Phone className="h-5 w-5" />
+                            <p>{data?.data.phone_number}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <h1 className="font-bold">About Daycare</h1>
+                        <p className="text-muted-foreground">
+                          {data?.data.description}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="md:p-8 p-6">
+                    <div className="space-y-4">
+                      <h1 className="font-bold">Our Nannies</h1>
+                      <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+                        {data?.data.nannies ? (
+                          data?.data.nannies.map((nannies) => (
+                            <Card
+                              className="bg-secondary border-0"
+                              key={nannies.id}
+                            >
+                              <CardContent className="p-4 flex flex-col justify-between h-full">
+                                <div className="space-y-4">
+                                  <Image
+                                    src={`${baseUrl}/${nannies.images}`}
+                                    alt={nannies.name}
+                                    width={1000}
+                                    height={1000}
+                                    className="object-cover w-full flex-1 rounded-xl"
+                                  />
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))
+                        ) : (
+                          <p>No nannies available</p>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="md:p-8 p-6">
+                    <div className="space-y-4">
+                      <h1 className="font-bold">From Happy Customer</h1>
+                      <div>
+                        <Carousel plugins={[plugin.current]}>
+                          <CarouselContent>
+                            {data?.data.reviews?.map((review) => (
+                              <CarouselItem
+                                className="pl-1 md:basis-1/2 lg:basis-1/2"
+                                key={review.id}
+                              >
+                                <div className="py-2 px-4 h-full">
+                                  <Card
+                                    className="bg-secondary border-0 h-full"
+                                    key={review.id}
+                                  >
+                                    <CardContent className="p-4 flex flex-col justify-between h-full">
+                                      <div className="space-y-4">
+                                        <div className="flex items-center space-x-2">
+                                          <RatingStars
+                                            rating={review.rating || 0}
+                                          />
+                                        </div>
+                                        <div className="flex-grow">
+                                          <p>{review.comment}</p>
+                                        </div>
+                                      </div>
+                                      {/* profile reviewers */}
+                                      <div className="flex gap-2 items-center mt-4">
+                                        <Avatar className="border border-muted">
+                                          <AvatarFallback className="text-gray-700 bg-white">
+                                            {generateFallbackFromName(
+                                              review.user.name
+                                            )}
+                                          </AvatarFallback>
+                                        </Avatar>
+                                        <p className="font-semibold text-sm">
+                                          {review.user.name}
+                                        </p>
+                                      </div>
+                                    </CardContent>
+                                  </Card>
+                                </div>
+                              </CarouselItem>
+                            ))}
+                          </CarouselContent>
+                        </Carousel>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
-          </CardContent>
-        </Card>
-        <div className="flex md:flex-row flex-col gap-4 md:gap-6">
-          <div className="md:w-8/12">
-            <div className="md:space-y-6 space-y-4">
-              <Card>
+            <div className="md:w-4/12">
+              <Card className="sticky top-24">
                 <CardContent className="md:p-8 p-6">
-                  <div className="space-y-4 md:space-y-8">
+                  <div className="md:space-y-8 space-y-6">
                     <div className="space-y-4">
+                      <h1 className="font-bold">Start from</h1>
                       <div>
-                        <h1 className="md:text-3xl text-xl font-paytone">
-                          {data?.data.name}
+                        <h1 className="text-3xl font-bold">
+                          {formatPrice(data?.data.price || 0)}
+                          <span className="text-sm font-normal">/day</span>
                         </h1>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <RatingStars rating={data?.data.rating || 0} />{" "}
-                        <span className="text-sm text-muted-foreground">
-                          ({data?.data.reviewers_count})
-                        </span>
-                      </div>
-                      <div className="space-y-4 text-muted-foreground">
-                        <div className="flex gap-2">
-                          <MapPin className="h-5 w-5 md:flex hidden" />
-                          <p>{data?.data.location}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-5 w-5" />
-                          <p>{data?.data.opening_days}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-5 w-5" />
-                          <p>{data?.data.phone_number}</p>
-                        </div>
-                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <h1 className="font-bold">About Daycare</h1>
-                      <p className="text-muted-foreground">
-                        {data?.data.description}
-                      </p>
+                    <div className="bg-secondary rounded-xl p-4 space-y-4">
+                      <h1 className="font-bold">The benefit you get</h1>
+                      <ul className="space-y-4">
+                        <li>
+                          <div className="flex gap-4 items-center">
+                            <BadgeCheck className="text-green-500" />
+                            <p>Safe and Comfortable Environment</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="flex gap-4 items-center">
+                            <BadgeCheck className="text-green-500" />
+                            <p>Early Learning and Development Programs</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="flex gap-4 items-center">
+                            <BadgeCheck className="text-green-500" />
+                            <p>Socialization and Interaction</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="flex gap-4 items-center">
+                            <BadgeCheck className="text-green-500" />
+                            <p>Clean and Hygienic Environment</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="flex gap-4 items-center">
+                            <BadgeCheck className="text-green-500" />
+                            <p>Trained and Experienced Staff</p>
+                          </div>
+                        </li>
+                      </ul>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="md:p-8 p-6">
-                  <div className="space-y-4">
-                    <h1 className="font-bold">Our Nannies</h1>
-                    <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-                      {data?.data.nannies ? (
-                        data?.data.nannies.map((nannies) => (
-                          <Card
-                            className="bg-secondary border-0"
-                            key={nannies.id}
-                          >
-                            <CardContent className="p-4 flex flex-col justify-between h-full">
-                              <div className="space-y-4">
-                                <Image
-                                  src={`${baseUrl}/${nannies.images}`}
-                                  alt={nannies.name}
-                                  width={1000}
-                                  height={1000}
-                                  className="object-cover w-full flex-1 rounded-xl"
-                                />
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))
-                      ) : (
-                        <p>No nannies available</p>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="md:p-8 p-6">
-                  <div className="space-y-4">
-                    <h1 className="font-bold">From Happy Customer</h1>
-                    <div>
-                      <Carousel plugins={[plugin.current]}>
-                        <CarouselContent>
-                          {data?.data.reviews?.map((review) => (
-                            <CarouselItem
-                              className="pl-1 md:basis-1/2 lg:basis-1/2"
-                              key={review.id}
-                            >
-                              <div className="py-2 px-4 h-full">
-                                <Card
-                                  className="bg-secondary border-0 h-full"
-                                  key={review.id}
-                                >
-                                  <CardContent className="p-4 flex flex-col justify-between h-full">
-                                    <div className="space-y-4">
-                                      <div className="flex items-center space-x-2">
-                                        <RatingStars
-                                          rating={review.rating || 0}
-                                        />
-                                      </div>
-                                      <div className="flex-grow">
-                                        <p>{review.comment}</p>
-                                      </div>
-                                    </div>
-                                    {/* profile reviewers */}
-                                    <div className="flex gap-2 items-center mt-4">
-                                      <Avatar className="border border-muted">
-                                        <AvatarFallback className="text-gray-700 bg-white">
-                                          {generateFallbackFromName(
-                                            review.user.name
-                                          )}
-                                        </AvatarFallback>
-                                      </Avatar>
-                                      <p className="font-semibold text-sm">
-                                        {review.user.name}
-                                      </p>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              </div>
-                            </CarouselItem>
-                          ))}
-                        </CarouselContent>
-                      </Carousel>
+                    <div className="space-y-4">
+                      <Button
+                        className="w-full rounded-full"
+                        size={"lg"}
+                        onClick={handleBookingClick}
+                      >
+                        Book Now
+                      </Button>
+                      <Button
+                        variant={"outline"}
+                        size={"lg"}
+                        className="w-full rounded-full border-primary text-primary hover:text-primary"
+                        onClick={handleGiveRating}
+                      >
+                        Give a Rating
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
-          <div className="md:w-4/12">
-            <Card className="sticky top-24">
-              <CardContent className="md:p-8 p-6">
-                <div className="md:space-y-8 space-y-6">
-                  <div className="space-y-4">
-                    <h1 className="font-bold">Start from</h1>
-                    <div>
-                      <h1 className="text-3xl font-bold">
-                        {formatPrice(data?.data.price || 0)}
-                        <span className="text-sm font-normal">/day</span>
-                      </h1>
-                    </div>
-                  </div>
-                  <div className="bg-secondary rounded-xl p-4 space-y-4">
-                    <h1 className="font-bold">The benefit you get</h1>
-                    <ul className="space-y-4">
-                      <li>
-                        <div className="flex gap-4 items-center">
-                          <BadgeCheck className="text-green-500" />
-                          <p>Safe and Comfortable Environment</p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex gap-4 items-center">
-                          <BadgeCheck className="text-green-500" />
-                          <p>Early Learning and Development Programs</p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex gap-4 items-center">
-                          <BadgeCheck className="text-green-500" />
-                          <p>Socialization and Interaction</p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex gap-4 items-center">
-                          <BadgeCheck className="text-green-500" />
-                          <p>Clean and Hygienic Environment</p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex gap-4 items-center">
-                          <BadgeCheck className="text-green-500" />
-                          <p>Trained and Experienced Staff</p>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <Button
-                      className="w-full rounded-full"
-                      size={"lg"}
-                      onClick={handleBookingClick}
-                    >
-                      Book Now
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
+        {isDialogOpen && (
+          <DialogGiveRateDaycare
+            open={isDialogOpen}
+            setOpen={setIsDialogOpen}
+            id={id}
+          />
+        )}
       </div>
-    </div>
+    </>
   );
 }
