@@ -13,6 +13,7 @@ import {
   HandCoins,
   MessageCircleMore,
   UserRound,
+  CalendarCheck,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -88,7 +89,7 @@ export default function Sidenav({ children, session }: SidenavProps) {
             {
               href: "/dashboard/nannies/bookings",
               label: "Booking",
-              icon: HandCoins,
+              icon: CalendarCheck,
               active: pathname.startsWith("/dashboard/nannies/bookings"),
             },
           ]
@@ -102,7 +103,7 @@ export default function Sidenav({ children, session }: SidenavProps) {
             {
               href: "/dashboard/bookings",
               label: "Booking",
-              icon: HandCoins,
+              icon: CalendarCheck,
               active: pathname.startsWith("/dashboard/bookings"),
             },
           ]),

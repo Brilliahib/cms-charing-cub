@@ -17,6 +17,11 @@ export default function Dashboard() {
     return null;
   }
 
+  if (session.user.role === "nannies") {
+    router.push("/dashboard/nannies");
+    return null;
+  }
+
   return (
     <>
       <DashboardTitle title="Dashboard" />

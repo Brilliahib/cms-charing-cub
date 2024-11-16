@@ -33,7 +33,11 @@ export default function CubLocationContent() {
           title="Cub Location"
           subtitle="Find Your Daycare In Here"
         />
-        <SearchInput onSearch={onSearch} />
+        <SearchInput
+          onSearch={onSearch}
+          props="Search Daycare"
+          className="min-w-[250px]"
+        />
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (

@@ -8,9 +8,14 @@ import { cn } from "@/lib/utils";
 interface SearchInputProps {
   onSearch: (query: string) => void;
   className?: string;
+  props?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch, className }) => {
+const SearchInput: React.FC<SearchInputProps> = ({
+  onSearch,
+  className,
+  props,
+}) => {
   const [query, setQuery] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,18 +28,18 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, className }) => {
     <>
       <div
         className={cn(
-          `flex items-center rounded-full border w-[300px] ${className}`
+          `flex items-center rounded-md border w-[200px] ${className}`
         )}
       >
-        <div className="flex justify-center items-center h-10 rounded-l-full bg-white pl-6 pr-2 py-4 text-sm">
-          <Search className="h-4 w-4" />
+        <div className="flex justify-center items-center h-10 rounded-l-md bg-white pl-4 pr-2 py-4 text-sm">
+          <Search className="h-4 w-4 text-muted-foreground" />
         </div>
         <Input
           type="text"
-          placeholder="What are you looking for?"
+          placeholder={props}
           value={query}
           onChange={handleChange}
-          className="w-full border bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-full py-4 focus:outline-none"
+          className="w-full border bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-md py-4 focus:outline-none"
         />
       </div>
     </>

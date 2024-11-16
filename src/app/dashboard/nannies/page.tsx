@@ -4,7 +4,7 @@ import NanniesDashboardContent from "@/components/organism/dashboard/nannies/Nan
 export default function DashboardNanniesPage() {
   return (
     <>
-      <DashboardTitle title="Nannies" />
+      <DashboardTitle title="Dashboard Nannies" />
       <NanniesDashboardContent />
     </>
   );
