@@ -12,6 +12,7 @@ import {
   HousePlus,
   HandCoins,
   MessageCircleMore,
+  UserRound,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -61,6 +62,36 @@ export default function Sidenav({ children, session }: SidenavProps) {
               active: pathname.startsWith("/dashboard/admin/nannies"),
             },
           ]
+        : session?.user.role === "daycare"
+        ? [
+            {
+              href: "/dashboard/daycare",
+              label: "Dashboard",
+              icon: LayoutDashboardIcon,
+              active: pathname === "/dashboard/daycare",
+            },
+            {
+              href: "/dashboard/daycare/nannies",
+              label: "Nannies",
+              icon: UserRound,
+              active: pathname.startsWith("/dashboard/daycare/nannies"),
+            },
+          ]
+        : session?.user.role === "nannies"
+        ? [
+            {
+              href: "/dashboard/nannies",
+              label: "Dashboard",
+              icon: LayoutDashboardIcon,
+              active: pathname === "/dashboard/nannies",
+            },
+            {
+              href: "/dashboard/nannies/bookings",
+              label: "Booking",
+              icon: HandCoins,
+              active: pathname.startsWith("/dashboard/nannies/bookings"),
+            },
+          ]
         : [
             {
               href: "/dashboard",
@@ -75,12 +106,12 @@ export default function Sidenav({ children, session }: SidenavProps) {
               active: pathname.startsWith("/dashboard/bookings"),
             },
           ]),
-      {
-        href: "/dashboard/messages",
-        label: "Message",
-        active: pathname.startsWith("/dashboard/messages"),
-        icon: MessageCircleMore,
-      },
+      // {
+      //   href: "/dashboard/messages",
+      //   label: "Message",
+      //   active: pathname.startsWith("/dashboard/messages"),
+      //   icon: MessageCircleMore,
+      // },
       {
         href: "/dashboard/settings",
         label: "Setting",

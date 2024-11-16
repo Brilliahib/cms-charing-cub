@@ -46,7 +46,7 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
     <div className="mx-auto px-4 max-w-[1400px]">
       <div className="space-y-4 md:space-y-6">
         <Card>
-          <CardContent className="p-6 md:p-8">
+          <CardContent className="p-0">
             <div className="flex md:flex-row flex-col gap-4 md:gap-8">
               <div>
                 {isPending ? (

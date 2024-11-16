@@ -73,7 +73,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
       <div className="mx-auto px-4 max-w-[1400px]">
         <div className="space-y-4 md:space-y-6">
           <Card>
-            <CardContent className="md:p-8 p-6">
+            <CardContent className="p-0">
               <div className="flex md:flex-row flex-col gap-4 xl:max-h-[500px] md:max-h-[500px]">
                 {/* Preview image */}
                 <div className="md:w-8/12">
@@ -114,7 +114,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <div className="md:w-8/12">
               <div className="md:space-y-6 space-y-4">
                 <Card>
-                  <CardContent className="md:p-8 p-6">
+                  <CardContent className="p-0">
                     <div className="space-y-4 md:space-y-8">
                       <div className="space-y-4">
                         <div>
@@ -153,7 +153,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                   </CardContent>
                 </Card>
                 <Card>
-                  <CardContent className="md:p-8 p-6">
+                  <CardContent className="p-0">
                     <div className="space-y-4">
                       <h1 className="font-bold">Our Nannies</h1>
                       <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
@@ -184,7 +184,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                   </CardContent>
                 </Card>
                 <Card>
-                  <CardContent className="md:p-8 p-6">
+                  <CardContent className="p-0">
                     <div className="space-y-4">
                       <h1 className="font-bold">From Happy Customer</h1>
                       <div>

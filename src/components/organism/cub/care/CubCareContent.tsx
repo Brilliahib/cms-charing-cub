@@ -50,7 +50,7 @@ export default function CubCareContent() {
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card key={index}>
-                <CardContent className="p-4">
+                <CardContent className="p-0">
                   <div className="space-y-4">
                     <Skeleton className="w-full h-[200px] rounded-xl" />
                     <div className="space-y-2">
@@ -67,7 +67,7 @@ export default function CubCareContent() {
             data.data.map((nannies) => (
               <Link key={nannies.id} href={`/cub-care/${nannies.id}`}>
                 <Card>
-                  <CardContent className="p-4">
+                  <CardContent className="p-0">
                     <div className="space-y-4 flex md:flex-col flex-row md:gap-0 gap-4">
                       <Image
                         src={`${baseUrl}/${nannies.images}`}

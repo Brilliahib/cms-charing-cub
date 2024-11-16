@@ -32,7 +32,7 @@ export default function NavButton({ links }: NavHeaderProps) {
               <DropdownMenuTrigger asChild>
                 <Button variant="tertiary" size="icon" className="rounded-full">
                   <Avatar className="border border-muted">
-                    <AvatarFallback className="text-gray-700 bg-white">
+                    <AvatarFallback className="text-gray-700">
                       {generateFallbackFromName(session.user.name)}
                     </AvatarFallback>
                   </Avatar>

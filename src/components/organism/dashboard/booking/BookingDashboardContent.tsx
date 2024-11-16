@@ -23,10 +23,7 @@ export default function BookingDashboardContent() {
     <>
       <div className="py-4 space-y-8">
         <div className="flex w-full">
-          <SearchInput
-            onSearch={setSearchQuery}
-            className="border md:min-w-[300px]"
-          />
+          <SearchInput onSearch={setSearchQuery} />
         </div>
         <DataTable columns={bookingNanniesColumns} data={filteredData} />
       </div>

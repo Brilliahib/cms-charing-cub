@@ -21,8 +21,12 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, className }) => {
 
   return (
     <>
-      <div className={cn(`flex items-center rounded-full ${className}`)}>
-        <div className="flex justify-center items-center h-10 rounded-l-full bg-white pl-6 pr-2 py-6 text-sm">
+      <div
+        className={cn(
+          `flex items-center rounded-full border w-[300px] ${className}`
+        )}
+      >
+        <div className="flex justify-center items-center h-10 rounded-l-full bg-white pl-6 pr-2 py-4 text-sm">
           <Search className="h-4 w-4" />
         </div>
         <Input
@@ -30,7 +34,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, className }) => {
           placeholder="What are you looking for?"
           value={query}
           onChange={handleChange}
-          className="w-full bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-full py-6 focus:outline-none"
+          className="w-full border bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-full py-4 focus:outline-none"
         />
       </div>
     </>

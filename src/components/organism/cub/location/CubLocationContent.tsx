@@ -34,11 +34,11 @@ export default function CubLocationContent() {
           subtitle="Find Your Daycare In Here"
         />
         <SearchInput onSearch={onSearch} />
-        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-6 gap-4">
+        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card className="border-0 shadow-none" key={index}>
-                <CardContent className="p-4">
+                <CardContent className="p-0">
                   <div className="space-y-4">
                     <Skeleton className="w-full h-[200px] rounded-xl" />
                     <div className="space-y-2">
@@ -62,7 +62,7 @@ export default function CubLocationContent() {
             filteredDaycares.map((daycare) => (
               <Link href={`/cub-location/${daycare.id}`} key={daycare.id}>
                 <Card className="border-0 shadow-none">
-                  <CardContent className="p-4">
+                  <CardContent className="p-0">
                     <div className="flex flex-col space-y-4">
                       <Image
                         src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
@@ -73,7 +73,7 @@ export default function CubLocationContent() {
                       />
                       <div className="md:space-y-2">
                         <h1 className="font-bold">{daycare.name}</h1>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex gap-2 items-center text-muted-foreground">
                           <MapPin className="h-8 w-8" />
                           <p className="line-clamp-1 text-sm">
                             {daycare.location}
