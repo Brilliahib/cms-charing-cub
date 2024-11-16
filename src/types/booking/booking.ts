@@ -1,3 +1,4 @@
+import { Auth } from "../auth/auth";
 import { Nannies } from "../cub/cub";
 
 export interface BookingNannies {
@@ -15,4 +16,5 @@ export interface BookingNannies {
   created_at: string;
   updated_at: string;
   nannies: Nannies | null;
+  user: Auth;
 }

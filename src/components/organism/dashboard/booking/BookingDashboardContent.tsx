@@ -1,15 +1,15 @@
 "use client";
 
-import { bookingNanniesColumns } from "@/components/atoms/datacolumn/DataBooking";
+import { bookingUserNanniesColumns } from "@/components/atoms/datacolumn/DataBooking";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { DataTable } from "@/components/molecules/datatable/DataTable";
-import { useGetBookingNannies } from "@/http/booking/get-booking-nannies";
+import { useGetBookingUserNannies } from "@/http/booking/get-booking-nannies";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function BookingDashboardContent() {
   const { data: session, status } = useSession();
-  const { data, isPending } = useGetBookingNannies(
+  const { data, isPending } = useGetBookingUserNannies(
     session?.access_token as string,
     { enabled: status === "authenticated" }
   );
@@ -25,7 +25,7 @@ export default function BookingDashboardContent() {
         <div className="flex w-full">
           <SearchInput onSearch={setSearchQuery} />
         </div>
-        <DataTable columns={bookingNanniesColumns} data={filteredData} />
+        <DataTable columns={bookingUserNanniesColumns} data={filteredData} />
       </div>
     </>
   );

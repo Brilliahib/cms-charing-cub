@@ -4,15 +4,15 @@ import { AxiosError } from "axios";
 import { api } from "@/lib/axios";
 import { BookingNannies } from "@/types/booking/booking";
 
-interface GetBookingUserNanniesResponse {
+interface GetBookingNanniesResponse {
   data: BookingNannies[];
 }
 
-export const getBookingUserNanniesHandler = async (
+export const GetBookingNanniesHandler = async (
   token: string
-): Promise<GetBookingUserNanniesResponse> => {
-  const { data } = await api.get<GetBookingUserNanniesResponse>(
-    "/users/nannies/booking/list",
+): Promise<GetBookingNanniesResponse> => {
+  const { data } = await api.get<GetBookingNanniesResponse>(
+    "/nannies/booking/list",
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -23,13 +23,13 @@ export const getBookingUserNanniesHandler = async (
   return data;
 };
 
-export const useGetBookingUserNannies = (
+export const useGetBookingNannies = (
   token: string,
-  options?: Partial<UseQueryOptions<GetBookingUserNanniesResponse, AxiosError>>
+  options?: Partial<UseQueryOptions<GetBookingNanniesResponse, AxiosError>>
 ) => {
   return useQuery({
     queryKey: ["booking-nannies-list"],
-    queryFn: () => getBookingUserNanniesHandler(token),
+    queryFn: () => GetBookingNanniesHandler(token),
     ...options,
   });
 };

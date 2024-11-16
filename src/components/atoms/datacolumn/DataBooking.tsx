@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
 
-export const bookingNanniesColumns: ColumnDef<BookingNannies>[] = [
+export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
   {
     accessorKey: "index",
     header: "No",
@@ -24,18 +24,6 @@ export const bookingNanniesColumns: ColumnDef<BookingNannies>[] = [
       return <p suppressHydrationWarning>{row.index + 1}</p>;
     },
   },
-  //   {
-  //     accessorKey: "name",
-  //     header: "Nama Nanny",
-  //     cell: ({ row }) => {
-  //       const data = row.original;
-  //       return (
-  //         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-  //           {data.nanny?.name}
-  //         </p>
-  //       );
-  //     },
-  //   },
   {
     accessorKey: "gender",
     header: "Foto Nanny",
