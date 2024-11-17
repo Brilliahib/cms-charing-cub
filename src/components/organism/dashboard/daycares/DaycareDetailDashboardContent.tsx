@@ -165,6 +165,7 @@ export default function DaycareDetailDashboardContent({
                         width={1000}
                         height={1000}
                         className="w-[600px] h-[300px] object-cover rounded-md"
+                        key={facility.id}
                       />
                     ))}
                   </div>
