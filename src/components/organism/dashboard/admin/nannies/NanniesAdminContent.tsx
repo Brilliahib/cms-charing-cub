@@ -21,7 +21,11 @@ export default function NanniesAdminContent() {
     <>
       <div className="py-8 space-y-8">
         <div className="flex justify-between">
-          <SearchInput onSearch={setSearchQuery} />
+          <SearchInput
+            onSearch={setSearchQuery}
+            className="min-w-[250px]"
+            props="Search nannies..."
+          />
           <Link href={"/dashboard/admin/nannies/create"}>
             <Button>Tambah Nanny</Button>
           </Link>

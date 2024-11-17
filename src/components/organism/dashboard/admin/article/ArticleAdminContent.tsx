@@ -26,7 +26,11 @@ export default function ArticleAdminContent() {
     <>
       <div className="py-8 space-y-8">
         <div className="flex justify-between">
-          <SearchInput onSearch={setSearchQuery} />
+          <SearchInput
+            onSearch={setSearchQuery}
+            props="Search artcle..."
+            className="min-w-[250px]"
+          />
           <Button onClick={handleGrowthDialogOpen}>Tambah Artikel</Button>
         </div>
         <DataTable columns={articleColumns} data={filteredData} />

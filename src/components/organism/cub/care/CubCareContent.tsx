@@ -45,7 +45,11 @@ export default function CubCareContent() {
           title="Cub Care"
           subtitle="Connecting Your Child With Loving Nannies"
         />
-        <SearchInput onSearch={onSearch} />
+        <SearchInput
+          onSearch={onSearch}
+          props="Search nannies..."
+          className="min-w-[250px]"
+        />
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (

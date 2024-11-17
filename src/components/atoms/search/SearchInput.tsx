@@ -28,10 +28,10 @@ const SearchInput: React.FC<SearchInputProps> = ({
     <>
       <div
         className={cn(
-          `flex items-center rounded-md border w-[200px] ${className}`
+          `flex items-center rounded-xl border w-[200px] ${className}`
         )}
       >
-        <div className="flex justify-center items-center h-10 rounded-l-md bg-white pl-4 pr-2 py-4 text-sm">
+        <div className="flex justify-center items-center h-10 rounded-l-xl bg-white pl-4 pr-2 py-4 text-sm">
           <Search className="h-4 w-4 text-muted-foreground" />
         </div>
         <Input
@@ -39,7 +39,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           placeholder={props}
           value={query}
           onChange={handleChange}
-          className="w-full border bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-md py-4 focus:outline-none"
+          className="w-full border bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-xl py-4 focus:outline-none"
         />
       </div>
     </>

@@ -35,7 +35,7 @@ export default function CubLocationContent() {
         />
         <SearchInput
           onSearch={onSearch}
-          props="Search Daycare"
+          props="Search daycare..."
           className="min-w-[250px]"
         />
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
