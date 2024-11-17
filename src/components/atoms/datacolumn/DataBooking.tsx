@@ -25,53 +25,83 @@ export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
     },
   },
   {
-    accessorKey: "gender",
-    header: "Foto Nanny",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <Image
-          src={`${baseUrl}/${data.nannies?.images}`}
-          alt={data.nannies?.name ?? ""}
-          width={1000}
-          height={1000}
-          className="max-h-[100px] w-fit bg-secondary rounded-md"
-        />
-      );
-    },
-  },
-  {
-    accessorKey: "price_half",
-    header: "Nama Anak",
+    accessorKey: "name",
+    header: "Nannies",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.name_babies}
+          {data.nannies?.user.name}
         </p>
       );
     },
   },
   {
-    accessorKey: "price_full",
-    header: "Status Diterima",
+    accessorKey: "start_time",
+    header: "Start Booking",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+          {format(data.start_time, "EEEE, d MMMM yyyy", {
+            locale: id,
+          })}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "end_time",
+    header: "End Booking",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+          {format(data.end_time, "EEEE, d MMMM yyyy", {
+            locale: id,
+          })}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "time",
+    header: "Overtime",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p>
+          {format(data.start_time, "HH:mm", {
+            locale: id,
+          })}{" "}
+          -{" "}
+          {format(data.end_time, "HH:mm", {
+            locale: id,
+          })}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "is_approved",
+    header: "Status Approve",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Diterima" : "Belum Diterima"}
+          {data.is_approved ? "Approved" : "Pending"}
         </Badge>
       );
     },
   },
   {
-    accessorKey: "price_full",
-    header: "Status Pembayaran",
+    accessorKey: "is_paid",
+    header: "Status Payment",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Dibayar" : "Belum Dicek"}
+        <Badge variant={data.is_paid ? "success" : "destructive"}>
+          {data.is_paid ? "Paid" : "Pending"}
         </Badge>
       );
     },
@@ -89,44 +119,21 @@ export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
     },
   },
   {
-    accessorKey: "price_full",
-    header: "Tanggal Booking",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.created_at, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
 
       return (
         <ActionButton>
-          <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+          <DropdownMenuLabel>Action</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/admin/nannies/${data.id}/edit`}
-              className="flex items-center text-gray-700"
-            >
-              <SquarePen className="h-4 w-4" />
-              <span className="ml-2">Edit Nannies</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/admin/nannies/${data.id}`}
+              href={`/dashboard/bookings/${data.id}`}
               className="flex items-center text-gray-700"
             >
               <Eye className="h-4 w-4" />
-              <span className="ml-2">Detail Nannies</span>
+              <span className="ml-2">Detail Booking</span>
             </Link>
           </DropdownMenuItem>
         </ActionButton>

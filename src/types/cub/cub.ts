@@ -1,3 +1,5 @@
+import { Auth } from "../auth/auth";
+
 export interface Nannies {
   id: number;
   name: string;
@@ -15,4 +17,5 @@ export interface Nannies {
   price_full: number;
   experience_description: string;
   created_at: Date;
+  user: Auth;
 }
