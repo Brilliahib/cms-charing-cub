@@ -15,8 +15,8 @@ export default function CubAbleContent() {
               </h1>
               <p>
                 Provide your child with the compassionate and specialized care
-                they deserve at our daycare center, where every child's unique
-                needs are met with love and attention.
+                they deserve at our daycare center, where every child&apos;s
+                unique needs are met with love and attention.
               </p>
             </div>
             <div>

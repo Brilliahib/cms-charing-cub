@@ -43,7 +43,7 @@ export default function DaycareDetailDashboardContent({
     <>
       <div className="space-y-8">
         <div className="space-y-3">
-          <Card>
+          <Card key={data?.data.id}>
             <CardContent className="p-4 space-y-3">
               <Image
                 src={`${baseUrl}/${data?.data.images}`}

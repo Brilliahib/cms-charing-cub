@@ -14,7 +14,10 @@ export default function DaycareList() {
       <div className="mx-auto px-4 max-w-[1400px] md:py-24 py-16">
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {data?.data.map((daycare) => (
-            <Card className="relative overflow-hidden shadow-lg border-0">
+            <Card
+              className="relative overflow-hidden shadow-lg border-0"
+              key={daycare.id}
+            >
               <CardContent className="p-6">
                 <CardTitle>
                   <div className="p-5 bg-gradient-to-tr from-primary flex justify-center to-secondary rounded-xl">
