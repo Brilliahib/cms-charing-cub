@@ -7,13 +7,11 @@ import {
   Settings2Icon,
   LucideIcon,
   Newspaper,
-  Handshake,
   Users,
-  HousePlus,
-  HandCoins,
-  MessageCircleMore,
   UserRound,
   CalendarCheck,
+  HeartHandshake,
+  HousePlus,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -53,14 +51,20 @@ export default function Sidenav({ children, session }: SidenavProps) {
             {
               href: "/dashboard/admin/daycares",
               label: "Daycare",
-              icon: Handshake,
+              icon: HousePlus,
               active: pathname.startsWith("/dashboard/admin/daycares"),
             },
             {
               href: "/dashboard/admin/nannies",
               label: "Nanny",
-              icon: Users,
+              icon: HeartHandshake,
               active: pathname.startsWith("/dashboard/admin/nannies"),
+            },
+            {
+              href: "/dashboard/admin/users",
+              label: "Users",
+              icon: Users,
+              active: pathname.startsWith("/dashboard/admin/users"),
             },
           ]
         : session?.user.role === "daycare"
