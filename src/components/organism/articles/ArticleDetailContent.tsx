@@ -4,6 +4,7 @@ import { useGetDetailArticle } from "@/http/article/get-detail-article";
 import Navbar from "../navbar/Navbar";
 import Image from "next/image";
 import { baseUrl } from "@/utils/app";
+import FooterContent from "@/components/atoms/footer/FooterContent";
 
 interface ArticleDetailContentParams {
   id: number;
@@ -16,7 +17,7 @@ export default function ArticleDetailContent({
   return (
     <>
       <Navbar />
-      <div className="mx-auto px-4 max-w-[1400px]">
+      <div className="pad-x">
         <div className="space-y-6">
           <Image
             src={`${baseUrl}/${data?.data.image}`}
@@ -34,6 +35,7 @@ export default function ArticleDetailContent({
           />
         </div>
       </div>
+      <FooterContent />
     </>
   );
 }

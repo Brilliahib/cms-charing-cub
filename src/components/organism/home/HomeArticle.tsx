@@ -11,7 +11,7 @@ export default function HomeArticle() {
   const { data, isPending } = useGetArticle();
   return (
     <>
-      <div className="mx-auto px-4 max-w-[1400px] md:pt-24">
+      <div className="pad-x md:pt-24">
         <div className="grid md:grid-cols-3 xl:grid-cols-4 grid-cols-1 gap-4">
           {data?.data.map((article) => (
             <Link

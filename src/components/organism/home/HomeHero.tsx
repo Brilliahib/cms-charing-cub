@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HomeHero() {
   return (
     <>
-      <div className="mx-auto px-4 max-w-[1400px]">
+      <div className="pad-x lg:pt-8 md:pt-6 pt-4">
         <div
           className="relative min-h-[80vh] rounded-2xl w-full flex flex-col items-center text-center justify-center"
           style={{

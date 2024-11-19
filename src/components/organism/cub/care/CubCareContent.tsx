@@ -39,7 +39,7 @@ export default function CubCareContent() {
   );
 
   return (
-    <div className="mx-auto px-4 max-w-[1400px]">
+    <div className="pad-x lg:pt-8 md:pt-6 pt-4">
       <div className="space-y-8">
         <SectionTitle
           title="Cub Care"

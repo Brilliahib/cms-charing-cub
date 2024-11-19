@@ -162,7 +162,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <h1 className="font-bold text-lg">Our Nannies</h1>
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-muted-foreground">
                           Nannies yang akan menemani anak Anda:
                         </p>
                       </div>
@@ -242,7 +242,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       <CarouselContent>
                         {data?.data.reviews?.map((review) => (
                           <CarouselItem
-                            className="pl-1 md:basis-1/2 lg:basis-1/2"
+                            className="pl-1 md:basis-1/2 lg:basis-1/3"
                             key={review.id}
                           >
                             <div className="py-2 px-4 h-full">

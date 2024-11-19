@@ -27,7 +27,7 @@ export default function CubLocationContent() {
     : [];
 
   return (
-    <div className="mx-auto px-4 max-w-[1400px]">
+    <div className="pad-x lg:pt-8 md:pt-6 pt-4">
       <div className="space-y-8">
         <SectionTitle
           title="Cub Location"
@@ -38,7 +38,7 @@ export default function CubLocationContent() {
           props="Search daycare..."
           className="min-w-[250px]"
         />
-        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
+        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card className="border-0 shadow-none" key={index}>

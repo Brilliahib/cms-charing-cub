@@ -47,7 +47,7 @@ export default function Navbar() {
   return (
     <>
       <div className="w-full bg-background z-50 sticky top-0 mb-0">
-        <div className="flex justify-between bg-background py-2 mx-auto px-4 max-w-[1400px]">
+        <div className="flex justify-between bg-background py-2 pad-x-xl">
           <NavL />
           <nav className="hidden items-center font-semibold md:flex">
             {links.map((link) => (

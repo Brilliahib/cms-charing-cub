@@ -96,6 +96,9 @@ body {
   .pad-x {
     @apply px-4 md:px-[8%] lg:px-[12%];
   }
+  .pad-x-xl {
+    @apply px-4 md:px-[6%] lg:px-[8%];
+  }
 }
 
 @layer base {

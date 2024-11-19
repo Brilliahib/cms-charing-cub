@@ -6,8 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Charing Cub",
-  description:
-    "Tumbuh Sahabat adalah aplikasi berbasis web yang dirancang khusus untuk membantu anak-anak dengan Down syndrome dalam memantau asupan gizi mereka dan belajar melalui permainan edukatif.",
+  description: "Made by Brilliahib",
   icons: {
     icon: "/images/favicon.ico",
   },

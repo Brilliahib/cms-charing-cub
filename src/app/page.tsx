@@ -1,4 +1,4 @@
-import DaycareList from "@/components/organism/daycares/DaycareList";
+import FooterContent from "@/components/atoms/footer/FooterContent";
 import HomeContent from "@/components/organism/home/HomeContent";
 import Navbar from "@/components/organism/navbar/Navbar";
 
@@ -7,6 +7,7 @@ export default function Home() {
     <>
       <Navbar />
       <HomeContent />
+      <FooterContent />
     </>
   );
 }
