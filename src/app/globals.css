@@ -92,6 +92,12 @@ body {
   }
 }
 
+@layer components {
+  .pad-x {
+    @apply px-4 md:px-[8%] lg:px-[12%];
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

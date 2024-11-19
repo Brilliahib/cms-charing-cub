@@ -33,18 +33,6 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const { data, isPending } = useGetDetailDaycare({ id });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (data?.data.facility_images?.length) {
-      setPreviewImage(`${baseUrl}/${data.data.facility_images[0].image_url}`);
-    }
-  }, [data]);
-
-  const handleImageClick = (imageUrl: string) => {
-    setPreviewImage(`${baseUrl}/${imageUrl}`);
-  };
-
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
   );
@@ -70,109 +58,130 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
   return (
     <>
-      <div className="mx-auto px-4 max-w-[1400px]">
-        <div className="space-y-4 md:space-y-6">
-          <Card>
-            <CardContent className="p-0">
-              <div className="flex md:flex-row flex-col gap-4 xl:max-h-[500px] md:max-h-[500px]">
-                {/* Preview image */}
-                <div className="md:w-8/12">
-                  <Image
-                    src={previewImage ?? ""}
-                    alt={data?.data.name ?? ""}
-                    width={1000}
-                    height={1000}
-                    className="w-full object-cover md:h-full rounded-xl"
-                  />
+      <div className="space-y-4 md:space-y-6">
+        <div className="bg-secondary">
+          <div className="pad-x py-8 md:py-12 flex md:flex-row flex-col md:justify-between gap-8">
+            {/* Images for daycare */}
+            <div>
+              <Image
+                src={`${baseUrl}/${data?.data.facility_images[0].image_url}`}
+                alt={data?.data.name ?? "Daycare"}
+                width={1000}
+                height={1000}
+                className="w-[500px] object-cover h-[300px] rounded-lg"
+              />
+            </div>
+            {/* Main information daycare */}
+            <div className="space-y-4 md:space-y-8">
+              <div className="space-y-4">
+                <div>
+                  <h1 className="md:text-3xl text-xl font-bold">
+                    {data?.data.name}
+                  </h1>
                 </div>
-
-                {/* List images */}
-                <div className="md:w-4/12">
-                  <ScrollArea className="md:h-[500px]">
-                    <div className="md:space-y-4 md:block flex md:gap-0 gap-4">
-                      {data?.data.facility_images?.map((facilityImage) => (
-                        <Image
-                          key={facilityImage.id}
-                          src={`${baseUrl}/${facilityImage.image_url}`}
-                          alt={data?.data.name ?? "Daycare Facility"}
-                          width={1000}
-                          height={1000}
-                          className="object-cover md:w-full w-[150px] h-full flex-1 cursor-pointer rounded-xl"
-                          onClick={() =>
-                            handleImageClick(facilityImage.image_url)
-                          }
-                        />
-                      ))}
-                    </div>
-                    <ScrollBar className="flex" orientation="horizontal" />
-                  </ScrollArea>
+                <div className="flex items-center space-x-2">
+                  <RatingStars rating={data?.data.rating || 0} />{" "}
+                  <span className="text-sm text-muted-foreground">
+                    ({data?.data.reviewers_count})
+                  </span>
+                </div>
+                <div className="space-y-4 text-muted-foreground">
+                  <div className="flex gap-2">
+                    <MapPin className="h-5 w-5 md:flex hidden" />
+                    <p>{data?.data.location}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-5 w-5" />
+                    <p>{data?.data.opening_days}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-5 w-5" />
+                    <p>{data?.data.phone_number}</p>
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-          <div className="flex md:flex-row flex-col gap-4 md:gap-6">
+            </div>
+            {/* Button for booking and rating */}
+            <div className="md:inline hidden">
+              <Card className="shadow rounded-lg min-w-[300px]">
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <Button
+                      className="w-full"
+                      size={"lg"}
+                      onClick={handleBookingClick}
+                    >
+                      Book Now
+                    </Button>
+                    <Button
+                      variant={"outline"}
+                      size={"lg"}
+                      className="w-full border bg-secondary hover:bg-secondary/80"
+                      onClick={handleGiveRating}
+                    >
+                      Give a Rating
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+        <div className="pad-x md:space-y-16 space-y-12 py-6">
+          <div className="flex md:flex-row flex-col gap-4 md:gap-12">
             <div className="md:w-8/12">
               <div className="md:space-y-6 space-y-4">
                 <Card>
                   <CardContent className="p-0">
                     <div className="space-y-4 md:space-y-8">
-                      <div className="space-y-4">
-                        <div>
-                          <h1 className="md:text-3xl text-xl font-paytone">
-                            {data?.data.name}
-                          </h1>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RatingStars rating={data?.data.rating || 0} />{" "}
-                          <span className="text-sm text-muted-foreground">
-                            ({data?.data.reviewers_count})
-                          </span>
-                        </div>
-                        <div className="space-y-4 text-muted-foreground">
-                          <div className="flex gap-2">
-                            <MapPin className="h-5 w-5 md:flex hidden" />
-                            <p>{data?.data.location}</p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-5 w-5" />
-                            <p>{data?.data.opening_days}</p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Phone className="h-5 w-5" />
-                            <p>{data?.data.phone_number}</p>
-                          </div>
-                        </div>
-                      </div>
                       <div className="space-y-2">
-                        <h1 className="font-bold">About Daycare</h1>
-                        <p className="text-muted-foreground">
+                        <h1 className="font-bold text-xl">About Daycare</h1>
+                        <p className="text-muted-foreground leading-loose">
                           {data?.data.description}
                         </p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
+              </div>
+            </div>
+            <div className="md:w-4/12 w-full md:space-y-8 space-y-4">
+              <div className="space-y-2">
+                <h1 className="font-bold text-lg">Information</h1>
+                <div className="space-y-2">
+                  <p className="text-muted-foreground">Detail lokasi:</p>
+                  <p className="text-muted-foreground">
+                    Lokasi {data?.data.location_tracking}
+                  </p>
+                </div>
+                <div></div>
+              </div>
+              <div>
                 <Card>
                   <CardContent className="p-0">
                     <div className="space-y-4">
-                      <h1 className="font-bold">Our Nannies</h1>
+                      <div className="space-y-2">
+                        <h1 className="font-bold text-lg">Our Nannies</h1>
+                        <p className="text-muted-foreground text-sm">
+                          Nannies yang akan menemani anak Anda:
+                        </p>
+                      </div>
                       <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                         {data?.data.nannies ? (
                           data?.data.nannies.map((nannies) => (
                             <Card
-                              className="bg-secondary border-0"
+                              className="bg-secondary border-0 rounded-full"
                               key={nannies.id}
                             >
-                              <CardContent className="p-4 flex flex-col justify-between h-full">
-                                <div className="space-y-4">
-                                  <Image
-                                    src={`${baseUrl}/${nannies.images}`}
-                                    alt={nannies.name}
-                                    width={1000}
-                                    height={1000}
-                                    className="object-cover w-full flex-1 rounded-xl"
-                                  />
-                                </div>
+                              <CardContent className="flex flex-col p-0 justify-between h-full">
+                                <Image
+                                  src={`${baseUrl}/${nannies.images}`}
+                                  alt={nannies.name}
+                                  width={1000}
+                                  height={1000}
+                                  loading="lazy"
+                                  className="object-cover rounded-full"
+                                />
                               </CardContent>
                             </Card>
                           ))
@@ -183,138 +192,125 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                     </div>
                   </CardContent>
                 </Card>
-                <Card>
-                  <CardContent className="p-0">
-                    <div className="space-y-4">
-                      <h1 className="font-bold">From Happy Customer</h1>
-                      <div>
-                        <Carousel plugins={[plugin.current]}>
-                          <CarouselContent>
-                            {data?.data.reviews?.map((review) => (
-                              <CarouselItem
-                                className="pl-1 md:basis-1/2 lg:basis-1/2"
-                                key={review.id}
-                              >
-                                <div className="py-2 px-4 h-full">
-                                  <Card
-                                    className="bg-secondary border-0 h-full"
-                                    key={review.id}
-                                  >
-                                    <CardContent className="p-4 flex flex-col justify-between h-full">
-                                      <div className="space-y-4">
-                                        <div className="flex items-center space-x-2">
-                                          <RatingStars
-                                            rating={review.rating || 0}
-                                          />
-                                        </div>
-                                        <div className="flex-grow">
-                                          <p>{review.comment}</p>
-                                        </div>
-                                      </div>
-                                      {/* profile reviewers */}
-                                      <div className="flex gap-2 items-center mt-4">
-                                        <Avatar className="border border-muted">
-                                          <AvatarFallback className="text-gray-700 bg-white">
-                                            {generateFallbackFromName(
-                                              review.user.name
-                                            )}
-                                          </AvatarFallback>
-                                        </Avatar>
-                                        <p className="font-semibold text-sm">
-                                          {review.user.name}
-                                        </p>
-                                      </div>
-                                    </CardContent>
-                                  </Card>
-                                </div>
-                              </CarouselItem>
-                            ))}
-                          </CarouselContent>
-                        </Carousel>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
-            <div className="md:w-4/12">
-              <Card className="sticky top-24">
-                <CardContent className="md:p-8 p-6">
-                  <div className="md:space-y-8 space-y-6">
-                    <div className="space-y-4">
-                      <h1 className="font-bold">Start from</h1>
-                      <div>
-                        <h1 className="text-3xl font-bold">
-                          {formatPrice(data?.data.price || 0)}
-                          <span className="text-sm font-normal">/day</span>
-                        </h1>
-                      </div>
-                    </div>
-                    <div className="bg-secondary rounded-xl p-4 space-y-4">
-                      <h1 className="font-bold">The benefit you get</h1>
-                      <ul className="space-y-4">
-                        <li>
-                          <div className="flex gap-4 items-center">
-                            <BadgeCheck className="text-green-500" />
-                            <p>Safe and Comfortable Environment</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="flex gap-4 items-center">
-                            <BadgeCheck className="text-green-500" />
-                            <p>Early Learning and Development Programs</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="flex gap-4 items-center">
-                            <BadgeCheck className="text-green-500" />
-                            <p>Socialization and Interaction</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="flex gap-4 items-center">
-                            <BadgeCheck className="text-green-500" />
-                            <p>Clean and Hygienic Environment</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="flex gap-4 items-center">
-                            <BadgeCheck className="text-green-500" />
-                            <p>Trained and Experienced Staff</p>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="space-y-4">
-                      <Button
-                        className="w-full rounded-full"
-                        size={"lg"}
-                        onClick={handleBookingClick}
-                      >
-                        Book Now
-                      </Button>
-                      <Button
-                        variant={"outline"}
-                        size={"lg"}
-                        className="w-full rounded-full border-primary text-primary hover:text-primary"
-                        onClick={handleGiveRating}
-                      >
-                        Give a Rating
-                      </Button>
-                    </div>
+          </div>
+          <hr />
+          {/* Facilities Daycare */}
+          <div>
+            <Card>
+              <CardContent className="p-0">
+                <div className="space-y-4 md:space-y-8">
+                  <div className="space-y-2 text-center">
+                    <h1 className="font-bold text-xl">Our Facilities</h1>
+                    <p className="text-muted-foreground">
+                      Berikut adalah fasilitas daycare kami.
+                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <div className="flex gap-x-4 md:gap-x-6">
+                    {data?.data.facility_images.map((facilitiesImage) => (
+                      <div>
+                        <Image
+                          src={`${baseUrl}/${facilitiesImage.image_url}`}
+                          alt={data?.data.name ?? "Daycare"}
+                          width={1000}
+                          height={1000}
+                          className="w-[500px] object-cover h-[300px] rounded-lg"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <hr />
+          {/* Rating for customer */}
+          <div>
+            <Card>
+              <CardContent className="p-0">
+                <div className="space-y-4 md:space-y-8">
+                  <div className="space-y-2 text-center">
+                    <h1 className="font-bold text-xl">From Happy Customer</h1>
+                    <p className="text-muted-foreground">
+                      Banyak orang tua puas dengan layanan kami. Apa kata
+                      mereka? Berikut adalah testimoni asli dari mereka.
+                    </p>
+                  </div>
+                  <div>
+                    <Carousel plugins={[plugin.current]}>
+                      <CarouselContent>
+                        {data?.data.reviews?.map((review) => (
+                          <CarouselItem
+                            className="pl-1 md:basis-1/2 lg:basis-1/2"
+                            key={review.id}
+                          >
+                            <div className="py-2 px-4 h-full">
+                              <Card
+                                className="bg-secondary border-0 h-full"
+                                key={review.id}
+                              >
+                                <CardContent className="p-4 flex flex-col justify-between h-full">
+                                  <div className="space-y-4">
+                                    <div className="flex items-center space-x-2">
+                                      <RatingStars
+                                        rating={review.rating || 0}
+                                      />
+                                    </div>
+                                    <div className="flex-grow">
+                                      <p>{review.comment}</p>
+                                    </div>
+                                  </div>
+                                  {/* profile reviewers */}
+                                  <div className="flex gap-2 items-center mt-4">
+                                    <Avatar className="border border-muted">
+                                      <AvatarFallback className="text-gray-700 bg-white">
+                                        {generateFallbackFromName(
+                                          review.user.name
+                                        )}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <p className="font-semibold text-sm">
+                                      {review.user.name}
+                                    </p>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                    </Carousel>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
-        {isDialogOpen && (
-          <DialogGiveRateDaycare
-            open={isDialogOpen}
-            setOpen={setIsDialogOpen}
-            id={id}
-          />
-        )}
+      </div>
+      {isDialogOpen && (
+        <DialogGiveRateDaycare
+          open={isDialogOpen}
+          setOpen={setIsDialogOpen}
+          id={id}
+        />
+      )}
+      <div className="md:hidden fixed bottom-0 w-full">
+        <div className="py-4 pad-x bg-white shadow-xl">
+          <div className="flex gap-4">
+            <Button
+              variant={"outline"}
+              size={"lg"}
+              className="w-full border bg-secondary hover:bg-secondary/80"
+              onClick={handleGiveRating}
+            >
+              Give a Rating
+            </Button>
+            <Button className="w-full" size={"lg"} onClick={handleBookingClick}>
+              Book Now
+            </Button>
+          </div>
+        </div>
       </div>
     </>
   );
