@@ -209,7 +209,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                   </div>
                   <div className="flex gap-x-4 md:gap-x-6">
                     {data?.data.facility_images.map((facilitiesImage) => (
-                      <div>
+                      <div key={facilitiesImage.id}>
                         <Image
                           src={`${baseUrl}/${facilitiesImage.image_url}`}
                           alt={data?.data.name ?? "Daycare"}
