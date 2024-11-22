@@ -16,21 +16,36 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { Trash2, UploadIcon } from "lucide-react";
+import { Check, ChevronsUpDown, Trash2, UploadIcon } from "lucide-react";
 import {
   nanniesSchema,
   NanniesType,
 } from "@/validators/nannies/nannies-validator";
 import { useAddNannies } from "@/http/cub/care/add-nannies";
+import { useGetAllDaycare } from "@/http/daycares/get-all-daycares";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
 
 export default function NanniesCreateContent() {
   const form = useForm<NanniesType>({
     resolver: zodResolver(nanniesSchema),
     defaultValues: {
-      name: "",
+      daycare_id: 0,
       gender: "",
       age: 0,
       contact: "",
@@ -46,6 +61,8 @@ export default function NanniesCreateContent() {
   const { toast } = useToast();
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { data } = useGetAllDaycare();
+  const [open, setOpen] = React.useState(false);
 
   const { mutate: addNannyHandler, isPending } = useAddNannies({
     onError: (error: AxiosError<any>) => {
@@ -99,22 +116,63 @@ export default function NanniesCreateContent() {
             <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="name"
+                name="daycare_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nama Nanny</FormLabel>
+                    <FormLabel>Daycare</FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Masukkan nama nanny"
-                        {...field}
-                      />
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className="w-full justify-between"
+                          >
+                            {field.value
+                              ? data?.data.find(
+                                  (daycare) => daycare.id === field.value
+                                )?.name
+                              : "Pilih daycare"}
+                            <ChevronsUpDown className="opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-0">
+                          <Command>
+                            <CommandInput placeholder="Cari daycare..." />
+                            <CommandList>
+                              <CommandEmpty>Tidak ditemukan.</CommandEmpty>
+                              <CommandGroup>
+                                {data?.data.map((daycare) => (
+                                  <CommandItem
+                                    key={daycare.id}
+                                    value={daycare.id.toString()}
+                                    onSelect={() => {
+                                      field.onChange(daycare.id);
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {daycare.name}
+                                    <Check
+                                      className={cn(
+                                        "ml-auto",
+                                        field.value === daycare.id
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="gender"

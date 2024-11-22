@@ -1,10 +1,9 @@
 import { z } from "zod";
 
 export const nanniesSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Nama harus diisi" })
-    .max(255, { message: "Nama maksimal 255 karakter" }),
+  daycare_id: z
+    .number()
+    .min(1, { message: "Daycare harus diisi dan minimal 1" }),
   images: z
     .union([
       z.string().nullable().optional(),

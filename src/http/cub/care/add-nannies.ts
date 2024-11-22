@@ -15,7 +15,7 @@ export const addNanniesHandler = async (
 ): Promise<NanniesResponse> => {
   const formData = new FormData();
 
-  formData.append("name", body.name);
+  formData.append("daycare_id", body.daycare_id.toString());
 
   if (body.age) {
     formData.append("age", body.age.toString());
