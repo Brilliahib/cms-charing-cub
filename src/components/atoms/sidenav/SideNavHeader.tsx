@@ -6,10 +6,10 @@ import { House, LogOut, Menu, Settings } from "lucide-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 
-import { generateFallbackFromName } from "@/utils/misc";
+import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
 
 import { Link as NavLink } from "@/components/organism/side/SideNav";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -75,6 +75,7 @@ export default function SideNavHeader({ session, links }: SideNavHeaderProps) {
             <DropdownMenuTrigger asChild>
               <Button variant="tertiary" size="icon" className="rounded-full">
                 <Avatar className="border border-muted">
+                  <AvatarImage src={buildFromAppURL(session.user.profile)} />
                   <AvatarFallback className="text-gray-700">
                     {generateFallbackFromName(session.user.name)}
                   </AvatarFallback>

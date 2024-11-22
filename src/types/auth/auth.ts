@@ -6,6 +6,7 @@ export interface Auth {
   name: string;
   email: string;
   role: string;
+  profile: string;
   nannies: Nannies;
   daycare: DayCare;
 }

@@ -161,7 +161,12 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                   <CardContent className="p-0">
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <h1 className="font-bold text-lg">Our Nannies</h1>
+                        <div className="flex items-center gap-2">
+                          <h1 className="font-bold text-lg">Our Nannies</h1>
+                          <span className="bg-primary text-white px-3 rounded-xl font-medium text-sm">
+                            {data?.data.nannies.length}
+                          </span>
+                        </div>
                         <p className="text-muted-foreground">
                           Nannies yang akan menemani anak Anda:
                         </p>

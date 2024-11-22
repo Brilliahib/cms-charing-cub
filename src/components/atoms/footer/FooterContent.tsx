@@ -7,7 +7,7 @@ export default function FooterContent() {
       <footer className="lg:pt-24 md:pt-18 pt-12">
         <div className="pad-x">
           <hr className="lg:mb-16 md:mb-12 mb-8" />
-          <div className="grid md:grid-cols-3 grid-cols-1 lg:gap-12 md:gap-8 gap-6 lg:mb-16 md:mb-12 mb-8">
+          <div className="grid md:grid-cols-4 grid-cols-1 lg:gap-12 md:gap-8 gap-6 lg:mb-16 md:mb-12 mb-8">
             <div className="lg:space-y-10 md:space-y-8 space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
@@ -40,27 +40,53 @@ export default function FooterContent() {
             </div>
             <div>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
+                <h1 className="font-semibold text-xl text-black">
+                  One Step to
+                  <br />
+                  Embrace Love
+                </h1>
                 <li>
-                  <Link href={"/"}>Cub Location</Link>
-                </li>
-                <li>
-                  <Link href={"/"}>Cub Nest</Link>
-                </li>
-                <li>
-                  <Link href={"/"}>Cub Care</Link>
-                </li>
-                <li>
-                  <Link href={"/"}>Cub Able</Link>
+                  <Link href={"/"} className="hover:underline">
+                    About Us
+                  </Link>
                 </li>
               </ul>
             </div>
             <div>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
                 <li>
-                  <Link href={"/"}>Hubungi Kami</Link>
+                  <Link href={"/"} className="hover:underline">
+                    Cub Location
+                  </Link>
                 </li>
                 <li>
-                  <Link href={"/"}>FAQ</Link>
+                  <Link href={"/"} className="hover:underline">
+                    Cub Nest
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/"} className="hover:underline">
+                    Cub Care
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/"} className="hover:underline">
+                    Cub Able
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
+                <li>
+                  <Link href={"/"} className="hover:underline">
+                    Hubungi Kami
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/"} className="hover:underline">
+                    FAQ
+                  </Link>
                 </li>
               </ul>
             </div>
