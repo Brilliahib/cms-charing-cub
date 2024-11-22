@@ -19,7 +19,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { Trash2, UploadIcon } from "lucide-react";
+import { CloudDownload, Trash2, UploadIcon } from "lucide-react";
 import {
   daycareSchema,
   DaycareType,
@@ -27,7 +27,7 @@ import {
 import { useAddDaycare } from "@/http/daycares/add-daycare";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function DaycareCreateContent() {
+export default function DaycareCreateProfileContent() {
   const form = useForm<DaycareType>({
     resolver: zodResolver(daycareSchema),
     defaultValues: {
@@ -38,7 +38,10 @@ export default function DaycareCreateContent() {
       description: "",
       phone_number: "",
       images: null,
-      facility_images: undefined,
+      facility_images: [],
+      location: "",
+      location_tracking: "",
+      price: 0,
     },
     mode: "onChange",
   });
@@ -82,9 +85,14 @@ export default function DaycareCreateContent() {
 
   const onDropFacility = useCallback(
     (acceptedFiles: File[]) => {
-      const files = acceptedFiles.map((file) => URL.createObjectURL(file));
-      form.setValue("facility_images", acceptedFiles);
-      setFacilityImagesPreview((prev) => [...prev, ...files]);
+      const currentFiles = form.getValues("facility_images") || [];
+      const updatedFiles = [...currentFiles, ...acceptedFiles];
+      form.setValue("facility_images", updatedFiles);
+      setFacilityImagesPreview(
+        updatedFiles
+          .filter((file): file is File => file instanceof File)
+          .map((file) => URL.createObjectURL(file))
+      );
     },
     [form]
   );
@@ -115,128 +123,187 @@ export default function DaycareCreateContent() {
   };
 
   const removeFacilityImage = (index: number) => {
+    const currentFiles = form.getValues("facility_images") || [];
+    const updatedFiles = currentFiles.filter((_, i) => i !== index);
+    form.setValue("facility_images", updatedFiles);
     setFacilityImagesPreview((prev) => prev.filter((_, i) => i !== index));
-    form.setValue(
-      "facility_images",
-      form.getValues("facility_images").filter((_, i) => i !== index)
-    );
   };
+
+  console.log("Facility Images:", form.getValues("facility_images"));
 
   return (
     <div className="w-full py-8">
       <Card className="shadow-md">
         <CardContent className="py-4">
           <Form {...form}>
-            <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nama Daycare</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Masukkan nama daycare"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nama Daycare</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan nama daycare"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Deskripsi</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Masukkan deskripsi"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Harga</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Masukkan harga daycare"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="opening_days"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hari Buka</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Contoh: Senin - Jumat"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Deskripsi</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Masukkan deskripsi"
+                          {...field}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="opening_hours"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Jam Buka</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="time"
-                        placeholder="Masukkan jam buka"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Location</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Masukkan lokasi daycare"
+                          {...field}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="closing_hours"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Jam Tutup</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="time"
-                        placeholder="Masukkan jam tutup"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="location_tracking"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Location Tracking</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan lokasi"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="phone_number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nomor Telepon</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Masukkan nomor telepon"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="opening_days"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Hari Buka</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Contoh: Senin - Jumat"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
+                <FormField
+                  control={form.control}
+                  name="opening_hours"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jam Buka</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="time"
+                          placeholder="Masukkan jam buka"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="closing_hours"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jam Tutup</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="time"
+                          placeholder="Masukkan jam tutup"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nomor Telepon</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan nomor telepon"
+                          {...field}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="images"
@@ -275,7 +342,7 @@ export default function DaycareCreateContent() {
                             </p>
                           ) : (
                             <div className="text-center space-y-4 py-4">
-                              <UploadIcon className="mx-auto h-6 w-6 text-muted-foreground" />
+                              <CloudDownload className="mx-auto h-8 w-8 text-muted-foreground" />
                               <p className="text-muted-foreground text-sm">
                                 Drag & drop gambar ke sini, atau klik untuk
                                 memilih
@@ -334,7 +401,7 @@ export default function DaycareCreateContent() {
                             </p>
                           ) : (
                             <div className="text-center space-y-4 py-4">
-                              <UploadIcon className="mx-auto h-6 w-6 text-muted-foreground" />
+                              <CloudDownload className="mx-auto h-8 w-8 text-muted-foreground" />
                               <p className="text-muted-foreground text-sm">
                                 Drag & drop gambar ke sini, atau klik untuk
                                 memilih
@@ -348,7 +415,6 @@ export default function DaycareCreateContent() {
                   </FormItem>
                 )}
               />
-
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
                   {isPending ? "Menambahkan..." : "Tambahkan Daycare"}

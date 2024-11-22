@@ -70,16 +70,16 @@ export default function Sidenav({ children, session }: SidenavProps) {
         : session?.user.role === "daycare"
         ? [
             {
-              href: "/dashboard/daycare",
+              href: "/dashboard/daycares",
               label: "Dashboard",
               icon: LayoutDashboardIcon,
-              active: pathname === "/dashboard/daycare",
+              active: pathname === "/dashboard/daycares",
             },
             {
-              href: "/dashboard/daycare/nannies",
+              href: "/dashboard/daycares/nannies",
               label: "Nannies",
               icon: UserRound,
-              active: pathname.startsWith("/dashboard/daycare/nannies"),
+              active: pathname.startsWith("/dashboard/daycares/nannies"),
             },
           ]
         : session?.user.role === "nannies"

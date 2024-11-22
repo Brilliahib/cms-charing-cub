@@ -9,6 +9,7 @@ interface SideNavLinkProps {
   label: string;
   icon?: LucideIcon;
   active?: boolean;
+  hide?: boolean;
 }
 
 export default function SideNavLink({
@@ -16,7 +17,10 @@ export default function SideNavLink({
   label,
   active,
   icon: Icon,
+  hide,
 }: SideNavLinkProps) {
+  if (hide) return null; // Jangan render jika `hide` true
+
   return (
     <Link
       href={href}
