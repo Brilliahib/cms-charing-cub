@@ -1,0 +1,16 @@
+"use client";
+
+import SectionTitle from "@/components/atoms/typography/SectionTitle";
+
+export default function CubNestContent() {
+  return (
+    <div className="pad-x lg:pt-8 md:pt-6 pt-4">
+      <div className="space-y-8">
+        <SectionTitle
+          title="Cub Nest"
+          subtitle="Connecting Your Child With Loving Nannies"
+        />
+      </div>
+    </div>
+  );
+}
