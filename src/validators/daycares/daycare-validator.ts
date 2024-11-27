@@ -66,6 +66,7 @@ export const daycareSchema = z.object({
       ])
     )
     .min(1, { message: "Setidaknya satu gambar fasilitas harus diunggah" }),
+  is_disability: z.number(),
 });
 
 export type DaycareType = z.infer<typeof daycareSchema>;

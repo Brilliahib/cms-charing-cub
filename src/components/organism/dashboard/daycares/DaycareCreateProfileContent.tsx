@@ -26,6 +26,8 @@ import {
 } from "@/validators/daycares/daycare-validator";
 import { useAddDaycare } from "@/http/daycares/add-daycare";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export default function DaycareCreateProfileContent() {
   const form = useForm<DaycareType>({
@@ -42,6 +44,7 @@ export default function DaycareCreateProfileContent() {
       location: "",
       location_tracking: "",
       price: 0,
+      is_disability: 1,
     },
     mode: "onChange",
   });
@@ -114,7 +117,11 @@ export default function DaycareCreateProfileContent() {
   });
 
   const onSubmit = (body: DaycareType) => {
-    addDaycareHandler(body);
+    const payload = {
+      ...body,
+      is_disability: body.is_disability ? 1 : 0,
+    };
+    addDaycareHandler(payload);
   };
 
   const removeImage = () => {
@@ -128,8 +135,6 @@ export default function DaycareCreateProfileContent() {
     form.setValue("facility_images", updatedFiles);
     setFacilityImagesPreview((prev) => prev.filter((_, i) => i !== index));
   };
-
-  console.log("Facility Images:", form.getValues("facility_images"));
 
   return (
     <div className="w-full py-8">
@@ -171,6 +176,50 @@ export default function DaycareCreateProfileContent() {
                             field.onChange(parseInt(e.target.value))
                           }
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="is_disability"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status Disabilitas</FormLabel>
+                      <FormControl>
+                        <div className="flex flex-col gap-2 mt-2">
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id="accepts-disability"
+                              checked={field.value === 1}
+                              onCheckedChange={(checked) =>
+                                field.onChange(checked === true)
+                              }
+                            />
+                            <Label
+                              htmlFor="accepts-disability"
+                              className="text-sm font-medium"
+                            >
+                              Menerima Disabilitas
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id="declines-disability"
+                              checked={field.value === 0}
+                              onCheckedChange={(checked) =>
+                                field.onChange(checked === false)
+                              }
+                            />
+                            <Label
+                              htmlFor="declines-disability"
+                              className="text-sm font-medium"
+                            >
+                              Tidak Menerima Disabilitas
+                            </Label>
+                          </div>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -375,15 +424,15 @@ export default function DaycareCreateProfileContent() {
                         >
                           <Input {...getFacilityInputProps()} />
                           {facilityImagesPreview.length > 0 ? (
-                            <div className="relative w-full">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               {facilityImagesPreview.map((preview, index) => (
                                 <div key={index} className="relative">
                                   <Image
                                     src={preview}
                                     alt={`Preview ${index}`}
                                     className="max-h-[200px] w-full object-cover rounded-lg"
-                                    width={1000}
-                                    height={1000}
+                                    width={500}
+                                    height={500}
                                   />
                                   <Button
                                     className="absolute top-2 right-2 shadow-lg px-3"

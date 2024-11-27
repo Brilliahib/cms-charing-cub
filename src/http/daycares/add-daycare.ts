@@ -34,6 +34,10 @@ export const addDaycareHandler = async (
     formData.append("phone_number", body.phone_number);
   }
 
+  if (body.is_disability !== undefined) {
+    formData.append("is_disability", body.is_disability.toString());
+  }
+
   if (body.images) {
     formData.append("images", body.images as File);
   }

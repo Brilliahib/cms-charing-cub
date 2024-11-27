@@ -4,8 +4,8 @@ import SectionTitle from "@/components/atoms/typography/SectionTitle";
 
 export default function CubNestContent() {
   return (
-    <div className="mx-auto px-4 max-w-[1400px]">
-      <div className="md:space-y-8 space-y-4">
+    <div className="pad-x lg:pt-8 md:pt-6 pt-4">
+      <div className="space-y-8">
         <SectionTitle
           title="Cub Nest"
           subtitle="Connecting Your Child With Loving Nannies"

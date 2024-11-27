@@ -15,6 +15,7 @@ export interface DayCare {
   rating: number;
   reviewers_count: number;
   price: number;
+  is_disability: Boolean;
   facility_images: FacilityImages[];
   nannies: Nannies[];
 }

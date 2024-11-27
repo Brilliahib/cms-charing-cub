@@ -212,18 +212,34 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       Berikut adalah fasilitas daycare kami.
                     </p>
                   </div>
-                  <div className="flex gap-x-4 md:gap-x-6">
-                    {data?.data.facility_images.map((facilitiesImage) => (
-                      <div key={facilitiesImage.id}>
-                        <Image
-                          src={`${baseUrl}/${facilitiesImage.image_url}`}
-                          alt={data?.data.name ?? "Daycare"}
-                          width={1000}
-                          height={1000}
-                          className="w-[500px] object-cover h-[300px] rounded-lg"
-                        />
-                      </div>
-                    ))}
+                  <div>
+                    <Carousel plugins={[plugin.current]}>
+                      <CarouselContent>
+                        {data?.data.facility_images?.map((facilitiesImage) => (
+                          <CarouselItem
+                            className="pl-1 md:basis-1/2 lg:basis-1/3"
+                            key={facilitiesImage.id}
+                          >
+                            <div className="py-2 px-4 h-full">
+                              <Card
+                                className="bg-secondary border-0 h-full"
+                                key={facilitiesImage.id}
+                              >
+                                <CardContent className="p-0 flex flex-col justify-between h-full">
+                                  <Image
+                                    src={`${baseUrl}/${facilitiesImage.image_url}`}
+                                    alt={data?.data.name ?? "Daycare"}
+                                    width={1000}
+                                    height={1000}
+                                    className="w-[500px] object-cover h-[300px] rounded-lg"
+                                  />
+                                </CardContent>
+                              </Card>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                    </Carousel>
                   </div>
                 </div>
               </CardContent>
