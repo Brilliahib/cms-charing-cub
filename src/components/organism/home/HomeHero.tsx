@@ -5,7 +5,7 @@ export default function HomeHero() {
     <>
       <div className="pad-x lg:pt-8 md:pt-6 pt-4">
         <div
-          className="relative min-h-[80vh] rounded-2xl w-full flex flex-col items-center text-center justify-center"
+          className="relative md:min-h-[80vh] min-h-[70vh] rounded-2xl w-full flex flex-col items-center text-center justify-center"
           style={{
             backgroundImage: 'url("/images/background.png")',
             backgroundSize: "cover",
