@@ -27,7 +27,7 @@ export default function FooterContent() {
                   </p>
                 </div>
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <h1 className="font-semibold">Sponsor</h1>
                 <Image
                   src={"/images/pertamina.jpg"}
@@ -36,7 +36,7 @@ export default function FooterContent() {
                   height={404}
                   className="max-w-[60px]"
                 />
-              </div>
+              </div> */}
             </div>
             <div>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
