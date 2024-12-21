@@ -136,7 +136,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                     <div className="space-y-4 md:space-y-8">
                       <div className="space-y-2">
                         <h1 className="font-bold text-xl">About Daycare</h1>
-                        <p className="text-muted-foreground leading-loose">
+                        <p className="text-muted-foreground leading-loose md:line-clamp-none line-clamp-4">
                           {data?.data.description}
                         </p>
                       </div>
