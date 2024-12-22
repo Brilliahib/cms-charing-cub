@@ -5,7 +5,7 @@ import GlobalProvider from "@/components/organism/GlobalProvider";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Charing Cub",
+  title: "Charing Cub | One Step to Embrace Love",
   description:
     "Charing Cub is a web-based platform designed to ensure the provision of high-quality childcare for children of working parents.",
   icons: [
