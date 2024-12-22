@@ -12,6 +12,7 @@ import {
   CalendarCheck,
   HeartHandshake,
   HousePlus,
+  Notebook,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -80,6 +81,12 @@ export default function Sidenav({ children, session }: SidenavProps) {
               label: "Nannies",
               icon: UserRound,
               active: pathname.startsWith("/dashboard/daycares/nannies"),
+            },
+            {
+              href: "/dashboard/daycares/bookings",
+              label: "Booking",
+              icon: Notebook,
+              active: pathname.startsWith("/dashboard/daycares/bookings"),
             },
           ]
         : session?.user.role === "nannies"
