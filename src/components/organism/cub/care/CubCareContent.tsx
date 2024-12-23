@@ -20,7 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetAllNannies } from "@/http/cub/care/get-all-nannies";
 import { baseUrl } from "@/utils/app";
 import { formatPrice } from "@/utils/price";
-import { CircleDollarSign, Clock } from "lucide-react";
+import { CircleDollarSign, Clock, Settings2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -45,11 +45,16 @@ export default function CubCareContent() {
           title="Cub Care"
           subtitle="Connecting Your Child With Loving Nannies"
         />
-        <SearchInput
-          onSearch={onSearch}
-          props="Search nannies..."
-          className="min-w-[250px]"
-        />
+        <div className="flex items-center gap-4">
+          <SearchInput
+            onSearch={onSearch}
+            props="Search Nanny"
+            className="md:max-w-[250px] w-full"
+          />
+          <Button variant={"outline"}>
+            <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
+          </Button>
+        </div>
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
@@ -66,7 +71,7 @@ export default function CubCareContent() {
               </Card>
             ))
           ) : !data?.data || data.data.length === 0 ? (
-            <p>No nannies available</p>
+            <p>Nanny belum tersedia.</p>
           ) : (
             data.data.map((nannies) => (
               <Link key={nannies.id} href={`/cub-care/${nannies.id}`}>

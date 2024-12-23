@@ -79,10 +79,9 @@ export default function NavButton({ links }: NavHeaderProps) {
             <Button
               variant="outline"
               size="icon"
-              className="shrink-0 md:hidden bg-white border-0"
+              className="shrink-0 md:hidden bg-white border-0 w-full"
             >
               <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
 

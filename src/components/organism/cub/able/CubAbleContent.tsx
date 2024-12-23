@@ -3,11 +3,12 @@
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import SectionTitle from "@/components/atoms/typography/SectionTitle";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetAllDaycareDisability } from "@/http/daycares/get-all-daycare-disability";
 import { baseUrl } from "@/utils/app";
-import { MapPin } from "lucide-react";
+import { MapPin, Settings2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -33,11 +34,16 @@ export default function CubAbleContent() {
             title="Cub Able"
             subtitle="Daycare for Children with Disabilities"
           />
-          <SearchInput
-            onSearch={onSearch}
-            props="Search daycare..."
-            className="min-w-[250px]"
-          />
+          <div className="flex items-center gap-4">
+            <SearchInput
+              onSearch={onSearch}
+              props="Search Daycare"
+              className="md:max-w-[250px] w-full"
+            />
+            <Button variant={"outline"}>
+              <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
+            </Button>
+          </div>
           <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
             {isPending ? (
               Array.from({ length: 4 }).map((_, index) => (
@@ -61,7 +67,7 @@ export default function CubAbleContent() {
                 </Card>
               ))
             ) : !filteredDaycares || filteredDaycares.length === 0 ? (
-              <p>No daycares available</p>
+              <p>Belum ada daycare yang tersedia menerima kebutuhan khusus.</p>
             ) : (
               filteredDaycares.map((daycare) => (
                 <Link href={`/cub-location/${daycare.id}`} key={daycare.id}>

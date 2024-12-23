@@ -40,7 +40,7 @@ export default function FooterContent() {
             </div>
             <div>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
-                <h1 className="font-semibold text-xl text-black">
+                <h1 className="font-bold text-xl text-black">
                   One Step to
                   <br />
                   Embrace Love
@@ -55,22 +55,22 @@ export default function FooterContent() {
             <div>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
                 <li>
-                  <Link href={"/"} className="hover:underline">
+                  <Link href={"/"} className="hover:text-primary">
                     Cub Location
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"} className="hover:underline">
+                  <Link href={"/"} className="hover:text-primary">
                     Cub Nest
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"} className="hover:underline">
+                  <Link href={"/"} className="hover:text-primary">
                     Cub Care
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"} className="hover:underline">
+                  <Link href={"/"} className="hover:text-primary">
                     Cub Able
                   </Link>
                 </li>
@@ -79,12 +79,12 @@ export default function FooterContent() {
             <div>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm text-muted-foreground">
                 <li>
-                  <Link href={"/"} className="hover:underline">
+                  <Link href={"/"} className="hover:text-primary">
                     Hubungi Kami
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/"} className="hover:underline">
+                  <Link href={"/"} className="hover:text-primary">
                     FAQ
                   </Link>
                 </li>

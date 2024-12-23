@@ -12,7 +12,7 @@ export default function HomeHero() {
             backgroundPosition: "center",
           }}
         >
-          <h1 className="font-bold md:text-6xl text-5xl text-white">
+          <h1 className="font-figtree font-black md:text-7xl text-5xl text-white">
             &quot;One Step to Embrace Love&quot;
           </h1>
 
@@ -20,34 +20,22 @@ export default function HomeHero() {
           <div className="absolute bottom-[-30px] flex justify-center items-center w-full md:px-0 px-8">
             <div className="relative w-fit p-[2px] bg-gradient-to-r from-[#7E5CBE] via-[#79919A] to-[#EED584] rounded-full flex gap-8">
               <div className="bg-white rounded-full flex gap-8 md:p-4 md:px-8 p-2 px-8">
-                <Link
-                  href={"/cub-location"}
-                  className="hover:underline hover:text-primary"
-                >
+                <Link href={"/cub-location"} className="hover:text-primary">
                   <h1 className="font-semibold md:text-base text-sm">
                     Cub Location
                   </h1>
                 </Link>
-                <Link
-                  href={"/cub-nest"}
-                  className="hover:underline hover:text-primary"
-                >
+                <Link href={"/cub-nest"} className="hover:text-primary">
                   <h1 className="font-semibold md:text-base text-sm">
                     Cub Nest
                   </h1>
                 </Link>
-                <Link
-                  href={"/cub-care"}
-                  className="hover:underline hover:text-primary"
-                >
+                <Link href={"/cub-care"} className="hover:text-primary">
                   <h1 className="font-semibold md:text-base text-sm">
                     Cub Care
                   </h1>
                 </Link>
-                <Link
-                  href={"/cub-able"}
-                  className="hover:underline hover:text-primary"
-                >
+                <Link href={"/cub-able"} className="hover:text-primary">
                   <h1 className="font-semibold md:text-base text-sm">
                     Cub Able
                   </h1>
