@@ -5,12 +5,13 @@ import SectionTitle from "@/components/atoms/typography/SectionTitle";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetAllDaycare } from "@/http/daycares/get-all-daycares";
 import { baseUrl } from "@/utils/app";
-import { MapPin } from "lucide-react";
+import { MapPin, Settings2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function CubLocationContent() {
   const { data, isPending } = useGetAllDaycare();
@@ -33,11 +34,16 @@ export default function CubLocationContent() {
           title="Cub Location"
           subtitle="Find Your Daycare In Here"
         />
-        <SearchInput
-          onSearch={onSearch}
-          props="Search Daycare"
-          className="min-w-[250px]"
-        />
+        <div className="flex items-center gap-4">
+          <SearchInput
+            onSearch={onSearch}
+            props="Search Daycare"
+            className="min-w-[250px]"
+          />
+          <Button variant={"outline"}>
+            <Settings2 />
+          </Button>
+        </div>
         <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
