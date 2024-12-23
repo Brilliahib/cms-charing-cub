@@ -97,7 +97,7 @@ export default function DialogGiveRateDaycare({
         <DialogHeader>
           <DialogTitle>Give Rating</DialogTitle>
           <DialogDescription>
-            <div>
+            <div className="text-left">
               <Form {...form}>
                 <form
                   className="space-y-5 pt-4"
