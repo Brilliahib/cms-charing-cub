@@ -12,7 +12,7 @@ export default function HomeHero() {
             backgroundPosition: "center",
           }}
         >
-          <h1 className="font-bold md:text-6xl text-5xl text-white">
+          <h1 className="font-figtree font-black md:text-7xl text-5xl text-white">
             &quot;One Step to Embrace Love&quot;
           </h1>
 

@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 body {
-  font-family: var(--font-poppins);
+  font-family: var(--font-jakarta);
 }
 
-.font-poppins {
-  font-family: var(--font-poppins);
+.font-jakarta {
+  font-family: var(--font-jakarta);
 }
 
-.font-paytone {
-  font-family: var(--font-paytone);
+.font-figtree {
+  font-family: var(--font-figtree);
 }
 
 @layer utilities {

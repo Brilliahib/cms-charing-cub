@@ -12,13 +12,10 @@ export default function NavLink({ href, label, active }: Link) {
   return (
     <Link
       href={href}
-      className={cn(
-        "text-sm flex items-center rounded px-5 py-2 font-semibold",
-        {
-          "text-black hover:text-primary": !active,
-          "text-primary": active,
-        }
-      )}
+      className={cn("text-sm flex items-center rounded px-5 py-2 font-bold", {
+        "text-black hover:text-primary": !active,
+        "text-primary": active,
+      })}
     >
       {label}
     </Link>
