@@ -95,71 +95,68 @@ export default function DialogGiveRateDaycare({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Give Rating</DialogTitle>
-          <DialogDescription>
-            <div className="text-left">
-              <Form {...form}>
-                <form
-                  className="space-y-5 pt-4"
-                  onSubmit={form.handleSubmit(onSubmit)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="rating"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>Rating</FormLabel>
-                        <FormControl>
-                          <div className="flex items-center space-x-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                className={`h-5 w-5 cursor-pointer ${
-                                  selectedRating >= star
-                                    ? "text-yellow-500"
-                                    : "text-gray-300"
-                                }`}
-                                onClick={() => handleRatingClick(star)}
-                                fill={
-                                  selectedRating >= star
-                                    ? "currentColor"
-                                    : "none"
-                                }
-                              />
-                            ))}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="comment"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Comment</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Masukkan komentar Anda"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex justify-end">
-                    <Button type="submit" disabled={isPending}>
-                      {isPending ? "Loading..." : "Give Rating"}
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          </DialogDescription>
+          <DialogTitle>Rating</DialogTitle>
+          <DialogDescription>Give a rating for this daycare.</DialogDescription>
         </DialogHeader>
+        <div className="text-left">
+          <Form {...form}>
+            <form
+              className="space-y-5 pt-4"
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              <FormField
+                control={form.control}
+                name="rating"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Star</FormLabel>
+                    <FormControl>
+                      <div className="flex items-center space-x-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`h-5 w-5 cursor-pointer ${
+                              selectedRating >= star
+                                ? "text-yellow-500"
+                                : "text-gray-300"
+                            }`}
+                            onClick={() => handleRatingClick(star)}
+                            fill={
+                              selectedRating >= star ? "currentColor" : "none"
+                            }
+                          />
+                        ))}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Comment</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Masukkan komentar Anda"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex justify-end">
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "Loading..." : "Submit Now"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -9,6 +9,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
@@ -32,6 +34,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const session = useSession();
   const { data, isPending } = useGetDetailDaycare({ id });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
@@ -87,15 +90,15 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <div className="flex gap-2">
-                    <MapPin className="h-5 w-5 md:flex hidden" />
+                    <MapPin className="h-5 w-5 flex-shrink-0" />
                     <p>{data?.data.location}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
+                    <Clock className="h-5 w-5 flex-shrink-0" />
                     <p>{data?.data.opening_days}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone className="h-5 w-5" />
+                    <Phone className="h-5 w-5 flex-shrink-0" />
                     <p>{data?.data.phone_number}</p>
                   </div>
                 </div>
@@ -128,17 +131,32 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
           </div>
         </div>
         <div className="pad-x md:space-y-16 space-y-12 py-6">
-          <div className="flex md:flex-row flex-col gap-4 md:gap-12">
+          <div className="flex md:flex-row flex-col gap-8 md:gap-12">
             <div className="md:w-8/12">
               <div className="md:space-y-6 space-y-4">
                 <Card>
                   <CardContent className="p-0">
                     <div className="space-y-4 md:space-y-8">
-                      <div className="space-y-2">
+                      <div className="space-y-2 relative">
                         <h1 className="font-bold text-xl">About Daycare</h1>
-                        <p className="text-muted-foreground leading-loose md:line-clamp-none line-clamp-4">
-                          {data?.data.description}
-                        </p>
+                        <div className="relative">
+                          <p
+                            className={`text-muted-foreground leading-loose ${
+                              isExpanded ? "line-clamp-none" : "line-clamp-4"
+                            }`}
+                          >
+                            {data?.data.description}
+                          </p>
+                          {!isExpanded && (
+                            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent dark:from-zinc-950 pointer-events-none"></div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => setIsExpanded(!isExpanded)}
+                          className="text-primary underline"
+                        >
+                          {isExpanded ? "Show Less" : "Read More"}
+                        </button>
                       </div>
                     </div>
                   </CardContent>
@@ -149,7 +167,6 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
               <div className="space-y-2">
                 <h1 className="font-bold text-lg">Information</h1>
                 <div className="space-y-2">
-                  <p className="text-muted-foreground">Detail lokasi:</p>
                   <p className="text-muted-foreground">
                     Lokasi {data?.data.location_tracking}
                   </p>
@@ -167,9 +184,6 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                             {data?.data.nannies.length}
                           </span>
                         </div>
-                        <p className="text-muted-foreground">
-                          Nannies yang akan menemani anak Anda:
-                        </p>
                       </div>
                       <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                         {data?.data.nannies ? (
@@ -239,6 +253,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                           </CarouselItem>
                         ))}
                       </CarouselContent>
+                      <CarouselPrevious />
+                      <CarouselNext />
                     </Carousel>
                   </div>
                 </div>
@@ -301,6 +317,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                           </CarouselItem>
                         ))}
                       </CarouselContent>
+                      <CarouselPrevious />
+                      <CarouselNext />
                     </Carousel>
                   </div>
                 </div>
