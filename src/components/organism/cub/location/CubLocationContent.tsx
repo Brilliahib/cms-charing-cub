@@ -88,10 +88,10 @@ export default function CubLocationContent() {
                           height={1000}
                           className="w-full object-cover h-[200px] rounded-xl"
                         />
-                        <div className="md:space-y-2">
+                        <div className="space-y-2">
                           <h1 className="font-bold">{daycare.name}</h1>
                           <div className="flex gap-2 items-center text-muted-foreground">
-                            <MapPin className="h-8 w-8" />
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
                             <p className="line-clamp-1 text-sm">
                               {daycare.location}
                             </p>
