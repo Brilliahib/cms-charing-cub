@@ -5,20 +5,19 @@ import SectionTitle from "@/components/atoms/typography/SectionTitle";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetAllDaycare } from "@/http/daycares/get-all-daycares";
 import { baseUrl } from "@/utils/app";
-import { MapPin, Settings2 } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import DialogFilterDaycare from "@/components/atoms/dialog/DialogFilterDaycare";
 
 export default function CubLocationContent() {
-  const { data, isPending } = useGetAllDaycare();
   const [query, setQuery] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [locationFilter, setLocationFilter] = useState<string>("");
+
+  const { data, isPending } = useGetAllDaycare({ location: locationFilter });
 
   const onSearch = (value: string) => {
     setQuery(value);
@@ -29,16 +28,10 @@ export default function CubLocationContent() {
   };
 
   const filteredDaycares = Array.isArray(data?.data)
-    ? data.data.filter(
-        (daycare) =>
-          daycare.name.toLowerCase().includes(query.toLowerCase()) &&
-          (locationFilter ? daycare.location.includes(locationFilter) : true)
+    ? data.data.filter((daycare) =>
+        daycare.name.toLowerCase().includes(query.toLowerCase())
       )
     : [];
-
-  const handleDialogOpen = () => {
-    setIsDialogOpen(true);
-  };
 
   return (
     <>
@@ -65,13 +58,13 @@ export default function CubLocationContent() {
                       <Skeleton className="w-full h-[200px] rounded-xl" />
                       <div className="space-y-2">
                         <Skeleton className="h-6 w-full" />
-                        <div className="flex gap-2 items-center">
-                          <MapPin className="h-4 w-4" />
-                          <Skeleton className="h-4 w-3/4" />
-                        </div>
                         <div className="flex items-center space-x-2">
                           <RatingStars rating={0} />
                           <Skeleton className="h-4 w-1/4" />
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <MapPin className="h-4 w-4" />
+                          <Skeleton className="h-4 w-3/4" />
                         </div>
                       </div>
                     </div>
@@ -95,17 +88,17 @@ export default function CubLocationContent() {
                         />
                         <div className="space-y-2">
                           <h1 className="font-bold">{daycare.name}</h1>
-                          <div className="flex gap-2 items-center text-muted-foreground">
-                            <MapPin className="h-4 w-4 flex-shrink-0" />
-                            <p className="line-clamp-1 text-sm">
-                              {daycare.location}
-                            </p>
-                          </div>
                           <div className="flex items-center space-x-2">
                             <RatingStars rating={daycare.rating || 0} />{" "}
                             <span className="text-sm text-muted-foreground">
                               ({daycare.reviewers_count})
                             </span>
+                          </div>
+                          <div className="flex gap-2 items-center text-muted-foreground">
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <p className="line-clamp-1 text-sm">
+                              {daycare.location}
+                            </p>
                           </div>
                         </div>
                       </div>

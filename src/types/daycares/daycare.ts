@@ -8,13 +8,15 @@ export interface DayCare {
   description: string;
   location: string;
   location_tracking: string;
+  address: string;
   opening_hours: Date;
   closing_hours: Date;
   opening_days: string;
   phone_number: string;
   rating: number;
   reviewers_count: number;
-  price: number;
+  price_half: number;
+  price_full: number;
   is_disability: Boolean;
   facility_images: FacilityImages[];
   nannies: Nannies[];
