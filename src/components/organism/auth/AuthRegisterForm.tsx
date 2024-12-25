@@ -29,6 +29,13 @@ import {
   RegisterType,
 } from "@/validators/auth/register-validator";
 import { useRegister } from "@/http/auth/register";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function RegisterForm() {
   const form = useForm<RegisterType>({
@@ -38,6 +45,7 @@ export default function RegisterForm() {
       email: "",
       password: "",
       password_confirmation: "",
+      role: "user",
     },
     mode: "onChange",
   });
@@ -142,6 +150,31 @@ export default function RegisterForm() {
                           placeholder="Masukkan email"
                           {...field}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Pilih role" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="user">User</SelectItem>
+                            <SelectItem value="daycare">Daycare</SelectItem>
+                            <SelectItem value="nannies">Nannies</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

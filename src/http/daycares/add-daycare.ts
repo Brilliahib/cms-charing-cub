@@ -20,10 +20,15 @@ export const addDaycareHandler = async (
   formData.append("opening_hours", body.opening_hours);
   formData.append("closing_hours", body.closing_hours);
   formData.append("location", body.location);
+  formData.append("address", body.address);
   formData.append("location_tracking", body.location_tracking);
 
-  if (body.price) {
-    formData.append("price", body.price.toString());
+  if (body.price_half) {
+    formData.append("price_half", body.price_half.toString());
+  }
+
+  if (body.price_full) {
+    formData.append("price_full", body.price_full.toString());
   }
 
   if (body.description) {

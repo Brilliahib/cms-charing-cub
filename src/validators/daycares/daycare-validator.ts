@@ -26,6 +26,7 @@ export const daycareSchema = z.object({
     .nullable(),
   description: z.string().nullable().optional(),
   location: z.string().min(1, { message: "Lokasi daycare harus diisi" }),
+  address: z.string().min(1, { message: "Jalan harus diisi" }),
   location_tracking: z
     .string()
     .min(1, { message: "Lokasi tracking harus diisi" }),
@@ -41,9 +42,12 @@ export const daycareSchema = z.object({
     .max(20, { message: "Nomor telepon maksimal 20 karakter" })
     .nullable()
     .optional(),
-  price: z
+  price_half: z
     .number()
     .min(1, { message: "Harga setengah hari harus diisi dan minimal 1" }),
+  price_full: z
+    .number()
+    .min(1, { message: "Harga satu hari harus diisi dan minimal 1" }),
   facility_images: z
     .array(
       z.union([

@@ -13,13 +13,19 @@ import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { CloudDownload, Trash2, UploadIcon } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  CloudDownload,
+  Trash2,
+  UploadIcon,
+} from "lucide-react";
 import {
   daycareSchema,
   DaycareType,
@@ -28,6 +34,20 @@ import { useAddDaycare } from "@/http/daycares/add-daycare";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { locations } from "@/utils/location";
 
 export default function DaycareCreateProfileContent() {
   const form = useForm<DaycareType>({
@@ -43,7 +63,8 @@ export default function DaycareCreateProfileContent() {
       facility_images: [],
       location: "",
       location_tracking: "",
-      price: 0,
+      price_half: 0,
+      price_full: 0,
       is_disability: 1,
     },
     mode: "onChange",
@@ -56,6 +77,8 @@ export default function DaycareCreateProfileContent() {
   const [facilityImagesPreview, setFacilityImagesPreview] = useState<string[]>(
     []
   );
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<string>("");
 
   const { mutate: addDaycareHandler, isPending } = useAddDaycare({
     onError: (error: AxiosError<any>) => {
@@ -163,14 +186,14 @@ export default function DaycareCreateProfileContent() {
 
                 <FormField
                   control={form.control}
-                  name="price"
+                  name="price_half"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Harga</FormLabel>
+                      <FormLabel>Harga Setengah Hari</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="Masukkan harga daycare"
+                          placeholder="Masukkan harga setengah hari"
                           {...field}
                           onChange={(e) =>
                             field.onChange(parseInt(e.target.value))
@@ -183,43 +206,19 @@ export default function DaycareCreateProfileContent() {
                 />
                 <FormField
                   control={form.control}
-                  name="is_disability"
+                  name="price_full"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Status Disabilitas</FormLabel>
+                      <FormLabel>Harga Sehari Penuh</FormLabel>
                       <FormControl>
-                        <div className="flex flex-col gap-2 mt-2">
-                          <div className="flex items-center gap-2">
-                            <Checkbox
-                              id="accepts-disability"
-                              checked={field.value === 1}
-                              onCheckedChange={(checked) =>
-                                field.onChange(checked === true)
-                              }
-                            />
-                            <Label
-                              htmlFor="accepts-disability"
-                              className="text-sm font-medium"
-                            >
-                              Menerima Disabilitas
-                            </Label>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Checkbox
-                              id="declines-disability"
-                              checked={field.value === 0}
-                              onCheckedChange={(checked) =>
-                                field.onChange(checked === false)
-                              }
-                            />
-                            <Label
-                              htmlFor="declines-disability"
-                              className="text-sm font-medium"
-                            >
-                              Tidak Menerima Disabilitas
-                            </Label>
-                          </div>
-                        </div>
+                        <Input
+                          type="number"
+                          placeholder="Masukkan harga sehari penuh"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -251,8 +250,74 @@ export default function DaycareCreateProfileContent() {
                     <FormItem>
                       <FormLabel>Location</FormLabel>
                       <FormControl>
+                        <Popover open={open} onOpenChange={setOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              aria-expanded={open}
+                              className="w-[200px] justify-between"
+                            >
+                              {field.value
+                                ? locations.find(
+                                    (location) => location.value === field.value
+                                  )?.label
+                                : "Select City..."}
+                              <ChevronsUpDown className="opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                              <CommandInput
+                                placeholder="Search city..."
+                                className="h-9"
+                              />
+                              <CommandList>
+                                <CommandEmpty>No city found.</CommandEmpty>
+                                <CommandGroup>
+                                  {locations.map((location) => (
+                                    <CommandItem
+                                      key={location.value}
+                                      value={location.value}
+                                      onSelect={(currentValue) => {
+                                        field.onChange(
+                                          currentValue === field.value
+                                            ? ""
+                                            : currentValue
+                                        );
+                                        setOpen(false);
+                                      }}
+                                    >
+                                      {location.label}
+                                      <Check
+                                        className={`ml-auto ${
+                                          field.value === location.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        }`}
+                                      />
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jalan</FormLabel>
+                      <FormControl>
                         <Textarea
-                          placeholder="Masukkan lokasi daycare"
+                          placeholder="Masukkan jalan di lokasi daycare"
                           {...field}
                           value={field.value ?? ""}
                         />
@@ -328,6 +393,51 @@ export default function DaycareCreateProfileContent() {
                           placeholder="Masukkan jam tutup"
                           {...field}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="is_disability"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status Disabilitas</FormLabel>
+                      <FormControl>
+                        <div className="flex flex-col gap-2 mt-2">
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id="accepts-disability"
+                              checked={field.value === 1}
+                              onCheckedChange={(checked) =>
+                                field.onChange(checked === true)
+                              }
+                            />
+                            <Label
+                              htmlFor="accepts-disability"
+                              className="text-sm font-medium"
+                            >
+                              Menerima Disabilitas
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id="declines-disability"
+                              checked={field.value === 0}
+                              onCheckedChange={(checked) =>
+                                field.onChange(checked === false)
+                              }
+                            />
+                            <Label
+                              htmlFor="declines-disability"
+                              className="text-sm font-medium"
+                            >
+                              Tidak Menerima Disabilitas
+                            </Label>
+                          </div>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
