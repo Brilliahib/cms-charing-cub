@@ -8,23 +8,27 @@ interface GetAllDaycareResponse {
   data: DayCare[];
 }
 
-export const getAllDaycareHandler =
-  async (): Promise<GetAllDaycareResponse> => {
-    const { data } = await api.get<GetAllDaycareResponse>("/daycares");
+export const getAllDaycareHandler = async (params?: {
+  location?: string;
+}): Promise<GetAllDaycareResponse> => {
+  const { data } = await api.get<GetAllDaycareResponse>("/daycares", {
+    params,
+  });
 
-    if (!data || !Array.isArray(data.data)) {
-      return { data: [] };
-    }
+  if (!data || !Array.isArray(data.data)) {
+    return { data: [] };
+  }
 
-    return data;
-  };
+  return data;
+};
 
 export const useGetAllDaycare = (
+  params?: { location?: string },
   options?: Partial<UseQueryOptions<GetAllDaycareResponse, AxiosError>>
 ) => {
   return useQuery({
-    queryKey: ["daycare-list"],
-    queryFn: getAllDaycareHandler,
+    queryKey: ["daycare-list", params],
+    queryFn: () => getAllDaycareHandler(params),
     ...options,
   });
 };

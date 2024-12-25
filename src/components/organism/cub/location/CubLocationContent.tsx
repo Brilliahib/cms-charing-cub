@@ -18,14 +18,21 @@ export default function CubLocationContent() {
   const { data, isPending } = useGetAllDaycare();
   const [query, setQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [locationFilter, setLocationFilter] = useState<string>("");
 
   const onSearch = (value: string) => {
     setQuery(value);
   };
 
+  const onFilterChange = (location: string) => {
+    setLocationFilter(location);
+  };
+
   const filteredDaycares = Array.isArray(data?.data)
-    ? data.data.filter((daycare) =>
-        daycare.name.toLowerCase().includes(query.toLowerCase())
+    ? data.data.filter(
+        (daycare) =>
+          daycare.name.toLowerCase().includes(query.toLowerCase()) &&
+          (locationFilter ? daycare.location.includes(locationFilter) : true)
       )
     : [];
 
@@ -41,15 +48,13 @@ export default function CubLocationContent() {
             title="Cub Location"
             subtitle="Find Your Daycare In Here"
           />
-          <div className="flex items-center gap-4">
+          <div className="flex md:flex-row flex-col items-center gap-4">
             <SearchInput
               onSearch={onSearch}
               props="Search Daycare"
               className="md:max-w-[250px] w-full"
             />
-            <Button variant={"outline"} onClick={handleDialogOpen}>
-              <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
-            </Button>
+            <DialogFilterDaycare onFilterChange={onFilterChange} />
           </div>
           <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
             {isPending ? (
@@ -112,7 +117,6 @@ export default function CubLocationContent() {
           </div>
         </div>
       </div>
-      <DialogFilterDaycare open={isDialogOpen} setOpen={setIsDialogOpen} />
     </>
   );
 }
