@@ -40,6 +40,13 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function NanniesCreateContent() {
   const form = useForm<NanniesType>({
@@ -67,18 +74,18 @@ export default function NanniesCreateContent() {
   const { mutate: addNannyHandler, isPending } = useAddNannies({
     onError: (error: AxiosError<any>) => {
       toast({
-        title: "Gagal menambahkan nanny!",
+        title: "Gagal membuat profile nannies!",
         description: error.response?.data.message,
         variant: "destructive",
       });
     },
     onSuccess: () => {
       toast({
-        title: "Berhasil menambahkan nanny!",
+        title: "Berhasil membuat profile nannies!",
         variant: "success",
       });
       queryClient.invalidateQueries({
-        queryKey: ["nannies-list"],
+        queryKey: ["nannies-profile"],
       });
       router.push("/dashboard/admin/nannies");
     },
@@ -119,7 +126,9 @@ export default function NanniesCreateContent() {
                 name="daycare_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Daycare</FormLabel>
+                    <FormLabel>
+                      Daycare <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
@@ -127,19 +136,19 @@ export default function NanniesCreateContent() {
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-full justify-between"
+                            className="w-full justify-between font-normal"
                           >
                             {field.value
                               ? data?.data.find(
                                   (daycare) => daycare.id === field.value
                                 )?.name
-                              : "Pilih daycare"}
+                              : "Select Daycare"}
                             <ChevronsUpDown className="opacity-50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0">
                           <Command>
-                            <CommandInput placeholder="Cari daycare..." />
+                            <CommandInput placeholder="Search Daycare..." />
                             <CommandList>
                               <CommandEmpty>Tidak ditemukan.</CommandEmpty>
                               <CommandGroup>
@@ -151,6 +160,7 @@ export default function NanniesCreateContent() {
                                       field.onChange(daycare.id);
                                       setOpen(false);
                                     }}
+                                    className="font-normal"
                                   >
                                     {daycare.name}
                                     <Check
@@ -178,13 +188,22 @@ export default function NanniesCreateContent() {
                 name="gender"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Jenis Kelamin</FormLabel>
+                    <FormLabel>
+                      Gender <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Masukkan jenis kelamin"
-                        {...field}
-                      />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -196,11 +215,13 @@ export default function NanniesCreateContent() {
                 name="age"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Umur</FormLabel>
+                    <FormLabel>
+                      Age <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Masukkan umur nanny"
+                        placeholder="Enter age"
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseInt(e.target.value))
@@ -217,11 +238,13 @@ export default function NanniesCreateContent() {
                 name="contact"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kontak</FormLabel>
+                    <FormLabel>
+                      Contact <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Masukkan kontak"
+                        placeholder="Enter contact"
                         {...field}
                       />
                     </FormControl>
@@ -235,11 +258,13 @@ export default function NanniesCreateContent() {
                 name="price_half"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Harga Setengah Hari</FormLabel>
+                    <FormLabel>
+                      Price Half <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Masukkan harga setengah hari"
+                        placeholder="Enter price half"
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseInt(e.target.value))
@@ -256,11 +281,13 @@ export default function NanniesCreateContent() {
                 name="price_full"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Harga Penuh</FormLabel>
+                    <FormLabel>
+                      Price Full <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Masukkan harga penuh"
+                        placeholder="Enter price full"
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseInt(e.target.value))
@@ -277,11 +304,14 @@ export default function NanniesCreateContent() {
                 name="experience_description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Deskripsi Pengalaman</FormLabel>
+                    <FormLabel>
+                      Experience Description{" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Masukkan deskripsi pengalaman"
+                        placeholder="Enter experience description"
                         {...field}
                       />
                     </FormControl>
@@ -295,7 +325,9 @@ export default function NanniesCreateContent() {
                 name="images"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Gambar</FormLabel>
+                    <FormLabel>
+                      Image <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <div>
                         <div
@@ -345,7 +377,7 @@ export default function NanniesCreateContent() {
 
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
-                  {isPending ? "Menambahkan..." : "Tambahkan Nanny"}
+                  {isPending ? "Menambahkan..." : "Create"}
                 </Button>
               </div>
             </form>

@@ -68,7 +68,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
       queryClient.invalidateQueries({
         queryKey: ["booking-daycare-list"],
       });
-      router.push("/dashboard/booking");
+      router.push("/dashboard/bookings");
     },
   });
 
