@@ -70,7 +70,7 @@ export const daycareSchema = z.object({
       ])
     )
     .min(1, { message: "Setidaknya satu gambar fasilitas harus diunggah" }),
-  is_disability: z.number(),
+  is_disability: z.boolean(),
 });
 
 export type DaycareType = z.infer<typeof daycareSchema>;

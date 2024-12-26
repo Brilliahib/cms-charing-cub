@@ -40,7 +40,7 @@ export const addDaycareHandler = async (
   }
 
   if (body.is_disability !== undefined) {
-    formData.append("is_disability", body.is_disability.toString());
+    formData.append("is_disability", body.is_disability ? "1" : "0");
   }
 
   if (body.images) {

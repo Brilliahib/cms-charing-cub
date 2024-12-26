@@ -65,7 +65,7 @@ export default function DaycareCreateProfileContent() {
       location_tracking: "",
       price_half: 0,
       price_full: 0,
-      is_disability: 1,
+      is_disability: true,
     },
     mode: "onChange",
   });
@@ -90,11 +90,13 @@ export default function DaycareCreateProfileContent() {
     },
     onSuccess: () => {
       toast({
-        title: "Berhasil menambahkan daycare!",
+        title: "Berhasil menambahkan profile daycare!",
+        description:
+          "Daycare anda otomatis akan dapat dilihat oleh orang lain.",
         variant: "success",
       });
       queryClient.invalidateQueries({
-        queryKey: ["daycare-list"],
+        queryKey: ["daycare-profile"],
       });
       router.push("/dashboard/admin/daycares");
     },
@@ -140,11 +142,7 @@ export default function DaycareCreateProfileContent() {
   });
 
   const onSubmit = (body: DaycareType) => {
-    const payload = {
-      ...body,
-      is_disability: body.is_disability ? 1 : 0,
-    };
-    addDaycareHandler(payload);
+    addDaycareHandler(body);
   };
 
   const removeImage = () => {
@@ -183,7 +181,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="price_half"
@@ -224,7 +221,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="description"
@@ -242,7 +238,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="location"
@@ -309,7 +304,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="address"
@@ -327,7 +321,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="location_tracking"
@@ -345,7 +338,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="opening_days"
@@ -363,7 +355,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="opening_hours"
@@ -381,7 +372,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="closing_hours"
@@ -399,7 +389,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="is_disability"
@@ -411,7 +400,7 @@ export default function DaycareCreateProfileContent() {
                           <div className="flex items-center gap-2">
                             <Checkbox
                               id="accepts-disability"
-                              checked={field.value === 1}
+                              checked={field.value}
                               onCheckedChange={(checked) =>
                                 field.onChange(checked === true)
                               }
@@ -426,7 +415,7 @@ export default function DaycareCreateProfileContent() {
                           <div className="flex items-center gap-2">
                             <Checkbox
                               id="declines-disability"
-                              checked={field.value === 0}
+                              checked={!field.value}
                               onCheckedChange={(checked) =>
                                 field.onChange(checked === false)
                               }
@@ -444,7 +433,7 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
+                ;
                 <FormField
                   control={form.control}
                   name="phone_number"

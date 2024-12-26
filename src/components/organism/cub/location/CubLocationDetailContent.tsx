@@ -91,7 +91,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                 <div className="space-y-4 text-muted-foreground">
                   <div className="flex gap-2">
                     <MapPin className="h-5 w-5 flex-shrink-0" />
-                    <p>{data?.data.location}</p>
+                    <p>{data?.data.address}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-5 w-5 flex-shrink-0" />
