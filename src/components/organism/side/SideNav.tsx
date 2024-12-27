@@ -112,10 +112,16 @@ export default function Sidenav({ children, session }: SidenavProps) {
               active: pathname === "/dashboard",
             },
             {
-              href: "/dashboard/bookings",
-              label: "Booking",
+              href: "/dashboard/bookings/daycares",
+              label: "Booking Daycare",
               icon: CalendarCheck,
-              active: pathname.startsWith("/dashboard/bookings"),
+              active: pathname.startsWith("/dashboard/bookings/daycares"),
+            },
+            {
+              href: "/dashboard/bookings/nannies",
+              label: "Booking Nannies",
+              icon: CalendarCheck,
+              active: pathname.startsWith("/dashboard/bookings/nannies"),
             },
           ]),
       {
