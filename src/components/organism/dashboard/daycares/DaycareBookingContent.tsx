@@ -1,6 +1,8 @@
 "use client";
 
 import { bookingDaycareColumns } from "@/components/atoms/datacolumn/DataBookingDaycare";
+import DialogViewPaymentProofDaycare from "@/components/atoms/dialog/DialogPaymentProofDaycareDetail";
+import DialogUploadPaymentProofDaycareType from "@/components/atoms/dialog/DialogUploadPaymentProofDaycare";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { DataTable } from "@/components/molecules/datatable/DataTable";
 import { useGetAllBookingFromDaycares } from "@/http/daycares/bookings/get-all-booking-from-daycare";
@@ -14,6 +16,25 @@ export default function DaycareBookingContent() {
     { enabled: status === "authenticated" }
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogViewPaymentProofOpen, setIsDialogViewPaymentProofOpen] =
+    useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(
+    null
+  );
+  const [selectedPaymentProofId, setSelectedPaymentProofId] = useState<
+    number | null
+  >(null);
+
+  const openUploadDialog = (id: number) => {
+    setSelectedBookingId(id);
+    setIsDialogOpen(true);
+  };
+
+  const openViewPaymentDialog = (id: number) => {
+    setSelectedPaymentProofId(id);
+    setIsDialogViewPaymentProofOpen(true);
+  };
 
   const filteredData =
     data?.data.filter((article) =>
@@ -25,8 +46,28 @@ export default function DaycareBookingContent() {
         <div className="flex w-full">
           <SearchInput onSearch={setSearchQuery} props="Search Booking..." />
         </div>
-        <DataTable columns={bookingDaycareColumns} data={filteredData} />
+        <DataTable
+          columns={bookingDaycareColumns(
+            openUploadDialog,
+            openViewPaymentDialog
+          )}
+          data={filteredData}
+        />
       </div>
+      {selectedBookingId && (
+        <DialogUploadPaymentProofDaycareType
+          open={isDialogOpen}
+          setOpen={setIsDialogOpen}
+          id={selectedBookingId}
+        />
+      )}
+      {selectedPaymentProofId && (
+        <DialogViewPaymentProofDaycare
+          open={isDialogViewPaymentProofOpen}
+          setOpen={setIsDialogViewPaymentProofOpen}
+          id={selectedPaymentProofId}
+        />
+      )}
     </>
   );
 }

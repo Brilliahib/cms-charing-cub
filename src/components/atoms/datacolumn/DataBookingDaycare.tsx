@@ -10,11 +10,14 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Eye, ImagePlus, SquarePen } from "lucide-react";
+import { Eye, Image, ImagePlus, SquarePen } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
 import { Badge } from "@/components/ui/badge";
 
-export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
+export const bookingDaycareColumns = (
+  openUploadDialog: (id: number) => void,
+  openViewPaymentProofDialog: (id: number) => void
+): ColumnDef<BookingDaycare>[] => [
   {
     accessorKey: "index",
     header: "No",
@@ -79,23 +82,29 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
       const data = row.original;
       return (
         <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Not Upload"}
+          {data.is_approved ? "Approved" : "Waiting"}
         </Badge>
       );
     },
   },
   {
     accessorKey: "payment_proof",
-    header: "Status Payment",
+    header: "Payment Proof",
     cell: ({ row }) => {
       const data = row.original;
-      return (
-        <Badge variant={data.is_paid ? "success" : "destructive"}>
-          {data.is_paid ? "Paid" : "Not Paid"}
-        </Badge>
-      );
+
+      if (data.payment_proof) {
+        return (
+          <Image
+            onClick={() => openViewPaymentProofDialog(data.id)}
+            className="h-5 w-5 cursor-pointer"
+          />
+        );
+      }
+      return <Badge variant="destructive">Belum Dibayar</Badge>;
     },
   },
+
   {
     id: "actions",
     cell: ({ row }) => {
@@ -114,14 +123,11 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
               <span className="ml-2">See Detail</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/bookings/daycares/${data.id}`}
-              className="flex items-center text-gray-700"
-            >
+          <DropdownMenuItem onClick={() => openUploadDialog(data.id)}>
+            <div className="flex items-center text-gray-700 cursor-pointer">
               <ImagePlus className="h-4 w-4" />
               <span className="ml-2">Upload Payment</span>
-            </Link>
+            </div>
           </DropdownMenuItem>
         </ActionButton>
       );
