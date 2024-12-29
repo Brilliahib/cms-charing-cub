@@ -26,6 +26,8 @@ export const daycareSchema = z.object({
     .nullable(),
   description: z.string().nullable().optional(),
   location: z.string().min(1, { message: "Lokasi daycare harus diisi" }),
+  longitude: z.string().nullable().optional(),
+  latitude: z.string().nullable().optional(),
   address: z.string().min(1, { message: "Jalan harus diisi" }),
   location_tracking: z
     .string()
@@ -71,6 +73,13 @@ export const daycareSchema = z.object({
     )
     .min(1, { message: "Setidaknya satu gambar fasilitas harus diunggah" }),
   is_disability: z.boolean(),
+  bank_account: z.string().min(1, { message: "Bank akun daycare harus diisi" }),
+  bank_account_number: z
+    .string()
+    .min(1, { message: "Nomor rekening daycare harus diisi" }),
+  bank_account_name: z
+    .string()
+    .min(1, { message: "Atas nama bank daycare harus diisi" }),
 });
 
 export type DaycareType = z.infer<typeof daycareSchema>;

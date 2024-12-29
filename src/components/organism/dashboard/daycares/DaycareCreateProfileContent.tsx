@@ -48,6 +48,41 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { locations } from "@/utils/location";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+type Location = {
+  lat: number;
+  lng: number;
+};
+
+interface LocationPickerProps {
+  onChange: (location: Location) => void;
+}
+
+const icon = L.icon({ iconUrl: "/images/icons/marker-icon.png" });
+
+const LocationPicker: React.FC<LocationPickerProps> = ({ onChange }) => {
+  const [position, setPosition] = useState<[number, number] | null>(null);
+
+  useMapEvents({
+    click(event: L.LeafletMouseEvent) {
+      const { lat, lng } = event.latlng;
+      setPosition([lat, lng]);
+      onChange({ lat, lng });
+    },
+  });
+
+  return position ? <Marker position={position} icon={icon} /> : null;
+};
 
 export default function DaycareCreateProfileContent() {
   const form = useForm<DaycareType>({
@@ -162,7 +197,7 @@ export default function DaycareCreateProfileContent() {
       <Card className="shadow-md">
         <CardContent className="py-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
                 <FormField
                   control={form.control}
@@ -175,6 +210,23 @@ export default function DaycareCreateProfileContent() {
                           type="text"
                           placeholder="Masukkan nama daycare"
                           {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Deskripsi</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Masukkan deskripsi / pengenalan tentang daycare Anda"
+                          {...field}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -223,27 +275,10 @@ export default function DaycareCreateProfileContent() {
                 />
                 <FormField
                   control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Deskripsi</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Masukkan deskripsi"
-                          {...field}
-                          value={field.value ?? ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
                   name="location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Location</FormLabel>
+                      <FormLabel>Lokasi Daycare</FormLabel>
                       <FormControl>
                         <Popover open={open} onOpenChange={setOpen}>
                           <PopoverTrigger asChild>
@@ -330,7 +365,7 @@ export default function DaycareCreateProfileContent() {
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Masukkan lokasi"
+                          placeholder="Contoh: 1 Km dari Universitas Diponegoro"
                           {...field}
                         />
                       </FormControl>
@@ -389,51 +424,7 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="is_disability"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Status Disabilitas</FormLabel>
-                      <FormControl>
-                        <div className="flex flex-col gap-2 mt-2">
-                          <div className="flex items-center gap-2">
-                            <Checkbox
-                              id="accepts-disability"
-                              checked={field.value}
-                              onCheckedChange={(checked) =>
-                                field.onChange(checked === true)
-                              }
-                            />
-                            <Label
-                              htmlFor="accepts-disability"
-                              className="text-sm font-medium"
-                            >
-                              Menerima Disabilitas
-                            </Label>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Checkbox
-                              id="declines-disability"
-                              checked={!field.value}
-                              onCheckedChange={(checked) =>
-                                field.onChange(checked === false)
-                              }
-                            />
-                            <Label
-                              htmlFor="declines-disability"
-                              className="text-sm font-medium"
-                            >
-                              Tidak Menerima Disabilitas
-                            </Label>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                ;
+
                 <FormField
                   control={form.control}
                   name="phone_number"
@@ -452,7 +443,113 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="bank_account"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nama Bank</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Pilih nama bank" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="BRI">BRI</SelectItem>
+                            <SelectItem value="BCA">BCA</SelectItem>
+                            <SelectItem value="Mandiri">Mandiri</SelectItem>
+                            <SelectItem value="BNI">BNI</SelectItem>
+                            <SelectItem value="BTN">BTN</SelectItem>
+                            <SelectItem value="BSI">BSI</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bank_account_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nomor Rekening</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan nomor rekening"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bank_account_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Atas Nama di Bank</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan atas nama di bank"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+              <FormField
+                control={form.control}
+                name="is_disability"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status Disabilitas</FormLabel>
+                    <FormControl>
+                      <div className="flex flex-col gap-2 mt-2">
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="accepts-disability"
+                            checked={field.value}
+                            onCheckedChange={(checked) =>
+                              field.onChange(checked === true)
+                            }
+                          />
+                          <Label
+                            htmlFor="accepts-disability"
+                            className="text-sm font-medium"
+                          >
+                            Menerima Disabilitas
+                          </Label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="declines-disability"
+                            checked={!field.value}
+                            onCheckedChange={(checked) =>
+                              field.onChange(checked === false)
+                            }
+                          />
+                          <Label
+                            htmlFor="declines-disability"
+                            className="text-sm font-medium"
+                          >
+                            Tidak Menerima Disabilitas
+                          </Label>
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="images"
@@ -564,6 +661,68 @@ export default function DaycareCreateProfileContent() {
                   </FormItem>
                 )}
               />
+              <div className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="latitude"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Latitude</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          value={field.value ?? ""}
+                          placeholder="Klik pada peta untuk memilih latitude"
+                          readOnly
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="longitude"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Longitude</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          value={field.value ?? ""}
+                          placeholder="Klik pada peta untuk memilih longitude"
+                          readOnly
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div
+                  style={{
+                    height: "400px",
+                    width: "100%",
+                    marginTop: "16px",
+                  }}
+                >
+                  <MapContainer
+                    center={[-6.2, 106.816666]}
+                    zoom={13}
+                    style={{ height: "100%", width: "100%" }}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <LocationPicker
+                      onChange={({ lat, lng }) => {
+                        form.setValue("latitude", lat.toString());
+                        form.setValue("longitude", lng.toString());
+                      }}
+                    />
+                  </MapContainer>
+                </div>
+              </div>
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
                   {isPending ? "Menambahkan..." : "Tambahkan Daycare"}
