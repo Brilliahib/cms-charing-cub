@@ -102,8 +102,13 @@ export default function CubLocationMapsContent() {
                     <MapPin className="h-4 w-4 flex-shrink-0" />
                     <p className="line-clamp-1 text-sm">{daycare.location}</p>
                   </div>
-                  <Button variant={"outline"} size={"sm"}>
-                    <Link href={`/cub-location/${daycare.id}`}>See Detail</Link>
+                  <Button variant={"ghost"} size={"sm"}>
+                    <Link
+                      href={`/cub-location/${daycare.id}`}
+                      className="text-primary"
+                    >
+                      See Detail
+                    </Link>
                   </Button>
                 </Popup>
               </Marker>
