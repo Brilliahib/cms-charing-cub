@@ -18,6 +18,11 @@ export interface DayCare {
   price_half: number;
   price_full: number;
   is_disability: boolean;
+  bank_account: string;
+  bank_account_name: string;
+  bank_account_number: string;
+  longitude: number;
+  latitude: number;
   facility_images: FacilityImages[];
   nannies: Nannies[];
 }
@@ -55,6 +60,11 @@ export interface DayCareDetail {
   price_half: number;
   price_full: number;
   is_disability: Boolean;
+  bank_account: string;
+  bank_account_name: string;
+  bank_account_number: string;
+  longitude: number;
+  latitude: number;
   facility_images: FacilityImages[];
   nannies: NanniesDaycare[];
   reviews: DaycareReviews[];

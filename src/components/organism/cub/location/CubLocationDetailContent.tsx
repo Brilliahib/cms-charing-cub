@@ -1,6 +1,7 @@
 "use client";
 
 import DialogGiveRateDaycare from "@/components/atoms/dialog/DialogGiveRateDaycare";
+import LocationPicker from "@/components/atoms/location/LocationPicker";
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,22 +13,43 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
 import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
-import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
+import { LatLngExpression } from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import L from "leaflet";
 
 interface DaycareDetailProps {
   id: number;
+}
+
+const defaultIcon = new L.Icon({
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+function ResetMapSize() {
+  const map = useMap();
+  useEffect(() => {
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 0);
+  }, [map]);
+  return null;
 }
 
 export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
@@ -35,6 +57,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const { data, isPending } = useGetDetailDaycare({ id });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const icon = L.icon({ iconUrl: "/images/icons/marker-icon.png" });
 
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
@@ -42,6 +65,14 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
   const { toast } = useToast();
   const router = useRouter();
+
+  const latitude = data?.data.latitude;
+  const longitude = data?.data.longitude;
+
+  const position: [number, number] | null =
+    latitude !== undefined && longitude !== undefined
+      ? [latitude, longitude]
+      : null;
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
@@ -165,13 +196,43 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             </div>
             <div className="md:w-4/12 w-full md:space-y-8 space-y-4">
               <div className="space-y-2">
-                <h1 className="font-bold text-lg">Information</h1>
-                <div className="space-y-2">
-                  <p className="text-muted-foreground">
-                    Lokasi {data?.data.location_tracking}
-                  </p>
-                </div>
-                <div></div>
+                <h1 className="font-bold text-lg">Location</h1>
+                {position ? (
+                  <div
+                    style={{
+                      height: "250px",
+                      width: "100%",
+                      marginTop: "16px",
+                    }}
+                  >
+                    <MapContainer
+                      center={position}
+                      zoom={13}
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        borderRadius: "12px",
+                      }}
+                    >
+                      <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                      <ResetMapSize />
+                      <Marker
+                        key={data?.data.id}
+                        position={[data?.data.latitude!, data?.data.longitude!]}
+                        icon={defaultIcon}
+                      >
+                        <Popup>
+                          <h1 className="font-bold">{data?.data.name}</h1>
+                        </Popup>
+                      </Marker>
+                    </MapContainer>
+                  </div>
+                ) : (
+                  <p>Memuat lokasi...</p>
+                )}
               </div>
               <div>
                 <Card>
@@ -214,6 +275,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
               </div>
             </div>
           </div>
+
           <hr />
           {/* Facilities Daycare */}
           <div>

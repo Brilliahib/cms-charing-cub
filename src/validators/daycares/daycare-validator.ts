@@ -26,8 +26,8 @@ export const daycareSchema = z.object({
     .nullable(),
   description: z.string().nullable().optional(),
   location: z.string().min(1, { message: "Lokasi daycare harus diisi" }),
-  longitude: z.string().nullable().optional(),
-  latitude: z.string().nullable().optional(),
+  longitude: z.number(),
+  latitude: z.number(),
   address: z.string().min(1, { message: "Jalan harus diisi" }),
   location_tracking: z
     .string()

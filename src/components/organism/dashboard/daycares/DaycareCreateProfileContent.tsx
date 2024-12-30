@@ -101,8 +101,8 @@ export default function DaycareCreateProfileContent() {
       price_half: 0,
       price_full: 0,
       is_disability: true,
-      longitude: "",
-      latitude: "",
+      longitude: 0,
+      latitude: 0,
       bank_account: "",
       bank_account_number: "",
       bank_account_name: "",
@@ -130,8 +130,8 @@ export default function DaycareCreateProfileContent() {
           const { latitude, longitude } = position.coords;
           setDefaultPosition([latitude, longitude]);
 
-          form.setValue("latitude", latitude.toString());
-          form.setValue("longitude", longitude.toString());
+          form.setValue("latitude", latitude);
+          form.setValue("longitude", longitude);
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -161,7 +161,7 @@ export default function DaycareCreateProfileContent() {
       queryClient.invalidateQueries({
         queryKey: ["daycare-profile"],
       });
-      router.push("/dashboard/admin/daycares");
+      router.refresh();
     },
   });
 
@@ -205,6 +205,7 @@ export default function DaycareCreateProfileContent() {
   });
 
   const onSubmit = (body: DaycareType) => {
+    console.log(body);
     addDaycareHandler(body);
   };
 
@@ -698,8 +699,12 @@ export default function DaycareCreateProfileContent() {
                       <FormLabel>Latitude</FormLabel>
                       <FormControl>
                         <Input
-                          type="text"
-                          value={field.value ?? ""}
+                          type="number"
+                          {...field}
+                          value={field.value || ""}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
                           placeholder="Klik pada peta untuk memilih latitude"
                           readOnly
                         />
@@ -708,6 +713,7 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="longitude"
@@ -716,8 +722,12 @@ export default function DaycareCreateProfileContent() {
                       <FormLabel>Longitude</FormLabel>
                       <FormControl>
                         <Input
-                          type="text"
-                          value={field.value ?? ""}
+                          type="number"
+                          {...field}
+                          value={field.value || ""}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
                           placeholder="Klik pada peta untuk memilih longitude"
                           readOnly
                         />
@@ -726,6 +736,7 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
+
                 {defaultPosition ? (
                   <div
                     style={{
@@ -745,8 +756,8 @@ export default function DaycareCreateProfileContent() {
                       />
                       <LocationPicker
                         onChange={({ lat, lng }) => {
-                          form.setValue("latitude", lat.toString());
-                          form.setValue("longitude", lng.toString());
+                          form.setValue("latitude", lat);
+                          form.setValue("longitude", lng);
                         }}
                       />
                       {defaultPosition && (
