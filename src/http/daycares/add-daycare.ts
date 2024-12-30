@@ -22,6 +22,9 @@ export const addDaycareHandler = async (
   formData.append("location", body.location);
   formData.append("address", body.address);
   formData.append("location_tracking", body.location_tracking);
+  formData.append("bank_account", body.bank_account);
+  formData.append("bank_account_name", body.bank_account_name);
+  formData.append("bank_account_number", body.bank_account_number);
 
   if (body.price_half) {
     formData.append("price_half", body.price_half.toString());
@@ -53,6 +56,14 @@ export const addDaycareHandler = async (
         formData.append(`facility_images[]`, image);
       }
     });
+  }
+
+  if (body.longitude) {
+    formData.append("longitude", body.longitude.toString());
+  }
+
+  if (body.latitude) {
+    formData.append("latitude", body.latitude.toString());
   }
 
   const { data } = await api.post("/daycares", formData, {

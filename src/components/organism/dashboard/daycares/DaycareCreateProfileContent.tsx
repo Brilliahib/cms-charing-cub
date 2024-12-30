@@ -101,6 +101,11 @@ export default function DaycareCreateProfileContent() {
       price_half: 0,
       price_full: 0,
       is_disability: true,
+      longitude: "",
+      latitude: "",
+      bank_account: "",
+      bank_account_number: "",
+      bank_account_name: "",
     },
     mode: "onChange",
   });
@@ -114,6 +119,29 @@ export default function DaycareCreateProfileContent() {
   );
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
+  const [defaultPosition, setDefaultPosition] = useState<
+    [number, number] | null
+  >(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setDefaultPosition([latitude, longitude]);
+
+          form.setValue("latitude", latitude.toString());
+          form.setValue("longitude", longitude.toString());
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert("Gagal mendapatkan lokasi. Pastikan izin lokasi diberikan.");
+        }
+      );
+    } else {
+      alert("Geolocation tidak didukung oleh browser Anda.");
+    }
+  }, [form]);
 
   const { mutate: addDaycareHandler, isPending } = useAddDaycare({
     onError: (error: AxiosError<any>) => {
@@ -698,30 +726,37 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-                <div
-                  style={{
-                    height: "400px",
-                    width: "100%",
-                    marginTop: "16px",
-                  }}
-                >
-                  <MapContainer
-                    center={[-6.2, 106.816666]}
-                    zoom={13}
-                    style={{ height: "100%", width: "100%" }}
+                {defaultPosition ? (
+                  <div
+                    style={{
+                      height: "400px",
+                      width: "100%",
+                      marginTop: "16px",
+                    }}
                   >
-                    <TileLayer
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <LocationPicker
-                      onChange={({ lat, lng }) => {
-                        form.setValue("latitude", lat.toString());
-                        form.setValue("longitude", lng.toString());
-                      }}
-                    />
-                  </MapContainer>
-                </div>
+                    <MapContainer
+                      center={defaultPosition}
+                      zoom={13}
+                      style={{ height: "100%", width: "100%" }}
+                    >
+                      <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                      <LocationPicker
+                        onChange={({ lat, lng }) => {
+                          form.setValue("latitude", lat.toString());
+                          form.setValue("longitude", lng.toString());
+                        }}
+                      />
+                      {defaultPosition && (
+                        <Marker position={defaultPosition} icon={icon} />
+                      )}
+                    </MapContainer>
+                  </div>
+                ) : (
+                  <p>Memuat lokasi Anda...</p>
+                )}
               </div>
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
