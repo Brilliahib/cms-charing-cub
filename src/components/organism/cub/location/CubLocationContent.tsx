@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { useState } from "react";
 import DialogFilterDaycare from "@/components/atoms/dialog/DialogFilterDaycare";
+import { Button } from "@/components/ui/button";
 
 export default function CubLocationContent() {
   const [query, setQuery] = useState("");
@@ -47,7 +48,17 @@ export default function CubLocationContent() {
               props="Search Daycare"
               className="md:max-w-[250px] w-full"
             />
-            <DialogFilterDaycare onFilterChange={onFilterChange} />
+            <div className="flex gap-4 w-full">
+              <DialogFilterDaycare onFilterChange={onFilterChange} />
+              <Button variant={"outline"}>
+                <Link
+                  href={"/cub-location/maps"}
+                  className="flex items-center gap-2 font-normal"
+                >
+                  <MapPin /> See With Map
+                </Link>
+              </Button>
+            </div>
           </div>
           <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
             {isPending ? (

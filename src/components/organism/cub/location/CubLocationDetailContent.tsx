@@ -203,6 +203,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       height: "250px",
                       width: "100%",
                       marginTop: "16px",
+                      zIndex: 0,
                     }}
                   >
                     <MapContainer
@@ -212,6 +213,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                         height: "100%",
                         width: "100%",
                         borderRadius: "12px",
+                        zIndex: 0,
                       }}
                     >
                       <TileLayer
