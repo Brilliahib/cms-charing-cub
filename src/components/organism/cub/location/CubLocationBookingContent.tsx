@@ -19,7 +19,7 @@ export default function CubLocationBookingContent({
 }: CubLocationBookingParams) {
   return (
     <>
-      <div className="pad-x py-8 space-y-8">
+      <div className="pad-x-xl py-8 space-y-8">
         <div className="flex md:flex-row flex-col gap-4 md:gap-6">
           <CardBookingDaycare id={id} />
           <CardBookingDaycareDetail id={id} />

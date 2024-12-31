@@ -28,7 +28,7 @@ export default function CubAbleContent() {
     : [];
   return (
     <>
-      <div className="pad-x lg:pt-8 md:pt-6 pt-4">
+      <div className="pad-x-xl lg:pt-8 md:pt-6 pt-4">
         <div className="space-y-8">
           <SectionTitle
             title="Cub Able"

@@ -5,7 +5,7 @@ export default function FooterContent() {
   return (
     <>
       <footer className="lg:pt-24 md:pt-18 pt-12">
-        <div className="pad-x">
+        <div className="pad-x-xl">
           <hr className="lg:mb-16 md:mb-12 mb-8" />
           <div className="grid md:grid-cols-4 grid-cols-1 lg:gap-12 md:gap-8 gap-6 lg:mb-16 md:mb-12 mb-8">
             <div className="lg:space-y-10 md:space-y-8 space-y-6">
