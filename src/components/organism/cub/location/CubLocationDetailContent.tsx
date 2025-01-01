@@ -29,6 +29,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import { formatTime } from "@/utils/hours";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface DaycareDetailProps {
   id: number;
@@ -91,9 +92,17 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
     setIsDialogOpen(true);
   };
 
-  const [selectedImage, setSelectedImage] = useState(
-    `${baseUrl}/${data?.data.facility_images[0].image_url}`
-  );
+  const selectedImage = data?.data.facility_images?.[0]?.image_url
+    ? `${baseUrl}/${data.data.facility_images[0].image_url}`
+    : null;
+
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!previewImage && selectedImage) {
+      setPreviewImage(selectedImage);
+    }
+  }, [selectedImage, previewImage]);
 
   return (
     <>
@@ -103,34 +112,45 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <div className="space-y-4 md:space-y-8">
               <div className="space-y-4">
                 {/* Preview Image */}
-                <Image
-                  src={selectedImage}
-                  alt={data?.data.name ?? "Daycare"}
-                  width={1000}
-                  height={1000}
-                  className="w-full object-cover h-[450px] rounded"
-                />
+                {previewImage ? (
+                  <Image
+                    src={previewImage}
+                    alt={data?.data.name ?? "Daycare"}
+                    width={1000}
+                    height={1000}
+                    className="w-full object-cover h-[450px] rounded"
+                  />
+                ) : (
+                  <Skeleton className="w-full h-[450px] rounded" />
+                )}
 
-                {/* Clickable thumbnails */}
+                {/* Clickable Thumbnails */}
                 <div className="flex items-center gap-4 overflow-x-auto no-scrollbar">
-                  {data?.data.facility_images?.map((facilitiesImage) => (
-                    <button
-                      key={facilitiesImage.id}
-                      onClick={() =>
-                        setSelectedImage(
-                          `${baseUrl}/${facilitiesImage.image_url}`
-                        )
-                      }
-                    >
-                      <Image
-                        src={`${baseUrl}/${facilitiesImage.image_url}`}
-                        alt={data?.data.name ?? "Daycare"}
-                        width={1000}
-                        height={1000}
-                        className="w-[280px] object-cover h-[150px] rounded-lg"
-                      />
-                    </button>
-                  ))}
+                  {data?.data.facility_images?.length
+                    ? data.data.facility_images.map((facilitiesImage) => (
+                        <button
+                          key={facilitiesImage.id}
+                          onClick={() =>
+                            setPreviewImage(
+                              `${baseUrl}/${facilitiesImage.image_url}`
+                            )
+                          }
+                        >
+                          <Image
+                            src={`${baseUrl}/${facilitiesImage.image_url}`}
+                            alt={data?.data.name ?? "Daycare"}
+                            width={1000}
+                            height={1000}
+                            className="w-[280px] object-cover h-[150px] rounded-lg"
+                          />
+                        </button>
+                      ))
+                    : Array.from({ length: 4 }).map((_, index) => (
+                        <Skeleton
+                          key={index}
+                          className="w-[280px] h-[150px] rounded-lg"
+                        />
+                      ))}
                 </div>
               </div>
 
