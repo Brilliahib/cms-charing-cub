@@ -108,7 +108,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
     <>
       <div className="space-y-4 md:space-y-6 py-8">
         <div className="pad-x-xl space-y-12 md:space-y-16">
-          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
             <div className="space-y-4 md:space-y-8">
               <div className="space-y-4">
                 {/* Preview Image */}
@@ -118,14 +118,14 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                     alt={data?.data.name ?? "Daycare"}
                     width={1000}
                     height={1000}
-                    className="w-full object-cover h-[450px] rounded"
+                    className="w-full object-cover md:h-[450px] h-[250px] rounded"
                   />
                 ) : (
                   <Skeleton className="w-full h-[450px] rounded" />
                 )}
 
                 {/* Clickable Thumbnails */}
-                <div className="flex items-center gap-4 overflow-x-auto no-scrollbar">
+                <div className="flex gap-4 overflow-x-auto no-scrollbar">
                   {data?.data.facility_images?.length
                     ? data.data.facility_images.map((facilitiesImage) => (
                         <button
@@ -141,7 +141,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                             alt={data?.data.name ?? "Daycare"}
                             width={1000}
                             height={1000}
-                            className="w-[280px] object-cover h-[150px] rounded-lg"
+                            className="md:w-[350px] object-cover md:h-[150px] w-full h-[100px] rounded-lg"
                           />
                         </button>
                       ))
@@ -185,11 +185,11 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <div className="space-y-4 md:space-y-8">
               <Card className="rounded-lg shadow">
                 <CardContent className="p-4 md:p-6 space-y-4 md:space-y-6">
-                  <div className="flex">
+                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Alamat</div>
                     <div className="md:w-8/12">{data?.data.address}</div>
                   </div>
-                  <div className="flex">
+                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Jam Buka</div>
                     <div className="md:w-8/12">
                       {data?.data.opening_days}{" "}
@@ -197,24 +197,24 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       {formatTime(data?.data.closing_hours)}
                     </div>
                   </div>
-                  <div className="flex">
+                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Harga</div>
                     <div className="md:w-8/12">
                       {formatPrice(data?.data.price_half)} - {""}
                       {formatPrice(data?.data.price_full)}
                     </div>
                   </div>
-                  <div className="flex">
+                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Nomor Telepon</div>
                     <div className="md:w-8/12">{data?.data.phone_number}</div>
                   </div>
-                  <div className="flex">
+                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Lokasi</div>
                     <div className="md:w-8/12">
                       {data?.data.location_tracking}
                     </div>
                   </div>
-                  <div className="flex">
+                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Kota</div>
                     <div className="md:w-8/12">{data?.data.location}</div>
                   </div>
@@ -338,7 +338,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
           id={id}
         />
       )}
-      <div className="md:hidden fixed bottom-0 w-full">
+      {/* <div className="md:hidden fixed bottom-0 w-full">
         <div className="py-4 pad-x bg-white shadow-xl">
           <div className="flex gap-4">
             <Button
@@ -354,7 +354,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
