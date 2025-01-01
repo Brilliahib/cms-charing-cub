@@ -20,7 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetAllNannies } from "@/http/cub/care/get-all-nannies";
 import { baseUrl } from "@/utils/app";
 import { formatPrice } from "@/utils/price";
-import { CircleDollarSign, Clock, Settings2 } from "lucide-react";
+import { CircleDollarSign, Clock, Settings2, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -55,7 +55,7 @@ export default function CubCareContent() {
             <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
           </Button>
         </div>
-        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
+        <div className="grid md:grid-cols-3 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card key={index}>
@@ -76,8 +76,8 @@ export default function CubCareContent() {
             data.data.map((nannies) => (
               <Link key={nannies.id} href={`/cub-care/${nannies.id}`}>
                 <Card>
-                  <CardContent className="p-0">
-                    <div className="space-y-4 flex md:flex-col flex-row md:gap-0 gap-4">
+                  <CardContent className="p-4 shadow border rounded-xl space-y-4">
+                    {/* <div className="space-y-4 flex md:flex-col flex-row md:gap-0 gap-4">
                       <Image
                         src={`${baseUrl}/${nannies.images}`}
                         alt={nannies.name}
@@ -108,6 +108,39 @@ export default function CubCareContent() {
                           </div>
                         </div>
                       </div>
+                    </div> */}
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-4">
+                        <Image
+                          src={`${baseUrl}/${nannies.images}`}
+                          alt={nannies.name}
+                          width={1000}
+                          height={1000}
+                          className="w-[100px] h-[100px] bg-primary/30 rounded-full"
+                        />
+                        <div className="text-base space-y-2">
+                          <div className="w-fit flex gap-1 items-center text-sm bg-secondary px-3 py-1 rounded-full font-semibold">
+                            <Star
+                              className="h-4 w-4 text-yellow-500"
+                              fill="currentColor"
+                            />
+                            {nannies.rating}
+                          </div>
+                          <div>
+                            <h1 className="font-semibold">{nannies.name}</h1>
+                            <p className="text-muted-foreground">
+                              Daycare {nannies.daycare_name}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h1 className="font-bold">
+                        {formatPrice(nannies.price_half ?? 0)} -{" "}
+                        {formatPrice(nannies.price_full ?? 0)}
+                      </h1>
+                      <Button className="w-full">Book Appointment</Button>
                     </div>
                   </CardContent>
                 </Card>
