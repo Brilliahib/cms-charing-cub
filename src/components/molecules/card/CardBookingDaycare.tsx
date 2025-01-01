@@ -111,8 +111,8 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                 className="space-y-6"
                 onSubmit={form.handleSubmit(onSubmit)}
               >
-                <h1 className="text-lg font-bold">Enter your details</h1>
-                <div className="grid md:grid-cols-2 gap-6">
+                <h1 className="text-lg font-bold">Enter Your Details</h1>
+                <div className="flex flex-col space-y-4 md:space-y-6">
                   <FormField
                     control={form.control}
                     name="name_babies"

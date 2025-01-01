@@ -16,7 +16,7 @@ export default function CardBookingDaycareDetail({
   const { data, isPending } = useGetDetailDaycare({ id });
   return (
     <>
-      <div className="max-w-sm w-full">
+      <div className="w-full">
         <Card className="border shadow">
           <CardContent className="md:p-6 p-4 space-y-4">
             <div>
@@ -25,15 +25,19 @@ export default function CardBookingDaycareDetail({
             <div className="space-y-4 p-3 border rounded-md">
               <div className="flex items-center justify-between text-sm">
                 <h1 className="text-muted-foreground text-sm">Bank Name</h1>
-                <h1 className="font-semibold">BRI</h1>
+                <h1 className="font-semibold">{data?.data.bank_account}</h1>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <h1 className="text-muted-foreground text-sm">Bank Account</h1>
-                <h1 className="font-semibold">{data?.data.name}</h1>
+                <h1 className="text-muted-foreground text-sm">Name</h1>
+                <h1 className="font-semibold">
+                  {data?.data.bank_account_name}
+                </h1>
               </div>
               <div className="flex items-center justify-between text-sm">
                 <h1 className="text-muted-foreground">Bank Number</h1>
-                <h1 className="font-semibold">34048374530</h1>
+                <h1 className="font-semibold">
+                  {data?.data.bank_account_number}
+                </h1>
               </div>
             </div>
             <div>
