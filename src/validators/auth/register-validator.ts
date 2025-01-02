@@ -5,6 +5,9 @@ export const registerSchema = z
     name: z.string().min(1, { message: "Nama harus diisi." }).trim(),
     email: z.string().min(1, { message: "Email harus diisi." }).trim(),
     password: z.string().min(1, { message: "Password harus diisi." }),
+    role: z.enum(["user", "daycare", "nannies"], {
+      message: "Role tidak valid.",
+    }),
     password_confirmation: z
       .string()
       .min(1, { message: "konfirmasi password harus diisi" }),

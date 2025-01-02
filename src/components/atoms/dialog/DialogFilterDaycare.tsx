@@ -1,87 +1,97 @@
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { useAddGiveRateDaycare } from "@/http/daycares/add-rate-daycare";
-import {
-  giveRateDaycareSchema,
-  GiveRateDaycareType,
-} from "@/validators/daycares/give-rate-daycare-validator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+  Command,
+  CommandInput,
+  CommandList,
+  CommandGroup,
+  CommandItem,
+  CommandEmpty,
+} from "@/components/ui/command";
+import { ChevronsUpDown, Check } from "lucide-react";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { locations } from "@/utils/location";
 
 interface DialogFilterDaycareProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  onFilterChange: (location: string) => void;
 }
 
 export default function DialogFilterDaycare({
-  open,
-  setOpen,
+  onFilterChange,
 }: DialogFilterDaycareProps) {
-  const form = useForm<GiveRateDaycareType>({
-    resolver: zodResolver(giveRateDaycareSchema),
-    defaultValues: {
-      daycare_id: 0,
-      rating: 0,
-      comment: "",
-    },
-    mode: "onChange",
-  });
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [comboBoxOpen, setComboBoxOpen] = useState(false);
+
+  const handleLocationChange = (location: string) => {
+    setSelectedLocation(location);
+    onFilterChange(location);
+    setComboBoxOpen(false);
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Filter Daycare</DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <div className="text-left">
-          <Form {...form}>
-            <form className="space-y-5 pt-4">
-              <FormField
-                control={form.control}
-                name="comment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Lokasi</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Masukkan lokasi yang diinginkan"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex justify-end">
-                <Button type="submit" size={"lg"}>
-                  Cari
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <Popover open={comboBoxOpen} onOpenChange={setComboBoxOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={comboBoxOpen}
+          className="md:w-[200px] w-full justify-between font-normal"
+        >
+          {selectedLocation
+            ? locations.find((location) => location.value === selectedLocation)
+                ?.label || "Tanpa Filter"
+            : "All Locations"}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="md:w-[200px] w-full p-0">
+        <Command>
+          <CommandInput placeholder="Search location..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No city found.</CommandEmpty>
+            <CommandGroup>
+              <CommandItem
+                key="all"
+                value=""
+                onSelect={() => handleLocationChange("")}
+                className="font-normal"
+              >
+                All Locations
+                <Check
+                  className={`ml-auto ${
+                    selectedLocation === "" ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              </CommandItem>
+              {locations.map((location) => (
+                <CommandItem
+                  key={location.value}
+                  value={location.value}
+                  onSelect={(currentValue) => {
+                    const newValue =
+                      currentValue === selectedLocation ? "" : currentValue;
+                    handleLocationChange(newValue);
+                  }}
+                  className="font-normal"
+                >
+                  {location.label}
+                  <Check
+                    className={`ml-auto ${
+                      selectedLocation === location.value
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }

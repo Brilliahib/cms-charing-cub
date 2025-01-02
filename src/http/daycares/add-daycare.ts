@@ -20,10 +20,18 @@ export const addDaycareHandler = async (
   formData.append("opening_hours", body.opening_hours);
   formData.append("closing_hours", body.closing_hours);
   formData.append("location", body.location);
+  formData.append("address", body.address);
   formData.append("location_tracking", body.location_tracking);
+  formData.append("bank_account", body.bank_account);
+  formData.append("bank_account_name", body.bank_account_name);
+  formData.append("bank_account_number", body.bank_account_number);
 
-  if (body.price) {
-    formData.append("price", body.price.toString());
+  if (body.price_half) {
+    formData.append("price_half", body.price_half.toString());
+  }
+
+  if (body.price_full) {
+    formData.append("price_full", body.price_full.toString());
   }
 
   if (body.description) {
@@ -35,7 +43,7 @@ export const addDaycareHandler = async (
   }
 
   if (body.is_disability !== undefined) {
-    formData.append("is_disability", body.is_disability.toString());
+    formData.append("is_disability", body.is_disability ? "1" : "0");
   }
 
   if (body.images) {
@@ -48,6 +56,14 @@ export const addDaycareHandler = async (
         formData.append(`facility_images[]`, image);
       }
     });
+  }
+
+  if (body.longitude) {
+    formData.append("longitude", body.longitude.toString());
+  }
+
+  if (body.latitude) {
+    formData.append("latitude", body.latitude.toString());
   }
 
   const { data } = await api.post("/daycares", formData, {

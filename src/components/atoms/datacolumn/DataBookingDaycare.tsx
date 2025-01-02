@@ -10,11 +10,14 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Eye, SquarePen } from "lucide-react";
+import { Eye, Image, ImagePlus, SquarePen } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
 import { Badge } from "@/components/ui/badge";
 
-export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
+export const bookingDaycareColumns = (
+  openUploadDialog: (id: number) => void,
+  openViewPaymentProofDialog: (id: number) => void
+): ColumnDef<BookingDaycare>[] => [
   {
     accessorKey: "index",
     header: "No",
@@ -23,20 +26,8 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
     },
   },
   {
-    accessorKey: "name",
-    header: "Nama",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.user.name}
-        </p>
-      );
-    },
-  },
-  {
     accessorKey: "name_babies",
-    header: "Nama Bayi",
+    header: "Child Name",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -47,18 +38,29 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
     },
   },
   {
-    accessorKey: "age_babies",
-    header: "Age Babies",
+    accessorKey: "daycare",
+    header: "Daycare",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.age_babies} Tahun
+          {data.daycares?.name}
         </p>
       );
     },
   },
-
+  {
+    accessorKey: "daycare",
+    header: "Daycare Location",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="line-clamp-2">
+          {data.daycares?.address}
+        </p>
+      );
+    },
+  },
   {
     accessorKey: "start_time",
     header: "Start Booking",
@@ -66,39 +68,7 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "end_time",
-    header: "End Booking",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.end_time, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "is_approved",
-    header: "Overtime",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p>
-          {format(data.start_time, "HH:mm", {
-            locale: id,
-          })}{" "}
-          -{" "}
-          {format(data.end_time, "HH:mm", {
+          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
             locale: id,
           })}
         </p>
@@ -122,13 +92,19 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
     header: "Payment Proof",
     cell: ({ row }) => {
       const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.payment_proof ?? "Not yet paid"}
-        </p>
-      );
+
+      if (data.payment_proof) {
+        return (
+          <Image
+            onClick={() => openViewPaymentProofDialog(data.id)}
+            className="h-5 w-5 cursor-pointer"
+          />
+        );
+      }
+      return <Badge variant="destructive">Belum Dibayar</Badge>;
     },
   },
+
   {
     id: "actions",
     cell: ({ row }) => {
@@ -140,21 +116,18 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/admin/article/${data.id}/edit`}
-              className="flex items-center text-gray-700"
-            >
-              <SquarePen className="h-4 w-4" />
-              <span className="ml-2">Edit Artikel</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/admin/article/${data.id}`}
+              href={`/dashboard/bookings/daycares/${data.id}`}
               className="flex items-center text-gray-700"
             >
               <Eye className="h-4 w-4" />
-              <span className="ml-2">Detail Artikel</span>
+              <span className="ml-2">See Detail</span>
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => openUploadDialog(data.id)}>
+            <div className="flex items-center text-gray-700 cursor-pointer">
+              <ImagePlus className="h-4 w-4" />
+              <span className="ml-2">Upload Payment</span>
+            </div>
           </DropdownMenuItem>
         </ActionButton>
       );

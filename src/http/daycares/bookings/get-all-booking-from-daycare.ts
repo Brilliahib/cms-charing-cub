@@ -12,7 +12,7 @@ export const getAllBookingFromDaycaresHandler = async (
   token: string
 ): Promise<GetAllBookingFromDaycaresResponse> => {
   const { data } = await api.get<GetAllBookingFromDaycaresResponse>(
-    "/daycares/booking/list",
+    "/users/daycares/booking/list",
     {
       headers: {
         Authorization: `Bearer ${token}`,

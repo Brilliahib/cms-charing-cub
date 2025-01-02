@@ -28,7 +28,7 @@ export default function CubAbleContent() {
     : [];
   return (
     <>
-      <div className="pad-x lg:pt-8 md:pt-6 pt-4">
+      <div className="pad-x-xl lg:pt-8 md:pt-6 pt-4">
         <div className="space-y-8">
           <SectionTitle
             title="Cub Able"
@@ -40,9 +40,16 @@ export default function CubAbleContent() {
               props="Search Daycare"
               className="md:max-w-[250px] w-full"
             />
-            <Button variant={"outline"}>
-              <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
-            </Button>
+            <div className="flex gap-4 w-full">
+              <Button variant={"outline"}>
+                <Link
+                  href={"/cub-location/maps"}
+                  className="flex items-center gap-2 font-normal"
+                >
+                  <MapPin /> See With Map
+                </Link>
+              </Button>
+            </div>
           </div>
           <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
             {isPending ? (
@@ -83,17 +90,17 @@ export default function CubAbleContent() {
                         />
                         <div className="md:space-y-2">
                           <h1 className="font-bold">{daycare.name}</h1>
-                          <div className="flex gap-2 items-center text-muted-foreground">
-                            <MapPin className="h-8 w-8" />
-                            <p className="line-clamp-1 text-sm">
-                              {daycare.location}
-                            </p>
-                          </div>
                           <div className="flex items-center space-x-2">
                             <RatingStars rating={daycare.rating || 0} />{" "}
                             <span className="text-sm text-muted-foreground">
                               ({daycare.reviewers_count})
                             </span>
+                          </div>
+                          <div className="flex gap-2 items-center text-muted-foreground">
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <p className="line-clamp-1 text-sm">
+                              {daycare.location}
+                            </p>
                           </div>
                         </div>
                       </div>

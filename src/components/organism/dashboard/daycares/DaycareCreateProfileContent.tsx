@@ -13,13 +13,19 @@ import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { CloudDownload, Trash2, UploadIcon } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  CloudDownload,
+  Trash2,
+  UploadIcon,
+} from "lucide-react";
 import {
   daycareSchema,
   DaycareType,
@@ -28,6 +34,55 @@ import { useAddDaycare } from "@/http/daycares/add-daycare";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { locations } from "@/utils/location";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+type Location = {
+  lat: number;
+  lng: number;
+};
+
+interface LocationPickerProps {
+  onChange: (location: Location) => void;
+}
+
+const icon = L.icon({ iconUrl: "/images/icons/marker-icon.png" });
+
+const LocationPicker: React.FC<LocationPickerProps> = ({ onChange }) => {
+  const [position, setPosition] = useState<[number, number] | null>(null);
+
+  useMapEvents({
+    click(event: L.LeafletMouseEvent) {
+      const { lat, lng } = event.latlng;
+      setPosition([lat, lng]);
+      onChange({ lat, lng });
+    },
+  });
+
+  return position ? <Marker position={position} icon={icon} /> : null;
+};
 
 export default function DaycareCreateProfileContent() {
   const form = useForm<DaycareType>({
@@ -43,8 +98,14 @@ export default function DaycareCreateProfileContent() {
       facility_images: [],
       location: "",
       location_tracking: "",
-      price: 0,
-      is_disability: 1,
+      price_half: 0,
+      price_full: 0,
+      is_disability: true,
+      longitude: 0,
+      latitude: 0,
+      bank_account: "",
+      bank_account_number: "",
+      bank_account_name: "",
     },
     mode: "onChange",
   });
@@ -56,6 +117,31 @@ export default function DaycareCreateProfileContent() {
   const [facilityImagesPreview, setFacilityImagesPreview] = useState<string[]>(
     []
   );
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [defaultPosition, setDefaultPosition] = useState<
+    [number, number] | null
+  >(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setDefaultPosition([latitude, longitude]);
+
+          form.setValue("latitude", latitude);
+          form.setValue("longitude", longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert("Gagal mendapatkan lokasi. Pastikan izin lokasi diberikan.");
+        }
+      );
+    } else {
+      alert("Geolocation tidak didukung oleh browser Anda.");
+    }
+  }, [form]);
 
   const { mutate: addDaycareHandler, isPending } = useAddDaycare({
     onError: (error: AxiosError<any>) => {
@@ -67,13 +153,15 @@ export default function DaycareCreateProfileContent() {
     },
     onSuccess: () => {
       toast({
-        title: "Berhasil menambahkan daycare!",
+        title: "Berhasil menambahkan profile daycare!",
+        description:
+          "Daycare anda otomatis akan dapat dilihat oleh orang lain.",
         variant: "success",
       });
       queryClient.invalidateQueries({
-        queryKey: ["daycare-list"],
+        queryKey: ["daycare-profile"],
       });
-      router.push("/dashboard/admin/daycares");
+      router.refresh();
     },
   });
 
@@ -117,11 +205,8 @@ export default function DaycareCreateProfileContent() {
   });
 
   const onSubmit = (body: DaycareType) => {
-    const payload = {
-      ...body,
-      is_disability: body.is_disability ? 1 : 0,
-    };
-    addDaycareHandler(payload);
+    console.log(body);
+    addDaycareHandler(body);
   };
 
   const removeImage = () => {
@@ -141,7 +226,7 @@ export default function DaycareCreateProfileContent() {
       <Card className="shadow-md">
         <CardContent className="py-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
                 <FormField
                   control={form.control}
@@ -160,17 +245,33 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
-                  name="price"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Harga</FormLabel>
+                      <FormLabel>Deskripsi</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Masukkan deskripsi / pengenalan tentang daycare Anda"
+                          {...field}
+                          value={field.value ?? ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="price_half"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Harga Setengah Hari</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="Masukkan harga daycare"
+                          placeholder="Masukkan harga setengah hari"
                           {...field}
                           onChange={(e) =>
                             field.onChange(parseInt(e.target.value))
@@ -183,76 +284,99 @@ export default function DaycareCreateProfileContent() {
                 />
                 <FormField
                   control={form.control}
-                  name="is_disability"
+                  name="price_full"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Status Disabilitas</FormLabel>
+                      <FormLabel>Harga Sehari Penuh</FormLabel>
                       <FormControl>
-                        <div className="flex flex-col gap-2 mt-2">
-                          <div className="flex items-center gap-2">
-                            <Checkbox
-                              id="accepts-disability"
-                              checked={field.value === 1}
-                              onCheckedChange={(checked) =>
-                                field.onChange(checked === true)
-                              }
-                            />
-                            <Label
-                              htmlFor="accepts-disability"
-                              className="text-sm font-medium"
-                            >
-                              Menerima Disabilitas
-                            </Label>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Checkbox
-                              id="declines-disability"
-                              checked={field.value === 0}
-                              onCheckedChange={(checked) =>
-                                field.onChange(checked === false)
-                              }
-                            />
-                            <Label
-                              htmlFor="declines-disability"
-                              className="text-sm font-medium"
-                            >
-                              Tidak Menerima Disabilitas
-                            </Label>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Deskripsi</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Masukkan deskripsi"
+                        <Input
+                          type="number"
+                          placeholder="Masukkan harga sehari penuh"
                           {...field}
-                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Location</FormLabel>
+                      <FormLabel>Lokasi Daycare</FormLabel>
+                      <FormControl>
+                        <Popover open={open} onOpenChange={setOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              aria-expanded={open}
+                              className="w-full justify-between font-normal"
+                            >
+                              {field.value
+                                ? locations.find(
+                                    (location) => location.value === field.value
+                                  )?.label
+                                : "Select Location..."}
+                              <ChevronsUpDown className="opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-full p-0">
+                            <Command>
+                              <CommandInput
+                                placeholder="Search location..."
+                                className="h-9"
+                              />
+                              <CommandList>
+                                <CommandEmpty>No city found.</CommandEmpty>
+                                <CommandGroup>
+                                  {locations.map((location) => (
+                                    <CommandItem
+                                      key={location.value}
+                                      value={location.value}
+                                      onSelect={(currentValue) => {
+                                        field.onChange(
+                                          currentValue === field.value
+                                            ? ""
+                                            : currentValue
+                                        );
+                                        setOpen(false);
+                                      }}
+                                      className="font-normal"
+                                    >
+                                      {location.label}
+                                      <Check
+                                        className={`ml-auto ${
+                                          field.value === location.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        }`}
+                                      />
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jalan</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Masukkan lokasi daycare"
+                          placeholder="Masukkan jalan di lokasi daycare"
                           {...field}
                           value={field.value ?? ""}
                         />
@@ -261,7 +385,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="location_tracking"
@@ -271,7 +394,7 @@ export default function DaycareCreateProfileContent() {
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Masukkan lokasi"
+                          placeholder="Contoh: 1 Km dari Universitas Diponegoro"
                           {...field}
                         />
                       </FormControl>
@@ -279,7 +402,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="opening_days"
@@ -297,7 +419,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="opening_hours"
@@ -315,7 +436,6 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="closing_hours"
@@ -352,7 +472,113 @@ export default function DaycareCreateProfileContent() {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="bank_account"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nama Bank</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Pilih nama bank" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="BRI">BRI</SelectItem>
+                            <SelectItem value="BCA">BCA</SelectItem>
+                            <SelectItem value="Mandiri">Mandiri</SelectItem>
+                            <SelectItem value="BNI">BNI</SelectItem>
+                            <SelectItem value="BTN">BTN</SelectItem>
+                            <SelectItem value="BSI">BSI</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bank_account_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nomor Rekening</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan nomor rekening"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bank_account_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Atas Nama di Bank</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Masukkan atas nama di bank"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+              <FormField
+                control={form.control}
+                name="is_disability"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status Disabilitas</FormLabel>
+                    <FormControl>
+                      <div className="flex flex-col gap-2 mt-2">
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="accepts-disability"
+                            checked={field.value}
+                            onCheckedChange={(checked) =>
+                              field.onChange(checked === true)
+                            }
+                          />
+                          <Label
+                            htmlFor="accepts-disability"
+                            className="text-sm font-medium"
+                          >
+                            Menerima Disabilitas
+                          </Label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="declines-disability"
+                            checked={!field.value}
+                            onCheckedChange={(checked) =>
+                              field.onChange(checked === false)
+                            }
+                          />
+                          <Label
+                            htmlFor="declines-disability"
+                            className="text-sm font-medium"
+                          >
+                            Tidak Menerima Disabilitas
+                          </Label>
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="images"
@@ -464,6 +690,85 @@ export default function DaycareCreateProfileContent() {
                   </FormItem>
                 )}
               />
+              <div className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="latitude"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Latitude</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          value={field.value || ""}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
+                          placeholder="Klik pada peta untuk memilih latitude"
+                          readOnly
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="longitude"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Longitude</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          value={field.value || ""}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
+                          placeholder="Klik pada peta untuk memilih longitude"
+                          readOnly
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {defaultPosition ? (
+                  <div
+                    style={{
+                      height: "400px",
+                      width: "100%",
+                      marginTop: "16px",
+                    }}
+                  >
+                    <MapContainer
+                      center={defaultPosition}
+                      zoom={13}
+                      style={{ height: "100%", width: "100%" }}
+                    >
+                      <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                      <LocationPicker
+                        onChange={({ lat, lng }) => {
+                          form.setValue("latitude", lat);
+                          form.setValue("longitude", lng);
+                        }}
+                      />
+                      {defaultPosition && (
+                        <Marker position={defaultPosition} icon={icon} />
+                      )}
+                    </MapContainer>
+                  </div>
+                ) : (
+                  <p>Memuat lokasi Anda...</p>
+                )}
+              </div>
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
                   {isPending ? "Menambahkan..." : "Tambahkan Daycare"}
