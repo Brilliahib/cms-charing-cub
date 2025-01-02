@@ -1,19 +1,28 @@
 "use client";
 
 import RatingStars from "@/components/atoms/rating/RatingStar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
 import { useToast } from "@/hooks/use-toast";
 import { useGetDetailNannies } from "@/http/nannies/get-detail-nannies";
 import { baseUrl } from "@/utils/app";
+import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import { format } from "date-fns";
+import Autoplay from "embla-carousel-autoplay";
 import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 interface CubNestDetailProps {
   id: number;
@@ -29,6 +38,9 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
 
   const { toast } = useToast();
   const router = useRouter();
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: false })
+  );
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
@@ -43,134 +55,161 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
   };
 
   return (
-    <div className="pad-x-xl py-8">
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6 shadow border rounded-xl">
-            <div className="flex md:flex-row flex-col gap-4 md:gap-8">
-              <div>
-                {isPending ? (
-                  <Skeleton className="h-[200px] w-[200px] rounded-full" />
-                ) : (
+    <div className="pad-x-xl py-8 space-y-8">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:gap-8">
+        <div>
+          <Card>
+            <div className="relative">
+              {/* Background Image */}
+              <CardHeader className="p-0 rounded-t-xl">
+                <Image
+                  src="/images/background.png"
+                  alt="Background Nannies"
+                  width={1000}
+                  height={1000}
+                  className="rounded-t-xl max-h-[100px] object-cover"
+                />
+              </CardHeader>
+
+              {/* Profile Image */}
+              <div className="absolute top-12 pl-6">
+                <Image
+                  src={`${baseUrl}/${data?.data.images}`}
+                  alt={data?.data.name ?? "Nannies"}
+                  width={100}
+                  height={100}
+                  className="rounded-full bg-primary"
+                />
+              </div>
+            </div>
+
+            {/* Content */}
+            <CardContent className="p-6 shadow border rounded-b-xl pt-14">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <h1 className="font-bold text-lg">{data?.data.name}</h1>
+                  <p>{data?.data.experience_description}</p>
+                </div>
+                <div className="flex gap-4 items-center">
                   <Image
-                    src={`${baseUrl}/${data?.data.images}`}
-                    alt={data?.data.name ?? "Daycare Facility"}
+                    src={`${baseUrl}/${data?.data.daycare_profile}`}
+                    alt={data?.data.daycare_name ?? "Daycare"}
                     width={1000}
                     height={1000}
-                    className="object-cover md:h-[200px] md:w-[200px] w-[150px] h-[150px] rounded-md bg-primary/30"
+                    className="rounded-full max-w-[50px] max-h-[50px]"
                   />
-                )}
-              </div>
-              <div className="space-y-4">
-                <h1 className="md:text-2xl text-xl font-semibold">
-                  {isPending ? (
-                    <Skeleton className="h-6 w-40" />
-                  ) : (
-                    data?.data.name
-                  )}
-                </h1>
-                <div className="flex items-center space-x-2">
-                  {isPending ? (
-                    <Skeleton className="h-4 w-24" />
-                  ) : (
-                    <>
-                      <RatingStars rating={data?.data.rating || 0} />
+                  <div className="space-y-1">
+                    <h1>{data?.data.daycare_name}</h1>
+                    <div className="flex items-center space-x-2">
+                      <RatingStars rating={data?.data.rating || 0} />{" "}
                       <span className="text-sm text-muted-foreground">
                         ({data?.data.rating_count})
                       </span>
-                    </>
-                  )}
-                </div>
-                <div className="md:text-base text-sm md:space-y-2 space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    {isPending ? (
-                      <Skeleton className="h-4 w-32" />
-                    ) : (
-                      <p className="text-muted-foreground">
-                        Joined since {createdYear}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    {isPending ? (
-                      <Skeleton className="h-4 w-32" />
-                    ) : (
-                      <p className="text-muted-foreground">
-                        {data?.data.contact}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 md:flex hidden" />
-                    {isPending ? (
-                      <Skeleton className="h-4 w-32" />
-                    ) : (
-                      <p className="text-muted-foreground">
-                        {data?.data.daycare_location}
-                      </p>
-                    )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="flex md:flex-row flex-col gap-4 md:gap-6">
-              <div className="w-full">
-                <Card>
-                  <CardContent className="p-0">
-                    <div className="space-y-2">
-                      <h1 className="font-bold">About Experience</h1>
-                      {isPending ? (
-                        <Skeleton className="h-4 w-full" />
-                      ) : (
-                        <p className="text-muted-foreground">
-                          {data?.data.experience_description}
-                        </p>
-                      )}
-                    </div>
-                    <div className="space-y-4">
-                      <h1 className="font-bold mb-4">Our Daycare</h1>
-                      <Link
-                        href={`/cub-location/${data?.data.daycare_id}`}
-                        className="hover:underline hover:text-primary"
-                      >
-                        <div className="flex gap-4 items-center">
-                          {isPending ? (
-                            <Skeleton className="h-[60px] w-[60px] rounded-full" />
-                          ) : (
-                            <Image
-                              src={`${baseUrl}/${data?.data.daycare_profile}`}
-                              alt={data?.data.daycare_name ?? "Daycare"}
-                              width={1000}
-                              height={1000}
-                              className="object-cover h-[60px] w-[60px] rounded-full"
-                            />
-                          )}
-                          <div className="space-y-2">
-                            <h1 className="font-semibold">
-                              {isPending ? (
-                                <Skeleton className="h-4 w-32" />
-                              ) : (
-                                data?.data.daycare_name
-                              )}
-                            </h1>
-                            {isPending ? (
-                              <Skeleton className="h-4 w-24" />
-                            ) : (
-                              <RatingStars rating={data?.data.rating || 0} />
-                            )}
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+            </CardContent>
+          </Card>
+        </div>
+        <div>
+          <Card>
+            <CardContent className="p-6 shadow border rounded-xl">
+              <div className="space-y-4">
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12">Daycare</div>
+                  <div className="md:w-8/12">{data?.data.daycare_name}</div>
+                </div>
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12">Harga</div>
+                  <div className="md:w-8/12">
+                    {formatPrice(data?.data.price_half)} - {""}
+                    {formatPrice(data?.data.price_full)}
+                  </div>
+                </div>
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12">Nomor Telepon</div>
+                  <div className="md:w-8/12">{data?.data.contact}</div>
+                </div>
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12">Lokasi</div>
+                  <div className="md:w-8/12">{data?.data.daycare_location}</div>
+                </div>
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12">Pria / Wanita</div>
+                  <div className="md:w-8/12">{data?.data.gender}</div>
+                </div>
+                <div className="space-y-4">
+                  <Button
+                    className="w-full"
+                    size={"lg"}
+                    onClick={handleBookingClick}
+                  >
+                    Book Now
+                  </Button>
+                  <Button
+                    variant={"outline"}
+                    size={"lg"}
+                    className="w-full border bg-secondary hover:bg-secondary/80"
+                  >
+                    Contact Center
+                  </Button>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
+      <Card>
+        <CardContent className="p-0">
+          <div className="space-y-4 md:space-y-6">
+            <div className="space-y-2 text-left">
+              <h1 className="font-bold text-xl">Reviewers Daycare</h1>
+            </div>
+            <div>
+              <Carousel plugins={[plugin.current]}>
+                <CarouselContent>
+                  {data?.data.reviews?.map((review) => (
+                    <CarouselItem
+                      className="pl-1 md:basis-1/2 lg:basis-1/3"
+                      key={review.id}
+                    >
+                      <div className="py-2 px-2 h-full">
+                        <Card
+                          className="bg-secondary border-0 h-full"
+                          key={review.id}
+                        >
+                          <CardContent className="p-4 flex flex-col justify-between h-full">
+                            <div className="space-y-4">
+                              <div className="flex items-center space-x-2">
+                                <RatingStars rating={review.rating || 0} />
+                              </div>
+                              <div className="flex-grow">
+                                <p>{review.comment}</p>
+                              </div>
+                            </div>
+                            {/* profile reviewers */}
+                            <div className="flex gap-2 items-center mt-4">
+                              <Avatar className="border border-muted">
+                                <AvatarFallback className="text-gray-700 bg-white">
+                                  {generateFallbackFromName(review.name)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <p className="font-semibold text-sm">
+                                {review.name}
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -19,7 +19,6 @@ import { baseUrl } from "@/utils/app";
 import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
-import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
