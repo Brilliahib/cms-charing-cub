@@ -40,9 +40,16 @@ export default function CubAbleContent() {
               props="Search Daycare"
               className="md:max-w-[250px] w-full"
             />
-            <Button variant={"outline"}>
-              <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
-            </Button>
+            <div className="flex gap-4 w-full">
+              <Button variant={"outline"}>
+                <Link
+                  href={"/cub-location/maps"}
+                  className="flex items-center gap-2 font-normal"
+                >
+                  <MapPin /> See With Map
+                </Link>
+              </Button>
+            </div>
           </div>
           <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
             {isPending ? (

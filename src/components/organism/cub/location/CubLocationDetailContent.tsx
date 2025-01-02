@@ -21,7 +21,7 @@ import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -185,6 +185,14 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <div className="space-y-4 md:space-y-8">
               <Card className="rounded-lg shadow">
                 <CardContent className="p-4 md:p-6 space-y-4 md:space-y-6">
+                  <div>
+                    {data?.data.is_disability && (
+                      <span className="flex gap-2 items-center text-green-600 font-semibold">
+                        <BadgeCheck />
+                        Menerima Disabilitas
+                      </span>
+                    )}
+                  </div>
                   <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Alamat</div>
                     <div className="md:w-8/12">{data?.data.address}</div>

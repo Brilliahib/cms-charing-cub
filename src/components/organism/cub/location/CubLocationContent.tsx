@@ -60,7 +60,7 @@ export default function CubLocationContent() {
               </Button>
             </div>
           </div>
-          <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-10">
+          <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-6">
             {isPending ? (
               Array.from({ length: 4 }).map((_, index) => (
                 <Card className="border-0 shadow-none" key={index}>
