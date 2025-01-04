@@ -5,7 +5,7 @@ import { api } from "@/lib/axios";
 import { Nannies } from "@/types/cub/cub";
 
 interface GetDetailNanniesParams {
-  id: number;
+  id: string;
 }
 
 interface GetDetailNanniesResponse {

@@ -43,7 +43,7 @@ interface CubCareBookingParams {
 export default function CubCareBookingContent() {
   const { id } = useParams();
 
-  const { data } = useGetDetailNannies({ id: Number(id) });
+  const { data } = useGetDetailNannies({ id: String(id) });
 
   const queryClient = useQueryClient();
   const { toast } = useToast();

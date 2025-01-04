@@ -1,7 +1,7 @@
 import CubCareDetailContent from "@/components/organism/cub/care/CubCareDetailContent";
 
 interface CubCareDetailProps {
-  params: { id: number };
+  params: { id: string };
 }
 
 export default function CubCareDetailPage({ params }: CubCareDetailProps) {

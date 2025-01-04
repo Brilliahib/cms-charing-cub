@@ -9,7 +9,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useGetDetailNannies } from "@/http/nannies/get-detail-nannies";
 import { baseUrl } from "@/utils/app";
@@ -17,15 +17,13 @@ import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import { format } from "date-fns";
 import Autoplay from "embla-carousel-autoplay";
-import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface CubNestDetailProps {
-  id: number;
+  id: string;
 }
 
 export default function CubCareDetailContent({ id }: CubNestDetailProps) {

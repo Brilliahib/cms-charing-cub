@@ -31,7 +31,7 @@ import { formatTime } from "@/utils/hours";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface DaycareDetailProps {
-  id: number;
+  id: string;
 }
 
 const defaultIcon = new L.Icon({
@@ -184,14 +184,12 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <div className="space-y-4 md:space-y-8">
               <Card className="rounded-lg shadow">
                 <CardContent className="p-4 md:p-6 space-y-4 md:space-y-6">
-                  <div>
-                    {data?.data.is_disability && (
-                      <span className="flex gap-2 items-center text-green-600 font-semibold">
-                        <BadgeCheck />
-                        Menerima Disabilitas
-                      </span>
-                    )}
-                  </div>
+                  {data?.data.is_disability ? (
+                    <span className="flex gap-2 items-center text-green-600 font-semibold">
+                      <BadgeCheck />
+                      Menerima Disabilitas
+                    </span>
+                  ) : null}
                   <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Alamat</div>
                     <div className="md:w-8/12">{data?.data.address}</div>

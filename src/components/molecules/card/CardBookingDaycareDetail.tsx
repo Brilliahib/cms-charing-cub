@@ -7,7 +7,7 @@ import { Clock, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 
 interface CardBookingDaycareDetailProps {
-  id: number;
+  id: string;
 }
 
 export default function CardBookingDaycareDetail({

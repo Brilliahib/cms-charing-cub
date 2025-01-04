@@ -1,12 +1,7 @@
 import { z } from "zod";
 
 export const giveRateDaycareSchema = z.object({
-  daycare_id: z
-    .string()
-    .refine((val) => !isNaN(Number(val)), {
-      message: "Daycare ID harus berupa angka yang valid",
-    })
-    .transform((val) => Number(val)),
+  daycare_id: z.string(),
   rating: z
     .number({
       invalid_type_error: "Rating harus berupa angka",
