@@ -94,7 +94,7 @@ export default function FooterContent() {
           <div className="py-4 md:py-6 lg:py-8 text-center space-y-6">
             <hr />
             <p className="text-sm text-muted-foreground">
-              © 2024 Charing Cub | One Step to Embrace Love
+              © 2025 Charing Cub | One Step to Embrace Love
             </p>
           </div>
         </div>
