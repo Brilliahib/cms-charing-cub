@@ -13,19 +13,13 @@ import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import {
-  Check,
-  ChevronsUpDown,
-  CloudDownload,
-  Trash2,
-  UploadIcon,
-} from "lucide-react";
+import { Check, ChevronsUpDown, CloudDownload, Trash2 } from "lucide-react";
 import {
   daycareSchema,
   DaycareType,
@@ -55,36 +49,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
-type Location = {
-  lat: number;
-  lng: number;
+const containerStyle = {
+  width: "100%",
+  height: "400px",
 };
 
-interface LocationPickerProps {
-  onChange: (location: Location) => void;
-}
+const defaultCenter = { lat: -6.2, lng: 106.816666 };
 
-const icon = L.icon({ iconUrl: "/images/icons/marker-icon.png" });
-
-const LocationPicker: React.FC<LocationPickerProps> = ({ onChange }) => {
-  const [position, setPosition] = useState<[number, number] | null>(null);
-
-  useMapEvents({
-    click(event: L.LeafletMouseEvent) {
-      const { lat, lng } = event.latlng;
-      setPosition([lat, lng]);
-      onChange({ lat, lng });
-    },
-  });
-
-  return position ? <Marker position={position} icon={icon} /> : null;
-};
+const libraries: ("places" | "drawing" | "geometry")[] = ["places"];
 
 export default function DaycareCreateProfileContent() {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    libraries,
+  });
   const form = useForm<DaycareType>({
     resolver: zodResolver(daycareSchema),
     defaultValues: {
@@ -118,28 +99,24 @@ export default function DaycareCreateProfileContent() {
     []
   );
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<string>("");
-  const [defaultPosition, setDefaultPosition] = useState<
-    [number, number] | null
-  >(null);
+  const [markerPosition, setMarkerPosition] = useState(defaultCenter);
 
+  // Ambil lokasi pengguna
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setDefaultPosition([latitude, longitude]);
-
+          const newPosition = { lat: latitude, lng: longitude };
+          setMarkerPosition(newPosition);
           form.setValue("latitude", latitude);
           form.setValue("longitude", longitude);
         },
         (error) => {
-          console.error("Error getting location:", error);
+          console.error("Gagal mendapatkan lokasi:", error);
           alert("Gagal mendapatkan lokasi. Pastikan izin lokasi diberikan.");
         }
       );
-    } else {
-      alert("Geolocation tidak didukung oleh browser Anda.");
     }
   }, [form]);
 
@@ -691,6 +668,7 @@ export default function DaycareCreateProfileContent() {
                 )}
               />
               <div className="space-y-8">
+                {/* Input untuk Latitude */}
                 <FormField
                   control={form.control}
                   name="latitude"
@@ -702,10 +680,7 @@ export default function DaycareCreateProfileContent() {
                           type="number"
                           {...field}
                           value={field.value || ""}
-                          onChange={(e) =>
-                            field.onChange(parseFloat(e.target.value))
-                          }
-                          placeholder="Klik pada peta untuk memilih latitude"
+                          placeholder="Latitude marker"
                           readOnly
                         />
                       </FormControl>
@@ -714,6 +689,7 @@ export default function DaycareCreateProfileContent() {
                   )}
                 />
 
+                {/* Input untuk Longitude */}
                 <FormField
                   control={form.control}
                   name="longitude"
@@ -725,10 +701,7 @@ export default function DaycareCreateProfileContent() {
                           type="number"
                           {...field}
                           value={field.value || ""}
-                          onChange={(e) =>
-                            field.onChange(parseFloat(e.target.value))
-                          }
-                          placeholder="Klik pada peta untuk memilih longitude"
+                          placeholder="Longitude marker"
                           readOnly
                         />
                       </FormControl>
@@ -737,36 +710,37 @@ export default function DaycareCreateProfileContent() {
                   )}
                 />
 
-                {defaultPosition ? (
-                  <div
-                    style={{
-                      height: "400px",
-                      width: "100%",
-                      marginTop: "16px",
-                    }}
-                  >
-                    <MapContainer
-                      center={defaultPosition}
+                {isLoaded ? (
+                  <div style={containerStyle}>
+                    <GoogleMap
+                      mapContainerStyle={containerStyle}
+                      center={markerPosition}
                       zoom={13}
-                      style={{ height: "100%", width: "100%" }}
+                      onClick={(e) => {
+                        if (e.latLng) {
+                          const lat = e.latLng.lat();
+                          const lng = e.latLng.lng();
+                          setMarkerPosition({ lat, lng });
+                          form.setValue("latitude", lat);
+                          form.setValue("longitude", lng);
+                        }
+                      }}
                     >
-                      <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      />
-                      <LocationPicker
-                        onChange={({ lat, lng }) => {
+                      <Marker
+                        position={markerPosition}
+                        draggable
+                        onDragEnd={(e) => {
+                          const lat = e.latLng?.lat() || markerPosition.lat;
+                          const lng = e.latLng?.lng() || markerPosition.lng;
+                          setMarkerPosition({ lat, lng });
                           form.setValue("latitude", lat);
                           form.setValue("longitude", lng);
                         }}
                       />
-                      {defaultPosition && (
-                        <Marker position={defaultPosition} icon={icon} />
-                      )}
-                    </MapContainer>
+                    </GoogleMap>
                   </div>
                 ) : (
-                  <p>Memuat lokasi Anda...</p>
+                  <p>Memuat peta...</p>
                 )}
               </div>
               <div className="flex justify-end py-4">
