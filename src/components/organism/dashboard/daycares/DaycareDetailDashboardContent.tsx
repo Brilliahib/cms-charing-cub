@@ -21,7 +21,7 @@ import { CircleDollarSign, Phone } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DaycareDetailProps {
-  id: number;
+  id: string;
 }
 
 export default function DaycareDetailDashboardContent({
