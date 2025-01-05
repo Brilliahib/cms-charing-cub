@@ -1,7 +1,6 @@
 "use client";
 
 import DialogGiveRateDaycare from "@/components/atoms/dialog/DialogGiveRateDaycare";
-import LocationPicker from "@/components/atoms/location/LocationPicker";
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -10,8 +9,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useToast } from "@/hooks/use-toast";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
@@ -20,12 +17,11 @@ import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
 import "leaflet/dist/leaflet.css";
-import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import L from "leaflet";
 import { formatTime } from "@/utils/hours";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
