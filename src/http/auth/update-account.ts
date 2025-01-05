@@ -15,8 +15,13 @@ export const addUpdateAccountHandler = async (
 ): Promise<UpdateAccountResponse> => {
   const formData = new FormData();
 
-  formData.append("name", body.name);
-  formData.append("email", body.email);
+  if (body.name) {
+    formData.append("name", body.name);
+  }
+
+  if (body.email) {
+    formData.append("email", body.email);
+  }
 
   if (body.profile) {
     formData.append("profile", body.profile);

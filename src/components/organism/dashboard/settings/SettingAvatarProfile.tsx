@@ -1,6 +1,11 @@
+"use client";
+
+import DialogUpdatePhotoProfile from "@/components/atoms/dialog/DialogUpdatePhotoProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
 import { Session } from "next-auth";
+import { useState } from "react";
 
 interface SettingAvatarContentProps {
   session: Session;
@@ -9,6 +14,11 @@ interface SettingAvatarContentProps {
 export default function SettingAvatarContent({
   session,
 }: SettingAvatarContentProps) {
+  const [dialogUpdateAvatarOpen, setDialogUpdateAvatarOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setDialogUpdateAvatarOpen(true);
+  };
   return (
     <>
       <div className="flex w-full flex-col items-center justify-normal gap-3 md:w-1/4">
@@ -18,7 +28,14 @@ export default function SettingAvatarContent({
             {generateFallbackFromName(session.user.name)}
           </AvatarFallback>
         </Avatar>
+        <Button variant={"outline"} onClick={handleButtonClick}>
+          Ganti Foto
+        </Button>
       </div>
+      <DialogUpdatePhotoProfile
+        open={dialogUpdateAvatarOpen}
+        setOpen={setDialogUpdateAvatarOpen}
+      />
     </>
   );
 }

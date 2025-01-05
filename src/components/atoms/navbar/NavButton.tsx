@@ -13,8 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { generateFallbackFromName } from "@/utils/misc";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
 import { signOut, useSession } from "next-auth/react";
 
 interface NavHeaderProps {
@@ -32,6 +32,7 @@ export default function NavButton({ links }: NavHeaderProps) {
               <DropdownMenuTrigger asChild>
                 <Button variant="tertiary" size="icon" className="rounded-full">
                   <Avatar className="border border-muted">
+                    <AvatarImage src={buildFromAppURL(session.user.profile)} />
                     <AvatarFallback className="text-gray-700">
                       {generateFallbackFromName(session.user.name)}
                     </AvatarFallback>
