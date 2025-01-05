@@ -30,7 +30,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface CardBookingDaycareParams {
-  id: number;
+  id: string;
 }
 
 export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {

@@ -1,7 +1,7 @@
 import CubLocationBookingContent from "@/components/organism/cub/location/CubLocationBookingContent";
 
 interface CubLocationParams {
-  params: { id: number };
+  params: { id: string };
 }
 
 export default function CubLocationBookingPage({ params }: CubLocationParams) {

@@ -1,7 +1,7 @@
 import CubLocationDetailContent from "@/components/organism/cub/location/CubLocationDetailContent";
 
 interface DaycareDetailProps {
-  params: { id: number };
+  params: { id: string };
 }
 
 export default function DashboardDaycareDetailPage({

@@ -32,7 +32,7 @@ import { useState } from "react";
 interface DialogGiveRateDaycareProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  id: number;
+  id: string;
 }
 
 export default function DialogGiveRateDaycare({

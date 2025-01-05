@@ -5,7 +5,7 @@ import { api } from "@/lib/axios";
 import { DayCareDetail } from "@/types/daycares/daycare";
 
 interface GetDetailDaycareParams {
-  id: number;
+  id: string;
 }
 
 interface GetDetailDaycareResponse {

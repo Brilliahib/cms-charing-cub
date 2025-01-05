@@ -1,7 +1,6 @@
 "use client";
 
 import DialogGiveRateDaycare from "@/components/atoms/dialog/DialogGiveRateDaycare";
-import LocationPicker from "@/components/atoms/location/LocationPicker";
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -10,8 +9,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useToast } from "@/hooks/use-toast";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
@@ -20,37 +17,22 @@ import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
 import "leaflet/dist/leaflet.css";
-import { BadgeCheck, Clock, MapPin, Phone } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import L from "leaflet";
 import { formatTime } from "@/utils/hours";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  GoogleMap,
+  InfoWindow,
+  LoadScript,
+  Marker,
+} from "@react-google-maps/api";
 
 interface DaycareDetailProps {
-  id: number;
-}
-
-const defaultIcon = new L.Icon({
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-function ResetMapSize() {
-  const map = useMap();
-  useEffect(() => {
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 0);
-  }, [map]);
-  return null;
+  id: string;
 }
 
 export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
@@ -58,7 +40,10 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const { data, isPending } = useGetDetailDaycare({ id });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const icon = L.icon({ iconUrl: "/images/icons/marker-icon.png" });
+  const [selectedMarker, setSelectedMarker] = useState<null | {
+    lat: number;
+    lng: number;
+  }>(null);
 
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
@@ -70,10 +55,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const latitude = data?.data.latitude;
   const longitude = data?.data.longitude;
 
-  const position: [number, number] | null =
-    latitude !== undefined && longitude !== undefined
-      ? [latitude, longitude]
-      : null;
+  const position =
+    latitude && longitude ? { lat: latitude, lng: longitude } : null;
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
@@ -89,6 +72,19 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
   const handleGiveRating = () => {
     setIsDialogOpen(true);
+  };
+
+  const handleMarkerClick = () => {
+    if (position) {
+      setSelectedMarker({
+        lat: position.lat + 0.003,
+        lng: position.lng,
+      });
+    }
+  };
+
+  const handleInfoWindowClose = () => {
+    setSelectedMarker(null);
   };
 
   const selectedImage = data?.data.facility_images?.[0]?.image_url
@@ -184,14 +180,12 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <div className="space-y-4 md:space-y-8">
               <Card className="rounded-lg shadow">
                 <CardContent className="p-4 md:p-6 space-y-4 md:space-y-6">
-                  <div>
-                    {data?.data.is_disability && (
-                      <span className="flex gap-2 items-center text-green-600 font-semibold">
-                        <BadgeCheck />
-                        Menerima Disabilitas
-                      </span>
-                    )}
-                  </div>
+                  {data?.data.is_disability ? (
+                    <span className="flex gap-2 items-center text-green-600 font-semibold">
+                      <BadgeCheck />
+                      Menerima Disabilitas
+                    </span>
+                  ) : null}
                   <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Alamat</div>
                     <div className="md:w-8/12">{data?.data.address}</div>
@@ -245,40 +239,39 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                 </CardContent>
               </Card>
               {position ? (
-                <div
-                  style={{
-                    height: "250px",
-                    width: "100%",
-                    marginTop: "16px",
-                    zIndex: 0,
-                  }}
+                <LoadScript
+                  googleMapsApiKey={
+                    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!
+                  }
                 >
-                  <MapContainer
-                    center={position}
-                    zoom={14}
-                    style={{
-                      height: "100%",
+                  <GoogleMap
+                    mapContainerStyle={{
+                      height: "250px",
                       width: "100%",
                       borderRadius: "12px",
-                      zIndex: 0,
+                    }}
+                    center={position}
+                    zoom={14}
+                    options={{
+                      disableDefaultUI: true,
+                      zoomControl: true,
+                      mapTypeControl: false,
                     }}
                   >
-                    <TileLayer
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <ResetMapSize />
-                    <Marker
-                      key={data?.data.id}
-                      position={[data?.data.latitude!, data?.data.longitude!]}
-                      icon={defaultIcon}
-                    >
-                      <Popup>
-                        <h1 className="font-bold">{data?.data.name}</h1>
-                      </Popup>
-                    </Marker>
-                  </MapContainer>
-                </div>
+                    <Marker position={position} onClick={handleMarkerClick} />
+
+                    {selectedMarker && (
+                      <InfoWindow
+                        position={selectedMarker}
+                        onCloseClick={handleInfoWindowClose}
+                      >
+                        <div>
+                          <h1 className="font-bold">{data?.data.name}</h1>
+                        </div>
+                      </InfoWindow>
+                    )}
+                  </GoogleMap>
+                </LoadScript>
               ) : (
                 <p>Memuat lokasi...</p>
               )}
@@ -345,23 +338,6 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
           id={id}
         />
       )}
-      {/* <div className="md:hidden fixed bottom-0 w-full">
-        <div className="py-4 pad-x bg-white shadow-xl">
-          <div className="flex gap-4">
-            <Button
-              variant={"outline"}
-              size={"lg"}
-              className="w-full border bg-secondary hover:bg-secondary/80"
-              onClick={handleGiveRating}
-            >
-              Give a Rating
-            </Button>
-            <Button className="w-full" size={"lg"} onClick={handleBookingClick}>
-              Book Now
-            </Button>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }
