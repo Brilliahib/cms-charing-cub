@@ -2,7 +2,7 @@
 
 import DialogGiveRateDaycare from "@/components/atoms/dialog/DialogGiveRateDaycare";
 import RatingStars from "@/components/atoms/rating/RatingStar";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -13,7 +13,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
-import { generateFallbackFromName } from "@/utils/misc";
+import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
 import "leaflet/dist/leaflet.css";
@@ -308,6 +308,9 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                                 {/* profile reviewers */}
                                 <div className="flex gap-2 items-center mt-4">
                                   <Avatar className="border border-muted">
+                                    <AvatarImage
+                                      src={buildFromAppURL(review.user.profile)}
+                                    />
                                     <AvatarFallback className="text-gray-700 bg-white">
                                       {generateFallbackFromName(
                                         review.user.name
