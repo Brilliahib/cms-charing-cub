@@ -28,6 +28,7 @@ import { MapPin } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface CardBookingDaycareParams {
   id: string;
@@ -35,7 +36,6 @@ interface CardBookingDaycareParams {
 
 export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const { data } = useGetDetailDaycare({ id });
 
@@ -54,17 +54,12 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
 
   const { mutate: addBookingDaycareHandler, isPending } = useAddBookingDaycare({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal melakukan booking daycare!",
+      toast.error("Failed to booking daycare", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil melakukan booking daycare!",
-        variant: "success",
-      });
+      toast.success("Successfully to booking daycare");
       queryClient.invalidateQueries({
         queryKey: ["booking-daycare-list"],
       });

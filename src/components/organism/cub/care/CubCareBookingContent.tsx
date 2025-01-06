@@ -35,6 +35,7 @@ import { BadgeCheck, Clock, Phone } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface CubCareBookingParams {
   id: number;
@@ -46,7 +47,6 @@ export default function CubCareBookingContent() {
   const { data } = useGetDetailNannies({ id: String(id) });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm<BookingNanniesType>({
@@ -64,17 +64,12 @@ export default function CubCareBookingContent() {
 
   const { mutate: addBookingNanniesHandler, isPending } = useAddBookingNannies({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal melakukan booking nannies!",
+      toast.error("Failed to booking nannies", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil melakukan booking nannies!",
-        variant: "success",
-      });
+      toast.success("Successfully to booking nannies");
       queryClient.invalidateQueries({
         queryKey: ["nannies-list"],
       });

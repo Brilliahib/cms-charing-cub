@@ -26,6 +26,7 @@ import {
   TypeArticleType,
 } from "@/validators/article/article-type-validator";
 import { useAddTypeArticle } from "@/http/article/add-type-article";
+import { toast } from "sonner";
 
 interface DialogCreateArticleProps {
   open: boolean;
@@ -45,21 +46,15 @@ export default function DialogCreateArticleType({
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const { mutate: addTypeArticleHandler, isPending } = useAddTypeArticle({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal menambahkan tipe artikel!",
+      toast.error("Failed to add article types", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil menambahkan tipe artikel!",
-        variant: "success",
-      });
+      toast.success("Successfully to add article types");
       queryClient.invalidateQueries({
         queryKey: ["article-list"],
       });

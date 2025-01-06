@@ -4,7 +4,7 @@ import SettingDashboardContent from "@/components/organism/dashboard/settings/Se
 export default function DashboardSettingPage() {
   return (
     <>
-      <DashboardTitle title="Setting Account" />
+      <DashboardTitle title="Pengaturan Akun" />
       <SettingDashboardContent />
     </>
   );

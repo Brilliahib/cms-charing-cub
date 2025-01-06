@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { useAddGiveRateDaycare } from "@/http/daycares/add-rate-daycare";
 import {
   giveRateDaycareSchema,
@@ -28,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface DialogGiveRateDaycareProps {
   open: boolean;
@@ -41,7 +41,6 @@ export default function DialogGiveRateDaycare({
   id,
 }: DialogGiveRateDaycareProps) {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const [selectedRating, setSelectedRating] = useState(0);
 
@@ -58,17 +57,12 @@ export default function DialogGiveRateDaycare({
   const { mutate: addBookingNanniesHandler, isPending } = useAddGiveRateDaycare(
     {
       onError: (error: AxiosError<any>) => {
-        toast({
-          title: "Gagal memberikan rating!",
+        toast.error("Failed to give rating!", {
           description: error.response?.data.message,
-          variant: "destructive",
         });
       },
       onSuccess: () => {
-        toast({
-          title: "Berhasil memberikan rating!",
-          variant: "success",
-        });
+        toast.success("Successfully to give rating!");
         queryClient.invalidateQueries({
           queryKey: ["daycare-detail"],
         });

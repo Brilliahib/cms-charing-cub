@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Figtree } from "next/font/google";
 import "./globals.css";
 import GlobalProvider from "@/components/organism/GlobalProvider";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Charing Cub | One Step to Embrace Love",
@@ -56,7 +56,7 @@ export default function RootLayout({
       <body>
         <GlobalProvider>
           <main className="font-jakarta">{children}</main>
-          <Toaster />
+          <Toaster richColors />
         </GlobalProvider>
       </body>
     </html>

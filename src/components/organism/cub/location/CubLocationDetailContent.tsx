@@ -10,7 +10,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useToast } from "@/hooks/use-toast";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
 import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
@@ -30,6 +29,7 @@ import {
   LoadScript,
   Marker,
 } from "@react-google-maps/api";
+import { toast } from "sonner";
 
 interface DaycareDetailProps {
   id: string;
@@ -48,8 +48,6 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
   );
-
-  const { toast } = useToast();
   const router = useRouter();
 
   const latitude = data?.data.latitude;
@@ -60,10 +58,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
-      toast({
-        title: "Not logged in yet",
+      toast.error("Not Login Yet", {
         description: "Please login to continue booking!",
-        variant: "destructive",
       });
     } else {
       router.push(`/cub-location/${data?.data.id}/booking`);

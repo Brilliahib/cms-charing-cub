@@ -43,6 +43,7 @@ import Image from "next/image";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "sonner";
 
 interface DialogCreateArticleProps {
   open: boolean;
@@ -65,23 +66,17 @@ export default function DialogCreateArticle({
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const { mutate: addArticleHandler, isPending } = useAddArticle({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal menambahkan artikel!",
+      toast.error("Failed to add article", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil menambahkan artikel!",
-        variant: "success",
-      });
+      toast.success("Successfully added article");
       queryClient.invalidateQueries({
         queryKey: ["article-list"],
       });

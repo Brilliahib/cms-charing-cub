@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { useAddBookingNannies } from "@/http/nannies/add-booking-nannies";
 import {
   bookingNanniesSchema,
@@ -27,6 +26,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface DialogBookingNanniesProps {
   open: boolean;
@@ -42,7 +42,6 @@ export default function DialogBookingNannies({
   id,
 }: DialogBookingNanniesProps) {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm<BookingNanniesType>({
@@ -60,17 +59,12 @@ export default function DialogBookingNannies({
 
   const { mutate: addBookingNanniesHandler, isPending } = useAddBookingNannies({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal melakukan booking nannies!",
+      toast.error("Failed to booking nannies", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil melakukan booking nannies!",
-        variant: "success",
-      });
+      toast.success("Successfully to booking nannies");
       queryClient.invalidateQueries({
         queryKey: ["nannies-list"],
       });

@@ -36,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function RegisterForm() {
   const form = useForm<RegisterType>({
@@ -50,7 +51,6 @@ export default function RegisterForm() {
     mode: "onChange",
   });
 
-  const { toast } = useToast();
   const router = useRouter();
 
   const {
@@ -68,10 +68,8 @@ export default function RegisterForm() {
         });
       });
 
-      toast({
-        title: "Gagal Daftar",
-        description: "Gagal mendaftar, cek kembali data yang dimasukkan",
-        variant: "destructive",
+      toast.error("Register Failed", {
+        description: "Check again the data you entered.",
       });
     },
     onSuccess: async () => {
@@ -82,18 +80,15 @@ export default function RegisterForm() {
       });
 
       if (!res || res.error == "") {
-        toast({
-          title: "Gagal Masuk",
-          description: "terjadi kesalahan, coba lagi.",
-          variant: "destructive",
+        toast.error("Login Failed", {
+          description: "An error occurred, please try again.",
         });
         return;
       }
 
-      toast({
-        title: "Berhasil Mendaftar!",
-        description: "Anda berhasil mendaftar",
-        variant: "success",
+      toast.success("Register Successful", {
+        description:
+          "Your account has been created and automatically logged in.",
       });
       return router.push("/dashboard");
     },
