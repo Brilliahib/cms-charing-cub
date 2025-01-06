@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { useAddBookingDaycare } from "@/http/daycares/bookings/add-booking-daycare";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
@@ -28,6 +27,7 @@ import { MapPin } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface CardBookingDaycareParams {
   id: string;
@@ -35,14 +35,13 @@ interface CardBookingDaycareParams {
 
 export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const { data } = useGetDetailDaycare({ id });
 
   const form = useForm<BookingDaycareType>({
     resolver: zodResolver(bookingDaycareSchema),
     defaultValues: {
-      daycare_id: Number(id),
+      daycare_id: String(id),
       name_babies: "",
       age_babies: 0,
       special_request: "",
@@ -54,17 +53,12 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
 
   const { mutate: addBookingDaycareHandler, isPending } = useAddBookingDaycare({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal melakukan booking daycare!",
+      toast.error("Failed to booking daycare", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil melakukan booking daycare!",
-        variant: "success",
-      });
+      toast.success("Successfully to booking daycare");
       queryClient.invalidateQueries({
         queryKey: ["booking-daycare-list"],
       });
@@ -73,7 +67,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
   });
 
   const onSubmit = (body: BookingDaycareType) => {
-    addBookingDaycareHandler({ ...body, daycare_id: Number(id) });
+    addBookingDaycareHandler({ ...body, daycare_id: String(id) });
   };
   return (
     <>

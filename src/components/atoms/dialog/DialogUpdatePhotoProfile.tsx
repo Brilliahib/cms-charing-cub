@@ -31,6 +31,7 @@ import {
   UpdateAccountType,
 } from "@/validators/auth/update-account-validator";
 import { useAddUpdateAccount } from "@/http/auth/update-account";
+import { toast } from "sonner";
 
 interface DialogUpdatePhotoProfileProps {
   open: boolean;
@@ -50,23 +51,17 @@ export default function DialogUpdatePhotoProfile({
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const { mutate: addUpdateAccountHandler, isPending } = useAddUpdateAccount({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal mengganti foto profil!",
+      toast.error("Failed to change profile", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil mengganti foto profil!",
-        variant: "success",
-      });
+      toast.success("Successfully to change profile");
       queryClient.invalidateQueries({
         queryKey: ["update-account"],
       });

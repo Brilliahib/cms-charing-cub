@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,8 +35,6 @@ export default function LoginForm() {
     defaultValues: { email: "", password: "" },
     mode: "onChange",
   });
-
-  const { toast } = useToast();
   const router = useRouter();
 
   const onSubmit = async (body: LoginType) => {
@@ -44,21 +43,18 @@ export default function LoginForm() {
     setIsLoading(false);
 
     if (!res || res.error) {
-      toast({
-        title: "Gagal Masuk",
+      toast.error("Login Failed", {
         description:
           res?.error === "CredentialsSignin"
-            ? "Email atau password salah"
-            : "Terjadi kesalahan, coba lagi.",
-        variant: "destructive",
+            ? "Email or password is wrong."
+            : "An error occurred, please try again.",
       });
       return;
     }
 
-    toast({
-      title: "Berhasil Masuk!",
-      description: "Anda berhasil masuk",
-      variant: "success",
+    toast.success("Login Successful", {
+      description:
+        "Welcome back! You have successfully logged into your account.",
     });
 
     router.push("/dashboard");

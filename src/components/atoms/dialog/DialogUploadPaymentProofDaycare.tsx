@@ -27,6 +27,7 @@ import {
 } from "@/validators/daycares/upload-payment-proof-validator";
 import { useAddUploadPaymentProofDaycare } from "@/http/daycares/bookings/add-payment-proof-daycare";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 interface DialogUploadPaymentProofDaycareProps {
   open: boolean;
@@ -48,23 +49,17 @@ export default function DialogUploadPaymentProofDaycareType({
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const session = useSession();
 
   const { mutate: addUploadPaymentProofDaycareHandler, isPending } =
     useAddUploadPaymentProofDaycare({
       onError: (error: AxiosError<any>) => {
-        toast({
-          title: "Gagal mengunggah bukti pembayaran!",
+        toast.error("Failed to upload payment proof", {
           description: error.response?.data.message,
-          variant: "destructive",
         });
       },
       onSuccess: () => {
-        toast({
-          title: "Berhasil mengunggah bukti pembayaran!",
-          variant: "success",
-        });
+        toast.success("Successfully to upload payment proof");
         queryClient.invalidateQueries({
           queryKey: ["booking-from-daycares"],
         });
