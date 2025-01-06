@@ -5,24 +5,24 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useGetDetailBookingFromDaycare } from "@/http/daycares/bookings/get-detail-booking-from-daycare";
+import { useGetDetailBookingDaycare } from "@/http/daycares/bookings/get-detail-booking-daycare";
 import { baseUrl } from "@/utils/app";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
-interface DialogViewPaymentProofDaycareProps {
+interface DialogDaycareViewPaymentProofProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  id: number;
+  id: string;
 }
 
-export default function DialogViewPaymentProofDaycare({
+export default function DialogDaycareViewPaymentProof({
   open,
   setOpen,
   id,
-}: DialogViewPaymentProofDaycareProps) {
+}: DialogDaycareViewPaymentProofProps) {
   const session = useSession();
-  const { data, isPending } = useGetDetailBookingFromDaycare(
+  const { data, isPending } = useGetDetailBookingDaycare(
     {
       id,
     },
