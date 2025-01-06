@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { useAddBookingDaycare } from "@/http/daycares/bookings/add-booking-daycare";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
 import { baseUrl } from "@/utils/app";
@@ -42,7 +41,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
   const form = useForm<BookingDaycareType>({
     resolver: zodResolver(bookingDaycareSchema),
     defaultValues: {
-      daycare_id: Number(id),
+      daycare_id: String(id),
       name_babies: "",
       age_babies: 0,
       special_request: "",
@@ -68,7 +67,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
   });
 
   const onSubmit = (body: BookingDaycareType) => {
-    addBookingDaycareHandler({ ...body, daycare_id: Number(id) });
+    addBookingDaycareHandler({ ...body, daycare_id: String(id) });
   };
   return (
     <>
