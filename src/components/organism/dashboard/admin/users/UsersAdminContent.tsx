@@ -24,14 +24,14 @@ export default function UsersAdminContent() {
   return (
     <>
       <div className="py-8 space-y-8">
-        <div className="flex justify-between">
+        <div className="flex md:flex-row flex-col gap-4 justify-between">
           <SearchInput
             onSearch={setSearchQuery}
             className="min-w-[250px]"
             props="Search users..."
           />
           <Link href={"/dashboard/admin/users/create"}>
-            <Button>Create Users</Button>
+            <Button className="md:w-fit w-full">Create Users</Button>
           </Link>
         </div>
         <DataTable columns={usersColumns} data={filteredData} />

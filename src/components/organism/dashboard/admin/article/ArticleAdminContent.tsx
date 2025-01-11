@@ -51,13 +51,13 @@ export default function ArticleAdminContent() {
   return (
     <>
       <div className="py-8 space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="flex md:flex-row flex-col gap-4 justify-between">
           <SearchInput
             onSearch={setSearchQuery}
             props="Search article or type..."
-            className="min-w-[250px]"
+            className="md:w-[250px] w-full"
           />
-          <div className="flex gap-4">
+          <div className="flex md:flex-row flex-col gap-4">
             <Button>
               <Link href={"/dashboard/admin/article/create"}>
                 Create Article

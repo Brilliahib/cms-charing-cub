@@ -20,14 +20,14 @@ export default function NanniesAdminContent() {
   return (
     <>
       <div className="py-8 space-y-8">
-        <div className="flex justify-between">
+        <div className="flex md:flex-row flex-col gap-4 justify-between">
           <SearchInput
             onSearch={setSearchQuery}
             className="min-w-[250px]"
             props="Search nannies..."
           />
           <Link href={"/dashboard/admin/nannies/create"}>
-            <Button>Tambah Nanny</Button>
+            <Button className="md:w-fit w-full">Tambah Nanny</Button>
           </Link>
         </div>
         <DataTable columns={nanniesColumns} data={filteredData} />
