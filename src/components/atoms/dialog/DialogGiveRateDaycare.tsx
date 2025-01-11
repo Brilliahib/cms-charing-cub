@@ -67,6 +67,7 @@ export default function DialogGiveRateDaycare({
           queryKey: ["daycare-detail"],
         });
         router.refresh();
+        setOpen(false);
       },
     }
   );
@@ -77,7 +78,6 @@ export default function DialogGiveRateDaycare({
       daycare_id: id,
       rating: selectedRating,
     });
-    setOpen(false);
   };
 
   const handleRatingClick = (rating: number) => {

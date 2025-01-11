@@ -58,12 +58,12 @@ export default function DialogCreateArticleType({
       queryClient.invalidateQueries({
         queryKey: ["article-list"],
       });
+      setOpen(false);
     },
   });
 
   const onSubmit = (body: TypeArticleType) => {
     addTypeArticleHandler(body);
-    setOpen(false);
   };
 
   return (
