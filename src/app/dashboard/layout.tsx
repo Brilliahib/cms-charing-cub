@@ -11,8 +11,29 @@ export const metadata: Metadata = {
     template: "%s | Charing Cub",
     default: "Dashboard | Charing Cub",
   },
-  description: "The official Next.js Learn Dashboard built with App Router.",
-  metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
+  description:
+    "Charing Cub is a web-based platform designed to ensure the provision of high-quality childcare for children of working parents.",
+  keywords:
+    "daycare, tempat penitipan anak, daycare terdekat, childcare, layanan anak, tempat penitipan anak terpercaya",
+  icons: [
+    { rel: "icon", url: "/images/icons/favicon.ico", sizes: "16x16" },
+    { rel: "icon", url: "/images/icons/favicon-32x32.png", sizes: "32x32" },
+    {
+      rel: "apple-touch-icon",
+      url: "/images/icons/apple-touch-icon.png",
+      sizes: "180x180",
+    },
+    {
+      rel: "icon",
+      url: "/images/icons/android-chrome-192x192.png",
+      sizes: "192x192",
+    },
+    {
+      rel: "icon",
+      url: "/images/icons/android-chrome-512x512.png",
+      sizes: "512x512",
+    },
+  ],
 };
 
 export default async function DashboardLayout({ children }: PropsWithChildren) {
