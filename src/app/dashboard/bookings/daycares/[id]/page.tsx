@@ -1,6 +1,10 @@
 import DashboardTitle from "@/components/atoms/typography/DashboardTitle";
-import CubLocationDetailContent from "@/components/organism/cub/location/CubLocationDetailContent";
 import DaycareBookingDetailContent from "@/components/organism/dashboard/daycares/DaycareBookingDetailContent";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Detail Booking Daycare",
+};
 
 interface DaycareBookingDetailProps {
   params: { id: string };

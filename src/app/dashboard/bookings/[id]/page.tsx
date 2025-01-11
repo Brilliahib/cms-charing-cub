@@ -1,4 +1,9 @@
 import BookingDetailDashboardContent from "@/components/organism/dashboard/booking/BookingDetailDashboardContent";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Detail Booking",
+};
 
 interface DashboardBookingDetailParams {
   params: { id: number };
