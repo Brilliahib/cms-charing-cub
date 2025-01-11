@@ -7,7 +7,7 @@ export interface Article {
 }
 
 export interface TypesArticle {
-  id: number;
+  id: string;
   name: string;
   created_at: Date;
   updated_at: Date;

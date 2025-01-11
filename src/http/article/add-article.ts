@@ -17,6 +17,7 @@ export const addArticleHandler = async (
 
   formData.append("article_type_id", body.article_type_id);
   formData.append("title", body.title);
+  formData.append("slug", body.slug);
   formData.append("content", body.content);
 
   if (body.image) {
