@@ -11,6 +11,7 @@ export const articleSchema = z.object({
     .string()
     .min(1, { message: "Judul harus diisi" })
     .max(255, { message: "Judul maksimal 255 karakter" }),
+  slug: z.string().min(1, { message: "Slug harus diisi" }),
   content: z.string().min(1, { message: "Konten harus diisi" }),
   image: z.union([
     z.string().nullable().optional(),

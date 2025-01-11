@@ -26,9 +26,7 @@ export default function ArticleDetailContent({
             height={1000}
             className="max-h-[400px] w-full object-cover rounded-xl"
           />
-          <h1 className="font-paytone text-2xl text-center">
-            {data?.data.title}
-          </h1>
+          <h1 className="font-bold text-2xl text-center">{data?.data.title}</h1>
           <div
             dangerouslySetInnerHTML={{ __html: data?.data.content ?? "" }}
             className="prose"
