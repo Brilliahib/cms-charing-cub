@@ -65,6 +65,7 @@ export default function DialogUpdatePhotoProfile({
       queryClient.invalidateQueries({
         queryKey: ["update-account"],
       });
+      setOpen(false);
       router.refresh();
     },
   });
@@ -86,7 +87,6 @@ export default function DialogUpdatePhotoProfile({
 
   const onSubmit = (body: UpdateAccountType) => {
     addUpdateAccountHandler(body);
-    setOpen(false);
   };
 
   const removeImage = () => {

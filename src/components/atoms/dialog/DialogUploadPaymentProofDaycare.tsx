@@ -63,6 +63,7 @@ export default function DialogUploadPaymentProofDaycareType({
         queryClient.invalidateQueries({
           queryKey: ["booking-from-daycares"],
         });
+        setOpen(false);
       },
     });
 
@@ -71,7 +72,6 @@ export default function DialogUploadPaymentProofDaycareType({
       params: { id, token: session.data?.access_token as string },
       body,
     });
-    setOpen(false);
   };
 
   return (
