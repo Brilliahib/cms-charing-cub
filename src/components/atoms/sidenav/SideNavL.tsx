@@ -10,7 +10,7 @@ interface SideNavLProps {
 
 export default function SideNavL({ links }: SideNavLProps) {
   return (
-    <div className="relative z-50 hidden overflow-hidden bg-[#f9f9f9] p-6 md:block">
+    <div className="relative z-50 hidden overflow-hidden bg-[#f9f9f9] p-6 md:block h-screen sticky top-0">
       <div className="z-10 flex h-full max-h-screen flex-col gap-12">
         <div>
           <Link

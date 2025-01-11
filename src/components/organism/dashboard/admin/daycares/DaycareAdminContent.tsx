@@ -19,14 +19,14 @@ export default function DaycareAdminContent() {
   return (
     <>
       <div className="py-8 space-y-8">
-        <div className="flex justify-between">
+        <div className="flex md:flex-row flex-col gap-4 justify-between">
           <SearchInput
             onSearch={setSearchQuery}
             props="Search daycare..."
             className="min-w-[250px]"
           />
           <Link href={"/dashboard/admin/daycares/create"}>
-            <Button>Tambah Daycare</Button>
+            <Button className="md:w-fit w-full">Tambah Daycare</Button>
           </Link>
         </div>
         <DataTable columns={daycareColumns} data={filteredData} />
