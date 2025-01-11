@@ -17,7 +17,7 @@ export default function ArticleDetailContent({
   return (
     <>
       <Navbar />
-      <div className="pad-x">
+      <div className="pad-x py-8">
         <div className="space-y-6">
           <Image
             src={`${baseUrl}/${data?.data.image}`}
@@ -29,7 +29,7 @@ export default function ArticleDetailContent({
           <h1 className="font-bold text-2xl text-center">{data?.data.title}</h1>
           <div
             dangerouslySetInnerHTML={{ __html: data?.data.content ?? "" }}
-            className="prose"
+            className="prose text-justify"
           />
         </div>
       </div>
