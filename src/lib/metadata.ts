@@ -4,6 +4,8 @@ const defaultMetadataValues: Metadata = {
   title: "Charing Cub | One Step to Embrace Love",
   description:
     "Charing Cub is a web-based platform designed to ensure the provision of high-quality childcare for children of working parents.",
+  keywords:
+    "daycare, tempat penitipan anak, daycare terdekat, childcare, layanan anak, tempat penitipan anak terpercaya",
   icons: [
     { rel: "icon", url: "/images/icons/favicon.ico", sizes: "16x16" },
     { rel: "icon", url: "/images/icons/favicon-32x32.png", sizes: "32x32" },
