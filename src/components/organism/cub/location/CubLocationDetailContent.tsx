@@ -195,13 +195,6 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                     </div>
                   </div>
                   <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Harga</div>
-                    <div className="md:w-8/12">
-                      {formatPrice(data?.data.price_half)} - {""}
-                      {formatPrice(data?.data.price_full)}
-                    </div>
-                  </div>
-                  <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Nomor Telepon</div>
                     <div className="md:w-8/12">{data?.data.phone_number}</div>
                   </div>
@@ -214,6 +207,19 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                   <div className="flex md:flex-row flex-col">
                     <div className="md:w-4/12">Kota</div>
                     <div className="md:w-8/12">{data?.data.location}</div>
+                  </div>
+                  <div className="flex md:flex-row flex-col">
+                    <div className="md:w-4/12">Harga</div>
+                    <div className="md:w-8/12">
+                      <ul className="space-y-2">
+                        {data?.data.price_lists.map((price) => (
+                          <li key={price.id}>
+                            Umur {price.age_start} - {price.age_end} dengan
+                            harga {formatPrice(price.price)}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                   <div className="space-y-4">
                     <Button

@@ -12,6 +12,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useAddBookingDaycare } from "@/http/daycares/bookings/add-booking-daycare";
 import { useGetDetailDaycare } from "@/http/daycares/get-detail-daycare";
@@ -210,6 +219,46 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                           placeholder="Masukkan special request"
                           {...field}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Price <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value?.toString()}
+                          onValueChange={(value) =>
+                            field.onChange(Number(value))
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Pilih harga" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Pilihan Harga</SelectLabel>
+                              {data?.data.price_lists.map((priceList) => (
+                                <SelectItem
+                                  key={priceList.id}
+                                  value={priceList.price.toString()}
+                                >
+                                  Umur {priceList.age_start} -{" "}
+                                  {priceList.age_end} dengan harga{" "}
+                                  {priceList.price}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

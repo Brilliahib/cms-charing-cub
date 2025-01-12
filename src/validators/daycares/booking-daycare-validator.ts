@@ -26,6 +26,7 @@ export const bookingDaycareSchema = z.object({
       message: "Usia bayi minimal 0 tahun",
     }),
   special_request: z.string().optional(),
+  price: z.number(),
 });
 
 export type BookingDaycareType = z.infer<typeof bookingDaycareSchema>;

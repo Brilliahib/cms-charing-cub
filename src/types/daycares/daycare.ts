@@ -25,12 +25,21 @@ export interface DayCare {
   latitude: number;
   facility_images: FacilityImages[];
   nannies: Nannies[];
+  price_lists: PriceListDaycare[];
 }
 
 export interface FacilityImages {
   id: number;
   daycare_id: number;
   image_url: string;
+}
+
+export interface PriceListDaycare {
+  id: string;
+  daycare_id: string;
+  age_start: string;
+  age_end: string;
+  price: number;
 }
 
 export interface DaycareReviews {
@@ -68,6 +77,7 @@ export interface DayCareDetail {
   facility_images: FacilityImages[];
   nannies: NanniesDaycare[];
   reviews: DaycareReviews[];
+  price_lists: PriceListDaycare[];
 }
 
 export interface NanniesDaycare {
