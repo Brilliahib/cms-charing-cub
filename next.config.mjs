@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["charingcub.site", "127.0.0.1"],
+    domains: ["charingcub.site", "127.0.0.1", "api.sandbox.midtrans.com"],
   },
 };
 

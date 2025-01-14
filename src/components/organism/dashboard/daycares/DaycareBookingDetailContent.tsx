@@ -69,17 +69,17 @@ export default function DaycareBookingDetailContent({
               </div>
               <div className="space-y-2">
                 <p className="font-semibold">Payment Status</p>
-                <Badge variant={data?.data.is_paid ? "success" : "destructive"}>
-                  {data?.data.is_paid ? "PAID" : "Waiting"}
+                <Badge
+                  variant={
+                    data?.data.payment_status ? "destructive" : "success"
+                  }
+                >
+                  {data?.data.payment_status}
                 </Badge>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Booking Status</p>
-                <Badge
-                  variant={data?.data.is_approved ? "success" : "destructive"}
-                >
-                  {data?.data.is_approved ? "APPROVED" : "Waiting"}
-                </Badge>
+                <p className="font-semibold">Payment Method</p>
+                <p>{data?.data.payment_method ?? "Belum Memilih"}</p>
               </div>
               <div className="space-y-2">
                 <p className="font-semibold">Payment Proof</p>

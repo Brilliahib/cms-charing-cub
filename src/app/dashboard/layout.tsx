@@ -9,7 +9,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: {
     template: "%s | Charing Cub",
-    default: "Dashboard | Charing Cub",
+    default: "Dashboard",
   },
   description:
     "Charing Cub is a web-based platform designed to ensure the provision of high-quality childcare for children of working parents.",

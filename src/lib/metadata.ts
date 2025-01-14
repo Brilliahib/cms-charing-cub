@@ -29,7 +29,7 @@ const defaultMetadataValues: Metadata = {
 
 export const defineMetadata = (metadata?: Metadata) => {
   const title = metadata?.title
-    ? `${metadata.title} | Charing Cub`
+    ? `${metadata.title}`
     : defaultMetadataValues.title;
   return {
     ...defaultMetadataValues,

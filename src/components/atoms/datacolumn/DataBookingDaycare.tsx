@@ -76,32 +76,24 @@ export const bookingDaycareColumns = (
     },
   },
   {
-    accessorKey: "is_approved",
-    header: "Status Approved",
+    accessorKey: "payment_status",
+    header: "Payment Status",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Waiting"}
+        <Badge variant={data.payment_status ? "destructive" : "success"}>
+          {data.payment_status ?? "Null"}
         </Badge>
       );
     },
   },
   {
-    accessorKey: "payment_proof",
-    header: "Payment Proof",
+    accessorKey: "payment_method",
+    header: "Payment Method",
     cell: ({ row }) => {
       const data = row.original;
 
-      if (data.payment_proof) {
-        return (
-          <Image
-            onClick={() => openViewPaymentProofDialog(data.id)}
-            className="h-5 w-5 cursor-pointer"
-          />
-        );
-      }
-      return <Badge variant="destructive">Belum Dibayar</Badge>;
+      return <p>{data.payment_method ?? "Belum Memilih"}</p>;
     },
   },
 
@@ -116,11 +108,11 @@ export const bookingDaycareColumns = (
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/bookings/daycares/${data.id}`}
+              href={`/dashboard/bookings/daycares/${data.id}/payment`}
               className="flex items-center text-gray-700"
             >
               <Eye className="h-4 w-4" />
-              <span className="ml-2">See Detail</span>
+              <span className="ml-2">See Payment</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => openUploadDialog(data.id)}>
