@@ -19,19 +19,19 @@ export default function DaycareBookingContent() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDialogViewPaymentProofOpen, setIsDialogViewPaymentProofOpen] =
     useState(false);
-  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
     null
   );
   const [selectedPaymentProofId, setSelectedPaymentProofId] = useState<
-    number | null
+    string | null
   >(null);
 
-  const openUploadDialog = (id: number) => {
+  const openUploadDialog = (id: string) => {
     setSelectedBookingId(id);
     setIsDialogOpen(true);
   };
 
-  const openViewPaymentDialog = (id: number) => {
+  const openViewPaymentDialog = (id: string) => {
     setSelectedPaymentProofId(id);
     setIsDialogViewPaymentProofOpen(true);
   };

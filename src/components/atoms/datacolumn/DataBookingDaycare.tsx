@@ -15,8 +15,8 @@ import { BookingDaycare } from "@/types/booking/booking";
 import { Badge } from "@/components/ui/badge";
 
 export const bookingDaycareColumns = (
-  openUploadDialog: (id: number) => void,
-  openViewPaymentProofDialog: (id: number) => void
+  openUploadDialog: (id: string) => void,
+  openViewPaymentProofDialog: (id: string) => void
 ): ColumnDef<BookingDaycare>[] => [
   {
     accessorKey: "index",
@@ -94,6 +94,24 @@ export const bookingDaycareColumns = (
       const data = row.original;
 
       return <p>{data.payment_method ?? "Belum Memilih"}</p>;
+    },
+  },
+
+  {
+    accessorKey: "payment_proof",
+    header: "Payment Proof",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      if (data.payment_proof) {
+        return (
+          <Image
+            onClick={() => openViewPaymentProofDialog(data.id)}
+            className="h-5 w-5 cursor-pointer"
+          />
+        );
+      }
+      return <Badge variant="destructive">Belum Dibayar</Badge>;
     },
   },
 

@@ -15,9 +15,9 @@ import { BookingDaycare } from "@/types/booking/booking";
 import { Badge } from "@/components/ui/badge";
 
 export const bookingDaycareFromDaycareColumns = (
-  openViewPaymentProofDialog: (id: number) => void,
-  openConfirmPaymentDialog: (id: number) => void,
-  openConfirmBookingDialog: (id: number) => void
+  openViewPaymentProofDialog: (id: string) => void,
+  openConfirmPaymentDialog: (id: string) => void,
+  openConfirmBookingDialog: (id: string) => void
 ): ColumnDef<BookingDaycare>[] => [
   {
     accessorKey: "index",

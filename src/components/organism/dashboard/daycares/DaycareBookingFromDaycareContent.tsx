@@ -58,27 +58,27 @@ export default function DaycareBookingFromDaycareContent() {
     useState(false);
   const [isDialogPaymentOpen, setIsDialogPaymentOpen] = useState(false);
   const [isDialogBookingOpen, setIsDialogBookingOpen] = useState(false);
-  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(
+  const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
     null
   );
-  const [selectedBookingId, setSelectedBokingId] = useState<number | null>(
+  const [selectedBookingId, setSelectedBokingId] = useState<string | null>(
     null
   );
   const [selectedPaymentProofId, setSelectedPaymentProofId] = useState<
-    number | null
+    string | null
   >(null);
 
-  const openViewPaymentDialog = (id: number) => {
+  const openViewPaymentDialog = (id: string) => {
     setSelectedPaymentProofId(id);
     setIsDialogViewPaymentProofOpen(true);
   };
 
-  const openConfirmPaymentDialog = (id: number) => {
+  const openConfirmPaymentDialog = (id: string) => {
     setSelectedPaymentId(id);
     setIsDialogPaymentOpen(true);
   };
 
-  const openConfirmBookingDialog = (id: number) => {
+  const openConfirmBookingDialog = (id: string) => {
     setSelectedBokingId(id);
     setIsDialogBookingOpen(true);
   };

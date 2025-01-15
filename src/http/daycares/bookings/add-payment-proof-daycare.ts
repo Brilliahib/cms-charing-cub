@@ -6,7 +6,7 @@ import { DayCare } from "@/types/daycares/daycare";
 import { UploadPaymentProofDaycareType } from "@/validators/daycares/upload-payment-proof-validator";
 
 interface UploadPaymentProofDaycareParams {
-  id: number;
+  id: string;
   token: string;
 }
 

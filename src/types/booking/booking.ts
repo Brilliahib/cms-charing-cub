@@ -21,7 +21,7 @@ export interface BookingNannies {
 }
 
 export interface BookingDaycare {
-  id: number;
+  id: string;
   user_id: number;
   daycare_id: number;
   name_babies: string;
