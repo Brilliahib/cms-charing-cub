@@ -89,7 +89,7 @@ export default function DialogGiveRateDaycare({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Rating</DialogTitle>
+          <DialogTitle>Write a review</DialogTitle>
           <DialogDescription>Give a rating for this daycare.</DialogDescription>
         </DialogHeader>
         <div className="text-left">
@@ -103,7 +103,7 @@ export default function DialogGiveRateDaycare({
                 name="rating"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Star</FormLabel>
+                    <FormLabel>Rating</FormLabel>
                     <FormControl>
                       <div className="flex items-center space-x-1">
                         {[1, 2, 3, 4, 5].map((star) => (
@@ -135,7 +135,7 @@ export default function DialogGiveRateDaycare({
                     <FormLabel>Comment</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Masukkan komentar Anda"
+                        placeholder="Share your details own experience at this daycare"
                         {...field}
                       />
                     </FormControl>
@@ -144,8 +144,8 @@ export default function DialogGiveRateDaycare({
                 )}
               />
               <div className="flex justify-end">
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? "Loading..." : "Submit Now"}
+                <Button type="submit" disabled={isPending} size={"sm"}>
+                  {isPending ? "Loading..." : "Post"}
                 </Button>
               </div>
             </form>
