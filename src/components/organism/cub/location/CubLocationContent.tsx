@@ -115,7 +115,7 @@ export default function CubLocationContent() {
                         alt={`${daycare.name} Logo`}
                         width={50}
                         height={50}
-                        className="absolute top-0 right-2 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
+                        className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
                       />
                     </CardHeader>
                     <CardContent className="space-y-3 px-4">

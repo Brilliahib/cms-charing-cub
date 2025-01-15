@@ -53,27 +53,24 @@ export const bookingDaycareFromDaycareColumns = (
     },
   },
   {
-    accessorKey: "is_approved",
-    header: "Status Approved",
+    accessorKey: "payment_status",
+    header: "Payment Status",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Waiting"}
+        <Badge variant={data.payment_status ? "destructive" : "success"}>
+          {data.payment_status ?? "Null"}
         </Badge>
       );
     },
   },
   {
-    accessorKey: "is_paid",
-    header: "Status Paiment",
+    accessorKey: "payment_method",
+    header: "Payment Method",
     cell: ({ row }) => {
       const data = row.original;
-      return (
-        <Badge variant={data.is_paid ? "success" : "destructive"}>
-          {data.is_paid ? "Approved" : "Waiting"}
-        </Badge>
-      );
+
+      return <p>{data.payment_method ?? "Belum Memilih"}</p>;
     },
   },
   {

@@ -64,10 +64,10 @@ export default function NavButton({ links }: NavHeaderProps) {
           </DropdownMenu>
         ) : (
           <div className="flex items-center gap-4">
-            <Button variant={"unique"}>
+            <Button variant={"outline"}>
               <Link href="/login">Login</Link>
             </Button>
-            <Button variant="outline">
+            <Button variant={"default"}>
               <Link href="/register">Register</Link>
             </Button>
           </div>
