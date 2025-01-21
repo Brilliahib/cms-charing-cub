@@ -81,19 +81,13 @@ export const bookingDaycareColumns = (
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <Badge variant={data.payment_status ? "destructive" : "success"}>
+        <Badge
+          variant={data.payment_status === "paid" ? "success" : "destructive"}
+          className="uppercase"
+        >
           {data.payment_status ?? "Null"}
         </Badge>
       );
-    },
-  },
-  {
-    accessorKey: "payment_method",
-    header: "Payment Method",
-    cell: ({ row }) => {
-      const data = row.original;
-
-      return <p>{data.payment_method ?? "Belum Memilih"}</p>;
     },
   },
 
@@ -111,7 +105,7 @@ export const bookingDaycareColumns = (
           />
         );
       }
-      return <Badge variant="destructive">Belum Dibayar</Badge>;
+      return <p className="text-orange-500 font-semibold">Tanpa Bukti</p>;
     },
   },
 
@@ -124,15 +118,6 @@ export const bookingDaycareColumns = (
         <ActionButton>
           <DropdownMenuLabel>Aksi</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/bookings/daycares/${data.id}/payment`}
-              className="flex items-center text-gray-700"
-            >
-              <Eye className="h-4 w-4" />
-              <span className="ml-2">See Payment</span>
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => openUploadDialog(data.id)}>
             <div className="flex items-center text-gray-700 cursor-pointer">
               <ImagePlus className="h-4 w-4" />
