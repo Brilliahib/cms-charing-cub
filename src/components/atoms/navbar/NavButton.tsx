@@ -64,12 +64,12 @@ export default function NavButton({ links }: NavHeaderProps) {
           </DropdownMenu>
         ) : (
           <div className="flex items-center gap-4">
-            <Button variant={"outline"}>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button variant={"default"}>
-              <Link href="/register">Register</Link>
-            </Button>
+            <Link href="/login">
+              <Button variant={"outline"}>Login</Button>
+            </Link>
+            <Link href="/register">
+              <Button variant={"default"}>Register</Button>
+            </Link>
           </div>
         )}
       </div>
@@ -121,10 +121,7 @@ export default function NavButton({ links }: NavHeaderProps) {
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="center"
-                      className="font-poppins"
-                    >
+                    <DropdownMenuContent align="start" className="font-poppins">
                       <DropdownMenuLabel>
                         <p>{session.user.name}</p>
                       </DropdownMenuLabel>
@@ -144,12 +141,16 @@ export default function NavButton({ links }: NavHeaderProps) {
                 </DropdownMenu>
               ) : (
                 <div className="flex flex-col space-y-4">
-                  <Button variant={"unique"}>
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button variant="outline">
-                    <Link href="/register">Register</Link>
-                  </Button>
+                  <Link href="/login">
+                    <Button variant={"outline"} className="w-full">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button variant={"default"} className="w-full">
+                      Register
+                    </Button>
+                  </Link>
                 </div>
               )}
             </nav>
