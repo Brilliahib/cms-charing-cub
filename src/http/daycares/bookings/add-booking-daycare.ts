@@ -3,11 +3,12 @@ import { AxiosError } from "axios";
 import { api } from "@/lib/axios";
 import { useSession } from "next-auth/react";
 import { DayCare } from "@/types/daycares/daycare";
-import { GiveRateDaycareType } from "@/validators/daycares/give-rate-daycare-validator";
 import { BookingDaycareType } from "@/validators/daycares/booking-daycare-validator";
 
 interface BookingDaycareResponse {
-  data: DayCare;
+  data: {
+    payment_url: string;
+  };
 }
 
 export const addBookingDaycareHandler = async (
