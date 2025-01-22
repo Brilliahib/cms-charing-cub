@@ -9,20 +9,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { CircleCheck, CircleX, Image, ImagePlus, Timer } from "lucide-react";
+import {
+  ArrowUpDown,
+  CircleCheck,
+  CircleX,
+  Image,
+  ImagePlus,
+  Timer,
+} from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
+import { Button } from "@/components/ui/button";
 
 export const bookingDaycareColumns = (
   openUploadDialog: (id: string) => void,
   openViewPaymentProofDialog: (id: string) => void
 ): ColumnDef<BookingDaycare>[] => [
-  {
-    accessorKey: "index",
-    header: "No",
-    cell: ({ row }) => {
-      return <p suppressHydrationWarning>{row.index + 1}</p>;
-    },
-  },
   {
     accessorKey: "name_babies",
     header: "Child Name",
@@ -36,7 +37,7 @@ export const bookingDaycareColumns = (
     },
   },
   {
-    accessorKey: "daycare",
+    accessorKey: "daycare_name",
     header: "Daycare",
     cell: ({ row }) => {
       const data = row.original;
@@ -48,7 +49,7 @@ export const bookingDaycareColumns = (
     },
   },
   {
-    accessorKey: "daycare",
+    accessorKey: "daycare_location",
     header: "Daycare Location",
     cell: ({ row }) => {
       const data = row.original;
@@ -115,7 +116,17 @@ export const bookingDaycareColumns = (
   },
   {
     accessorKey: "start_time",
-    header: "Start Booking",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Start Booking
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -125,6 +136,12 @@ export const bookingDaycareColumns = (
           })}
         </p>
       );
+    },
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const timeA = new Date(rowA.original.start_time).getTime();
+      const timeB = new Date(rowB.original.start_time).getTime();
+      return timeA - timeB;
     },
   },
 
