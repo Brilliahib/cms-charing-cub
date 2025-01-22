@@ -29,6 +29,9 @@ export default function NavButton({ links }: NavHeaderProps) {
         {session ? (
           <DropdownMenu>
             <div className="flex items-center gap-5">
+              <p className="font-semibold text-sm">
+                Halo, {session.user.name}!
+              </p>
               <DropdownMenuTrigger asChild>
                 <Button variant="tertiary" size="icon" className="rounded-full">
                   <Avatar className="border border-muted">
@@ -121,7 +124,13 @@ export default function NavButton({ links }: NavHeaderProps) {
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="font-poppins">
+                    <p className="font-semibold text-sm">
+                      Halo, {session.user.name}!
+                    </p>
+                    <DropdownMenuContent
+                      align="center"
+                      className="font-poppins"
+                    >
                       <DropdownMenuLabel>
                         <p>{session.user.name}</p>
                       </DropdownMenuLabel>
