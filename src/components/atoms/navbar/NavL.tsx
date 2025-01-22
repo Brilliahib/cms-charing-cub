@@ -17,7 +17,7 @@ export default function NavL() {
               height={404}
               className="max-w-[60px]"
             />
-            <div className="text-sm">
+            <div className="md:text-sm md:inline hidden">
               <h1 className="font-bold">Charing Cub</h1>
               <p>One Step to Embrace Love</p>
             </div>

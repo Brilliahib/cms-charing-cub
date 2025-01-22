@@ -9,10 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { Eye, Image, ImagePlus, SquarePen } from "lucide-react";
+import { CircleCheck, CircleX, Image, ImagePlus, Timer } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
-import { Badge } from "@/components/ui/badge";
 
 export const bookingDaycareColumns = (
   openUploadDialog: (id: string) => void,
@@ -31,7 +29,7 @@ export const bookingDaycareColumns = (
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p suppressHydrationWarning className="line-clamp-2">
           {data.name_babies}
         </p>
       );
@@ -43,7 +41,7 @@ export const bookingDaycareColumns = (
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p suppressHydrationWarning className="line-clamp-2">
           {data.daycares?.name}
         </p>
       );
@@ -62,32 +60,39 @@ export const bookingDaycareColumns = (
     },
   },
   {
-    accessorKey: "start_time",
-    header: "Start Booking",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
     accessorKey: "payment_status",
     header: "Payment Status",
     cell: ({ row }) => {
       const data = row.original;
-      return (
-        <Badge
-          variant={data.payment_status === "paid" ? "success" : "destructive"}
-          className="uppercase"
-        >
-          {data.payment_status ?? "Null"}
-        </Badge>
-      );
+      switch (data.payment_status) {
+        case "paid":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleCheck className="text-green-500 h-4 w-4" />
+              <span className="text-green-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+        case "pending":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <Timer className="text-yellow-500 h-4 w-4" />
+              <span className="text-yellow-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+        case "cancelled":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleX className="text-red-500 h-4 w-4" />
+              <span className="text-red-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+      }
     },
   },
 
@@ -106,6 +111,20 @@ export const bookingDaycareColumns = (
         );
       }
       return <p className="text-orange-500 font-semibold">Tanpa Bukti</p>;
+    },
+  },
+  {
+    accessorKey: "start_time",
+    header: "Start Booking",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
+            locale: id,
+          })}
+        </p>
+      );
     },
   },
 

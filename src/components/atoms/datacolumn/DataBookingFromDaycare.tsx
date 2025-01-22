@@ -10,7 +10,16 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Check, CheckCheck, Eye, Image, ImagePlus } from "lucide-react";
+import {
+  Check,
+  CheckCheck,
+  CircleCheck,
+  CircleX,
+  Eye,
+  Image,
+  ImagePlus,
+  Timer,
+} from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
 import { Badge } from "@/components/ui/badge";
 
@@ -32,22 +41,20 @@ export const bookingDaycareFromDaycareColumns = (
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p suppressHydrationWarning className="line-clamp-2">
           {data.name_babies}
         </p>
       );
     },
   },
   {
-    accessorKey: "start_time",
-    header: "Start Booking",
+    accessorKey: "special_request",
+    header: "Special Request",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
-            locale: id,
-          })}
+        <p suppressHydrationWarning className="line-clamp-2">
+          {data.special_request}
         </p>
       );
     },
@@ -57,11 +64,35 @@ export const bookingDaycareFromDaycareColumns = (
     header: "Payment Status",
     cell: ({ row }) => {
       const data = row.original;
-      return (
-        <Badge variant={data.payment_status ? "destructive" : "success"}>
-          {data.payment_status ?? "Null"}
-        </Badge>
-      );
+      switch (data.payment_status) {
+        case "paid":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleCheck className="text-green-500 h-4 w-4" />
+              <span className="text-green-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+        case "pending":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <Timer className="text-yellow-500 h-4 w-4" />
+              <span className="text-yellow-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+        case "cancelled":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleX className="text-red-500 h-4 w-4" />
+              <span className="text-red-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+      }
     },
   },
   {
@@ -87,7 +118,21 @@ export const bookingDaycareFromDaycareColumns = (
           />
         );
       }
-      return <Badge variant="destructive">Belum Dibayar</Badge>;
+      return <p className="text-orange-500 font-semibold">Tanpa Bukti</p>;
+    },
+  },
+  {
+    accessorKey: "start_time",
+    header: "Start Booking",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="md:line-clamp-4 line-clamp-3">
+          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
+            locale: id,
+          })}
+        </p>
+      );
     },
   },
 
