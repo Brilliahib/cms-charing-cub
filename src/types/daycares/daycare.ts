@@ -40,6 +40,7 @@ export interface PriceListDaycare {
   age_start: string;
   age_end: string;
   price: number;
+  name: string;
 }
 
 export interface DaycareReviews {
