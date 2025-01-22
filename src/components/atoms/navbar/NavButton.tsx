@@ -79,13 +79,17 @@ export default function NavButton({ links }: NavHeaderProps) {
 
       <div className="md:hidden flex items-center">
         <Sheet>
+          {/* Hamburger */}
           <SheetTrigger asChild>
             <Button
               variant="outline"
               size="icon"
               className="shrink-0 md:hidden bg-white border-0 w-full"
             >
-              <Menu className="h-5 w-5" />
+              <Menu
+                style={{ height: "20px", width: "20px" }}
+                className="h-24 w-24"
+              />
             </Button>
           </SheetTrigger>
 

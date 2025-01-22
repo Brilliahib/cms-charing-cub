@@ -85,7 +85,7 @@ export default function Sidenav({ children, session }: SidenavProps) {
             {
               href: "/dashboard/daycares/bookings",
               label: "Booking",
-              icon: Notebook,
+              icon: CalendarCheck,
               active: pathname.startsWith("/dashboard/daycares/bookings"),
             },
           ]

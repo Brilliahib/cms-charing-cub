@@ -5,14 +5,22 @@ import DialogViewPaymentProofDaycare from "@/components/atoms/dialog/DialogPayme
 import DialogUploadPaymentProofDaycareType from "@/components/atoms/dialog/DialogUploadPaymentProofDaycare";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { DataTable } from "@/components/molecules/datatable/DataTable";
+import PaginationComponent from "@/components/molecules/pagination/Pagination";
 import { useGetAllBookingFromDaycares } from "@/http/daycares/bookings/get-all-booking-from-daycare";
 import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function DaycareBookingContent() {
   const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+
   const { data, isPending } = useGetAllBookingFromDaycares(
     session?.access_token as string,
+    query,
     { enabled: status === "authenticated" }
   );
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,6 +48,21 @@ export default function DaycareBookingContent() {
     data?.data.filter((article) =>
       article.name_babies.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
+
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setCurrentPage(1);
+    router.push(`?query=${e.target.value}&page=1`);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    router.push(`?query=${query}&page=${page}`);
+  };
   return (
     <>
       <div className="py-4 space-y-8">
@@ -52,6 +75,12 @@ export default function DaycareBookingContent() {
             openViewPaymentDialog
           )}
           data={filteredData}
+        />
+        <PaginationComponent
+          totalItems={data?.pagination.total || 0}
+          itemsPerPage={data?.pagination.per_page || 10}
+          currentPage={data?.pagination.current_page || 1}
+          onPageChange={handlePageChange}
         />
       </div>
       {selectedBookingId && (

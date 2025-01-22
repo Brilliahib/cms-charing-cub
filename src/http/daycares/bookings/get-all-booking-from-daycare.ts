@@ -3,20 +3,27 @@ import { AxiosError } from "axios";
 
 import { api } from "@/lib/axios";
 import { BookingDaycare } from "@/types/booking/booking";
+import { Pagination } from "@/types/pagination/pagination";
 
 interface GetAllBookingFromDaycaresResponse {
   data: BookingDaycare[];
+  pagination: Pagination;
 }
 
 export const getAllBookingFromDaycaresHandler = async (
-  token: string
+  token: string,
+  query: string
 ): Promise<GetAllBookingFromDaycaresResponse> => {
+  const params: Record<string, string | undefined> = {
+    name: query,
+  };
   const { data } = await api.get<GetAllBookingFromDaycaresResponse>(
     "/users/daycares/booking/list",
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params,
     }
   );
 
@@ -25,13 +32,14 @@ export const getAllBookingFromDaycaresHandler = async (
 
 export const useGetAllBookingFromDaycares = (
   token: string,
+  query: string,
   options?: Partial<
     UseQueryOptions<GetAllBookingFromDaycaresResponse, AxiosError>
   >
 ) => {
   return useQuery({
-    queryKey: ["booking-from-daycares"],
-    queryFn: () => getAllBookingFromDaycaresHandler(token),
+    queryKey: ["booking-from-daycares", query],
+    queryFn: () => getAllBookingFromDaycaresHandler(token, query),
     ...options,
   });
 };
