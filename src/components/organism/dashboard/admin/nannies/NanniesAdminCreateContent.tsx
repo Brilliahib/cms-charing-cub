@@ -47,12 +47,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function NanniesCreateContent() {
   const form = useForm<NanniesType>({
     resolver: zodResolver(nanniesSchema),
     defaultValues: {
-      daycare_id: 0,
+      daycare_id: "",
       gender: "",
       age: 0,
       contact: "",
@@ -65,7 +67,6 @@ export default function NanniesCreateContent() {
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { data } = useGetAllDaycare();
@@ -73,17 +74,12 @@ export default function NanniesCreateContent() {
 
   const { mutate: addNannyHandler, isPending } = useAddNannies({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal membuat profile nannies!",
+      toast.error("Failed to create profile nannies!", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil membuat profile nannies!",
-        variant: "success",
-      });
+      toast.success("Successfully to create profile nannies!");
       queryClient.invalidateQueries({
         queryKey: ["nannies-profile"],
       });
@@ -140,7 +136,8 @@ export default function NanniesCreateContent() {
                           >
                             {field.value
                               ? data?.data.find(
-                                  (daycare) => daycare.id === field.value
+                                  (daycare) =>
+                                    daycare.id.toString() === field.value
                                 )?.name
                               : "Select Daycare"}
                             <ChevronsUpDown className="opacity-50" />
@@ -157,7 +154,7 @@ export default function NanniesCreateContent() {
                                     key={daycare.id}
                                     value={daycare.id.toString()}
                                     onSelect={() => {
-                                      field.onChange(daycare.id);
+                                      field.onChange(daycare.id.toString());
                                       setOpen(false);
                                     }}
                                     className="font-normal"
@@ -166,7 +163,7 @@ export default function NanniesCreateContent() {
                                     <Check
                                       className={cn(
                                         "ml-auto",
-                                        field.value === daycare.id
+                                        field.value === daycare.id.toString()
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
@@ -309,8 +306,8 @@ export default function NanniesCreateContent() {
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
+                      <Textarea
+                        className="leading-relaxed"
                         placeholder="Enter experience description"
                         {...field}
                       />
@@ -332,13 +329,13 @@ export default function NanniesCreateContent() {
                       <div>
                         <div
                           {...getRootProps()}
-                          className={`border rounded-md border-input flex justify-center items-center cursor-pointer ${
+                          className={`border-dashed border-2 rounded-md border-input flex justify-center items-center cursor-pointer ${
                             isDragActive ? "border-gray-300" : "border-gray-300"
                           }`}
                         >
                           <Input {...getInputProps()} />
                           {imagePreview ? (
-                            <div className="relative w-full">
+                            <div className="relative">
                               <Image
                                 src={imagePreview}
                                 alt="Preview"
@@ -359,12 +356,19 @@ export default function NanniesCreateContent() {
                               Drop gambar di sini ...
                             </p>
                           ) : (
-                            <div className="text-center space-y-4 py-4">
-                              <UploadIcon className="mx-auto h-6 w-6 text-muted-foreground" />
-                              <p className="text-muted-foreground text-sm">
-                                Drag & drop gambar ke sini, atau klik untuk
-                                memilih
-                              </p>
+                            <div className="text-center space-y-4 py-4 flex flex-col items-center justify-center">
+                              <div className="border-dashed border-2 p-4 rounded-full w-fit">
+                                <UploadIcon className="mx-auto h-6 w-6 text-muted-foreground" />
+                              </div>
+                              <div className="space-y-2">
+                                <p className="text-muted-foreground text-sm">
+                                  Drag & drop files here, or click to select
+                                  files
+                                </p>
+                                <p className="text-muted-foreground text-sm">
+                                  (max upload files 1 MB)
+                                </p>
+                              </div>
                             </div>
                           )}
                         </div>
@@ -377,7 +381,7 @@ export default function NanniesCreateContent() {
 
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
-                  {isPending ? "Menambahkan..." : "Create"}
+                  {isPending ? "Creating" : "Create"}
                 </Button>
               </div>
             </form>

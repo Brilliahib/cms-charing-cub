@@ -19,7 +19,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { Check, ChevronsUpDown, CloudDownload, Trash2 } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  CloudDownload,
+  Trash2,
+  UploadIcon,
+} from "lucide-react";
 import {
   daycareSchema,
   DaycareType,
@@ -51,6 +57,7 @@ import {
 } from "@/components/ui/select";
 import "leaflet/dist/leaflet.css";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { toast } from "sonner";
 
 const containerStyle = {
   width: "100%",
@@ -92,7 +99,6 @@ export default function DaycareCreateProfileContent() {
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [facilityImagesPreview, setFacilityImagesPreview] = useState<string[]>(
@@ -122,19 +128,12 @@ export default function DaycareCreateProfileContent() {
 
   const { mutate: addDaycareHandler, isPending } = useAddDaycare({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal menambahkan daycare!",
+      toast.error("Failed to create profile daycare!", {
         description: error.response?.data.message,
-        variant: "destructive",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil menambahkan profile daycare!",
-        description:
-          "Daycare anda otomatis akan dapat dilihat oleh orang lain.",
-        variant: "success",
-      });
+      toast.success("Successfully create profile daycare!");
       queryClient.invalidateQueries({
         queryKey: ["daycare-profile"],
       });
@@ -566,13 +565,13 @@ export default function DaycareCreateProfileContent() {
                       <div>
                         <div
                           {...getRootProps()}
-                          className={`border rounded-md border-input flex justify-center items-center cursor-pointer ${
+                          className={`border-dashed border-2 rounded-md border-input flex justify-center items-center cursor-pointer ${
                             isDragActive ? "border-gray-300" : "border-gray-300"
                           }`}
                         >
                           <Input {...getInputProps()} />
                           {imagePreview ? (
-                            <div className="relative w-full">
+                            <div className="relative">
                               <Image
                                 src={imagePreview}
                                 alt="Preview"
@@ -589,16 +588,21 @@ export default function DaycareCreateProfileContent() {
                               </Button>
                             </div>
                           ) : isDragActive ? (
-                            <p className="text-blue-500">
-                              Drop gambar di sini ...
-                            </p>
+                            <p className="text-blue-500">Drop files here..</p>
                           ) : (
-                            <div className="text-center space-y-4 py-4">
-                              <CloudDownload className="mx-auto h-8 w-8 text-muted-foreground" />
-                              <p className="text-muted-foreground text-sm">
-                                Drag & drop gambar ke sini, atau klik untuk
-                                memilih
-                              </p>
+                            <div className="text-center space-y-4 py-4 flex flex-col items-center justify-center">
+                              <div className="border-dashed border-2 p-4 rounded-full w-fit">
+                                <UploadIcon className="mx-auto h-6 w-6 text-muted-foreground" />
+                              </div>
+                              <div className="space-y-2">
+                                <p className="text-muted-foreground text-sm">
+                                  Drag & drop files here, or click to select
+                                  files
+                                </p>
+                                <p className="text-muted-foreground text-sm">
+                                  (max upload files 1 MB)
+                                </p>
+                              </div>
                             </div>
                           )}
                         </div>
@@ -619,7 +623,7 @@ export default function DaycareCreateProfileContent() {
                       <div>
                         <div
                           {...getFacilityRootProps()}
-                          className={`border rounded-md border-input flex justify-center items-center cursor-pointer ${
+                          className={`border-dashed border-2 rounded-md border-input flex justify-center items-center cursor-pointer ${
                             isFacilityDragActive
                               ? "border-gray-300"
                               : "border-gray-300"
@@ -652,12 +656,19 @@ export default function DaycareCreateProfileContent() {
                               Drop gambar di sini ...
                             </p>
                           ) : (
-                            <div className="text-center space-y-4 py-4">
-                              <CloudDownload className="mx-auto h-8 w-8 text-muted-foreground" />
-                              <p className="text-muted-foreground text-sm">
-                                Drag & drop gambar ke sini, atau klik untuk
-                                memilih
-                              </p>
+                            <div className="text-center space-y-4 py-4 flex flex-col items-center justify-center">
+                              <div className="border-dashed border-2 p-4 rounded-full w-fit">
+                                <UploadIcon className="mx-auto h-6 w-6 text-muted-foreground" />
+                              </div>
+                              <div className="space-y-2">
+                                <p className="text-muted-foreground text-sm">
+                                  Drag & drop files here, or click to select
+                                  files
+                                </p>
+                                <p className="text-muted-foreground text-sm">
+                                  (max upload files 1 MB)
+                                </p>
+                              </div>
                             </div>
                           )}
                         </div>
