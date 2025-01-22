@@ -21,7 +21,6 @@ import {
   Timer,
 } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
-import { Badge } from "@/components/ui/badge";
 
 export const bookingDaycareFromDaycareColumns = (
   openViewPaymentProofDialog: (id: string) => void,

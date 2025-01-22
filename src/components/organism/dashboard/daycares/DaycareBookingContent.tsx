@@ -17,10 +17,14 @@ export default function DaycareBookingContent() {
   const router = useRouter();
 
   const [query, setQuery] = useState(searchParams.get("query") || "");
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
 
   const { data, isPending } = useGetAllBookingFromDaycares(
     session?.access_token as string,
     query,
+    currentPage,
     { enabled: status === "authenticated" }
   );
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,10 +52,6 @@ export default function DaycareBookingContent() {
     data?.data.filter((article) =>
       article.name_babies.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
-
-  const [currentPage, setCurrentPage] = useState(
-    Number(searchParams.get("page")) || 1
-  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);

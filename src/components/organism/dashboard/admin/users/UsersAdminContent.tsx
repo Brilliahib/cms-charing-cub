@@ -18,18 +18,20 @@ export default function UsersAdminContent() {
   const router = useRouter();
 
   const [query, setQuery] = useState(searchParams.get("query") || "");
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+
   const { data, isPending } = useGetAllUsers(
     session?.access_token as string,
     query,
+    currentPage,
     {
       enabled: status === "authenticated",
     }
   );
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(
-    Number(searchParams.get("page")) || 1
-  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);

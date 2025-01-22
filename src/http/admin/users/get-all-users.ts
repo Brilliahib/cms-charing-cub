@@ -12,10 +12,12 @@ interface GetAllUsersResponse {
 
 export const getAllUsersHandler = async (
   token: string,
-  query: string
+  query: string,
+  currentPage: number
 ): Promise<GetAllUsersResponse> => {
   const params: Record<string, string | undefined> = {
     name: query,
+    page: currentPage.toString(),
   };
 
   const { data } = await api.get<GetAllUsersResponse>("/user", {
@@ -31,11 +33,12 @@ export const getAllUsersHandler = async (
 export const useGetAllUsers = (
   token: string,
   query: string,
+  currentPage: number,
   options?: Partial<UseQueryOptions<GetAllUsersResponse, AxiosError>>
 ) => {
   return useQuery({
-    queryKey: ["users-list", query],
-    queryFn: () => getAllUsersHandler(token, query),
+    queryKey: ["users-list", query, currentPage],
+    queryFn: () => getAllUsersHandler(token, query, currentPage),
     ...options,
   });
 };

@@ -12,10 +12,12 @@ interface GetAllBookingFromDaycaresResponse {
 
 export const getAllBookingFromDaycaresHandler = async (
   token: string,
-  query: string
+  query: string,
+  currentPage: number
 ): Promise<GetAllBookingFromDaycaresResponse> => {
   const params: Record<string, string | undefined> = {
     name: query,
+    page: currentPage.toString(),
   };
   const { data } = await api.get<GetAllBookingFromDaycaresResponse>(
     "/users/daycares/booking/list",
@@ -33,13 +35,14 @@ export const getAllBookingFromDaycaresHandler = async (
 export const useGetAllBookingFromDaycares = (
   token: string,
   query: string,
+  currentPage: number,
   options?: Partial<
     UseQueryOptions<GetAllBookingFromDaycaresResponse, AxiosError>
   >
 ) => {
   return useQuery({
-    queryKey: ["booking-from-daycares", query],
-    queryFn: () => getAllBookingFromDaycaresHandler(token, query),
+    queryKey: ["booking-from-daycares", query, currentPage],
+    queryFn: () => getAllBookingFromDaycaresHandler(token, query, currentPage),
     ...options,
   });
 };
