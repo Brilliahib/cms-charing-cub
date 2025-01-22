@@ -666,7 +666,7 @@ export default function DaycareCreateProfileContent() {
                                   files
                                 </p>
                                 <p className="text-muted-foreground text-sm">
-                                  (max upload files 1 MB)
+                                  You can upload 4 files (up to 4 MB each)
                                 </p>
                               </div>
                             </div>
