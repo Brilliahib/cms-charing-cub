@@ -11,16 +11,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import {
+  ArrowUpDown,
   Check,
   CheckCheck,
   CircleCheck,
   CircleX,
   Eye,
-  Image,
-  ImagePlus,
   Timer,
 } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
+import { Button } from "@/components/ui/button";
 
 export const bookingDaycareFromDaycareColumns = (
   openViewPaymentProofDialog: (id: string) => void,
@@ -28,10 +30,25 @@ export const bookingDaycareFromDaycareColumns = (
   openConfirmBookingDialog: (id: string) => void
 ): ColumnDef<BookingDaycare>[] => [
   {
-    accessorKey: "index",
-    header: "No",
+    accessorKey: "name",
+    header: "Name",
     cell: ({ row }) => {
-      return <p suppressHydrationWarning>{row.index + 1}</p>;
+      const data = row.original;
+      return (
+        <>
+          <div className="flex gap-2 items-center">
+            <Avatar className="border border-muted">
+              <AvatarImage src={buildFromAppURL(data.user.profile)} />
+              <AvatarFallback className="text-gray-700">
+                {generateFallbackFromName(data.user.name)}
+              </AvatarFallback>
+            </Avatar>
+            <p suppressHydrationWarning className="line-clamp-2">
+              {data.user.name}
+            </p>
+          </div>
+        </>
+      );
     },
   },
   {
@@ -104,34 +121,33 @@ export const bookingDaycareFromDaycareColumns = (
     },
   },
   {
-    accessorKey: "payment_proof",
-    header: "Payment Proof",
-    cell: ({ row }) => {
-      const data = row.original;
-
-      if (data.payment_proof) {
-        return (
-          <Image
-            onClick={() => openViewPaymentProofDialog(data.id)}
-            className="h-5 w-5 cursor-pointer"
-          />
-        );
-      }
-      return <p className="text-orange-500 font-semibold">Tanpa Bukti</p>;
-    },
-  },
-  {
     accessorKey: "start_time",
-    header: "Start Booking",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-4 line-clamp-3">
-          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
+        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+          {format(data.start_time, "EEEE, d MMMM yyyy", {
             locale: id,
           })}
         </p>
       );
+    },
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const timeA = new Date(rowA.original.start_time).getTime();
+      const timeB = new Date(rowB.original.start_time).getTime();
+      return timeA - timeB;
     },
   },
 
