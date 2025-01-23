@@ -28,7 +28,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
     <>
       <div
         className={cn(
-          `flex items-center rounded-xl border md:w-[200px] w-full font-figtree ${className}`
+          `flex items-center rounded-xl border md:w-[260px] w-full font-figtree ${className}`
         )}
       >
         <div className="flex justify-center items-center h-10 rounded-l-xl bg-white pl-4 pr-1 py-4 text-sm">

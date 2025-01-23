@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchInput from "@/components/atoms/search/SearchInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DialogFilterDaycare from "@/components/atoms/dialog/DialogFilterDaycare";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/utils/price";
@@ -18,8 +18,14 @@ import { formatPrice } from "@/utils/price";
 export default function CubLocationContent() {
   const [query, setQuery] = useState("");
   const [locationFilter, setLocationFilter] = useState<string>("");
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
 
-  const { data, isPending } = useGetAllDaycare({ location: locationFilter });
+  const { data, isPending } = useGetAllDaycare({
+    location: locationFilter,
+    latitude,
+    longitude,
+  });
 
   const onSearch = (value: string) => {
     setQuery(value);
@@ -28,6 +34,29 @@ export default function CubLocationContent() {
   const onFilterChange = (location: string) => {
     setLocationFilter(location);
   };
+
+  const getCurrentLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert(
+            "Tidak dapat mendapatkan lokasi. Pastikan izin lokasi diaktifkan."
+          );
+        }
+      );
+    } else {
+      alert("Geolocation tidak didukung oleh browser ini.");
+    }
+  };
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
   const filteredDaycares = Array.isArray(data?.data)
     ? data.data.filter((daycare) =>
@@ -118,28 +147,32 @@ export default function CubLocationContent() {
                         className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
                       />
                     </CardHeader>
-                    <CardContent className="space-y-3 px-4">
-                      <div className="flex justify-between items-start">
-                        <h1 className="font-semibold">{daycare.name}</h1>
-                        <h1 className="text-primary font-bold">Rp. 180.000</h1>
-                      </div>
-                      <div className="flex gap-2">
-                        <MapPin className="h-4 w-4 flex-shrink-0" />
-                        <p className="line-clamp-2 text-sm">
-                          {daycare.address}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Star
-                          className="h-4 w-4 text-yellow-500"
-                          fill="currentColor"
-                        />
-                        <p className="font-semibold text-sm text-primary">
-                          {daycare.rating}{" "}
-                          <span className="text-muted-foreground font-medium">
-                            ({daycare.reviewers_count} reviews)
-                          </span>
-                        </p>
+                    <CardContent className="space-y-2 px-4">
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center">
+                          <h1 className="font-semibold">{daycare.name}</h1>
+                          <p className="text-sm font-semibold text-primary">
+                            {daycare.distance} km
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          <MapPin className="h-4 w-4 flex-shrink-0" />
+                          <p className="line-clamp-2 text-sm">
+                            {daycare.address}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Star
+                            className="h-4 w-4 text-yellow-500"
+                            fill="currentColor"
+                          />
+                          <p className="font-semibold text-sm">
+                            {daycare.rating}{" "}
+                            <span className="text-muted-foreground font-medium">
+                              ({daycare.reviewers_count} reviews)
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>

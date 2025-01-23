@@ -14,6 +14,7 @@ export interface DayCare {
   opening_days: string;
   phone_number: string;
   rating: number;
+  distance: number;
   reviewers_count: number;
   price_half: number;
   price_full: number;
