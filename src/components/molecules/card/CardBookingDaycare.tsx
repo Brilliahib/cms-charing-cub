@@ -1,5 +1,6 @@
 "use client";
 
+import AlertInformationBookingDaycare from "@/components/atoms/alert/AlertInformationBookingDaycare";
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -549,6 +550,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                 <div className="space-y-8">
                   <div className="space-y-6">
                     <h1 className="font-bold text-lg">Payment Details</h1>
+                    <AlertInformationBookingDaycare />
                     <div className="flex justify-between">
                       <p>Harga Normal</p>
                       <p>
