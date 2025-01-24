@@ -3,7 +3,7 @@ import React from "react";
 export default function HomeIntroVideo() {
   return (
     <div className="py-24 space-y-12 pad-x">
-      <div className="w-[70rem]">
+      <div className="md:w-[70rem] w-fit">
         <h1 className="font-bold tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
           Get to know!👀
         </h1>
