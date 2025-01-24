@@ -18,10 +18,10 @@ export default function HomeArticle() {
           <h1 className="font-bold tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
             Our Article🤝
           </h1>
-          <span className="w-[20rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
+          <span className="md:w-[20rem] w-[10rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
         </div>
 
-        <div className="grid md:grid-cols-4 grid-cols-1 gap-4 md:gap-6">
+        <div className="grid md:grid-cols-4 grid-cols-1 gap-6 md:gap-6">
           {isPending
             ? Array.from({ length: 4 }).map((_, index) => (
                 <div key={index} className="space-y-2">
