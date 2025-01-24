@@ -1,5 +1,6 @@
 "use client";
 
+import AlertComingSoon from "@/components/atoms/alert/AlertComingSoon";
 import SectionTitle from "@/components/atoms/typography/SectionTitle";
 
 export default function CubNestContent() {
@@ -10,6 +11,7 @@ export default function CubNestContent() {
           title="Cub Nest"
           subtitle="Connecting Your Child With Loving Nannies"
         />
+        <AlertComingSoon />
       </div>
     </div>
   );

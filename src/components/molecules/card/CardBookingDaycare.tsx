@@ -528,8 +528,8 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                                     key={priceList.id}
                                     value={String(priceList.id)}
                                   >
-                                    Umur {priceList.age_start} bulan sampai{" "}
-                                    {priceList.age_end} bulan —{" "}
+                                    Umur {priceList.age_start} sampai{" "}
+                                    {priceList.age_end} —{" "}
                                     <b>{formatPrice(priceList.price)}</b> (
                                     {priceList.name})
                                   </SelectItem>
