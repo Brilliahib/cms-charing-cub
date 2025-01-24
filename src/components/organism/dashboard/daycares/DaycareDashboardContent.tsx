@@ -1,3 +1,4 @@
+import DashboardTitle from "@/components/atoms/typography/DashboardTitle";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatPrice } from "@/utils/price";
 import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
@@ -6,6 +7,7 @@ export default function DaycareDashboardContent() {
   return (
     <>
       <div className="py-8 space-y-8">
+        <DashboardTitle title="Dashboard Daycare" />
         <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:gap-6">
           <Card className="shadow-lg border relative overflow-hidden">
             <CardContent className="p-4 md:p-6">

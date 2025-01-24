@@ -9,9 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
@@ -22,8 +21,9 @@ import Image from "next/image";
 import {
   Check,
   ChevronsUpDown,
-  CloudDownload,
+  Plus,
   Trash2,
+  Trash2Icon,
   UploadIcon,
 } from "lucide-react";
 import {
@@ -58,6 +58,8 @@ import {
 import "leaflet/dist/leaflet.css";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { toast } from "sonner";
+import AlertInformationCreateProfileDaycare from "@/components/atoms/alert/AlertInformationCreateProfileDaycare";
+import DashboardTitle from "@/components/atoms/typography/DashboardTitle";
 
 const containerStyle = {
   width: "100%",
@@ -86,14 +88,13 @@ export default function DaycareCreateProfileContent() {
       facility_images: [],
       location: "",
       location_tracking: "",
-      price_half: 0,
-      price_full: 0,
       is_disability: true,
       longitude: 0,
       latitude: 0,
       bank_account: "",
       bank_account_number: "",
       bank_account_name: "",
+      price_lists: [{ age_start: "", age_end: "", price: 0, name: "" }],
     },
     mode: "onChange",
   });
@@ -106,6 +107,11 @@ export default function DaycareCreateProfileContent() {
   );
   const [open, setOpen] = useState(false);
   const [markerPosition, setMarkerPosition] = useState(defaultCenter);
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "price_lists",
+  });
 
   // Ambil lokasi pengguna
   useEffect(() => {
@@ -198,9 +204,11 @@ export default function DaycareCreateProfileContent() {
   };
 
   return (
-    <div className="w-full py-8">
+    <div className="w-full py-8 space-y-8">
+      <DashboardTitle title="Create Profile Daycare" />
       <Card className="shadow-md">
-        <CardContent className="py-4">
+        <CardContent className="py-4 space-y-6">
+          <AlertInformationCreateProfileDaycare />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
@@ -232,46 +240,6 @@ export default function DaycareCreateProfileContent() {
                           placeholder="Masukkan deskripsi / pengenalan tentang daycare Anda"
                           {...field}
                           value={field.value ?? ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="price_half"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Harga Setengah Hari</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Masukkan harga setengah hari"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="price_full"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Harga Sehari Penuh</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Masukkan harga sehari penuh"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value))
-                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -560,7 +528,7 @@ export default function DaycareCreateProfileContent() {
                 name="images"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Gambar</FormLabel>
+                    <FormLabel>Logo</FormLabel>
                     <FormControl>
                       <div>
                         <div
@@ -753,6 +721,114 @@ export default function DaycareCreateProfileContent() {
                 ) : (
                   <p>Memuat peta...</p>
                 )}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <FormLabel>Price List</FormLabel>
+                    <Button
+                      type="button"
+                      onClick={() =>
+                        append({
+                          age_start: "",
+                          age_end: "",
+                          price: 0,
+                          name: "",
+                        })
+                      }
+                      className="flex items-center gap-2 size-8 p-0"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  {fields.map((field, index) => (
+                    <div className="flex items-end gap-4" key={index}>
+                      <div
+                        key={field.id}
+                        className="grid md:grid-cols-4 grid-cols-1 gap-4 md:gap-6 w-full"
+                      >
+                        <FormField
+                          control={form.control}
+                          name={`price_lists.${index}.name`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Keterangan</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="text"
+                                  placeholder="Setengah hari / satu hari"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={`price_lists.${index}.age_start`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Umur Awal</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="text"
+                                  placeholder="12 Bulan"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={`price_lists.${index}.age_end`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Umur Akhir</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="text"
+                                  placeholder="24 Bulan"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={`price_lists.${index}.price`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Harga</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="0"
+                                  {...field}
+                                  onChange={(e) =>
+                                    field.onChange(parseInt(e.target.value))
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={() => remove(index)}
+                        className="flex items-center gap-2 size-8 p-0"
+                      >
+                        <Trash2Icon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>

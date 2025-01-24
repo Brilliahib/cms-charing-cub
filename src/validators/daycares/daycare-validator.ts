@@ -44,12 +44,6 @@ export const daycareSchema = z.object({
     .max(20, { message: "Nomor telepon maksimal 20 karakter" })
     .nullable()
     .optional(),
-  price_half: z
-    .number()
-    .min(1, { message: "Harga setengah hari harus diisi dan minimal 1" }),
-  price_full: z
-    .number()
-    .min(1, { message: "Harga satu hari harus diisi dan minimal 1" }),
   facility_images: z
     .array(
       z.union([
@@ -80,6 +74,24 @@ export const daycareSchema = z.object({
   bank_account_name: z
     .string()
     .min(1, { message: "Atas nama bank daycare harus diisi" }),
+  price_lists: z
+    .array(
+      z.object({
+        age_start: z
+          .string()
+          .min(0, { message: "Umur awal harus minimal 0 tahun" }),
+        age_end: z
+          .string()
+          .min(0, { message: "Umur akhir harus minimal 0 tahun" }),
+        price: z
+          .number()
+          .min(1, { message: "Harga harus diisi dan minimal 1" }),
+        name: z
+          .string()
+          .min(1, { message: "Nama keterangan price list wajib diisi" }),
+      })
+    )
+    .min(1, { message: "Setidaknya satu price list harus diisi" }),
 });
 
 export type DaycareType = z.infer<typeof daycareSchema>;

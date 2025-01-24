@@ -199,7 +199,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                   <div className="flex md:flex-row flex-col gap-1">
                     <div className="md:w-4/12">Opening Hours</div>
                     <div className="md:w-8/12">
-                      {data?.data.opening_days}
+                      {data?.data.opening_days}, {""}
                       {formatTime(data?.data.opening_hours)} -{" "}
                       {formatTime(data?.data.closing_hours)}
                     </div>
@@ -224,7 +224,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       <ul className="flex items-center gap-2">
                         {data?.data.price_lists.map((price) => (
                           <Badge key={price.id}>
-                            {price.age_start} to {price.age_end} Months{" "}
+                            {price.age_start} to {price.age_end}
                           </Badge>
                         ))}
                       </ul>
