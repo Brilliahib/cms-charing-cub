@@ -67,7 +67,7 @@ export default function LoginForm() {
           <CardHeader>
             <CardTitle className="text-3xl font-bold">Login</CardTitle>
             <CardDescription>
-              Selamat datang! Silahkan masuk menggunakan akun anda.
+              Welcome! Enter your email below to login to your account
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -86,7 +86,7 @@ export default function LoginForm() {
                         <Input
                           type="text"
                           id="email"
-                          placeholder="Masukkan email"
+                          placeholder="m@example.com"
                           {...field}
                         />
                       </FormControl>
@@ -104,7 +104,7 @@ export default function LoginForm() {
                         <Input
                           type="password"
                           id="password"
-                          placeholder="Masukkan password"
+                          placeholder="Enter your password"
                           {...field}
                         />
                       </FormControl>
@@ -114,20 +114,21 @@ export default function LoginForm() {
                 />
                 <div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Loading..." : "Masuk"}{" "}
+                    {isLoading ? "Loading..." : "Login"}{" "}
                   </Button>
                 </div>
               </form>
             </Form>
-            <div className="mt-6 text-center">
-              <p className="text-muted-foreground text-sm">
-                Belum punya akun?{" "}
-                <Link href={"/register"}>
-                  <span className="text-primary underline font-semibold">
-                    Daftar Sekarang
-                  </span>
+            <div className="mt-6 text-center space-y-4">
+              <div className="text-center text-sm">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/register"
+                  className="underline underline-offset-4 text-primary"
+                >
+                  Sign up
                 </Link>
-              </p>
+              </div>
             </div>
           </CardContent>
         </div>
