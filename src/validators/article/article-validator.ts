@@ -1,12 +1,7 @@
 import { z } from "zod";
 
 export const articleSchema = z.object({
-  article_type_id: z
-    .string()
-    .min(1, { message: "Article Type harus diisi" })
-    .refine((val) => !isNaN(parseInt(val)), {
-      message: "Article Type harus berupa ID yang valid",
-    }),
+  article_type_id: z.string().min(1, { message: "Article Type harus diisi" }),
   title: z
     .string()
     .min(1, { message: "Judul harus diisi" })

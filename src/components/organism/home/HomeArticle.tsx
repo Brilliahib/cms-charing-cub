@@ -6,38 +6,55 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function HomeArticle() {
   const { data, isPending } = useGetArticle();
+
   return (
     <>
-      <div className="pad-x md:pt-24 pt-16">
-        <div className="grid md:grid-cols-3 xl:grid-cols-4 grid-cols-1 gap-4">
-          {data?.data.map((article) => (
-            <Link
-              href={`/articles/${article.id}`}
-              key={article.id}
-              className="space-y-2"
-            >
-              <Image
-                src={`${baseUrl}/${article.image}`}
-                alt={article.title}
-                width={1000}
-                height={1000}
-                className="max-h-[200px] md:w-fit w-full object-cover rounded-xl"
-              />
-              <div className="space-y-1">
-                <h1 className="font-semibold text-md line-clamp-2">
-                  {article.title}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  {format(article.created_at, "d MMMM yyyy", {
-                    locale: id,
-                  })}
-                </p>
-              </div>
-            </Link>
-          ))}
+      <div className="pad-x md:pt-24 pt-16 space-y-12">
+        <div className="w-[70rem]">
+          <h1 className="font-bold tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
+            Our Article🤝
+          </h1>
+          <span className="w-[20rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
+        </div>
+
+        <div className="grid md:grid-cols-4 grid-cols-1 gap-4 md:gap-6">
+          {isPending
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="space-y-2">
+                  <Skeleton className="h-[200px] w-full md:w-[270px] rounded-xl" />
+                  <Skeleton className="h-[20px] w-3/4" />
+                  <Skeleton className="h-[16px] w-1/2" />
+                </div>
+              ))
+            : data?.data.map((article) => (
+                <Link
+                  href={`/articles/${article.id}`}
+                  key={article.id}
+                  className="space-y-2"
+                >
+                  <Image
+                    src={`${baseUrl}/${article.image}`}
+                    alt={article.title}
+                    width={1000}
+                    height={1000}
+                    className="h-[180px] md:w-full w-full object-cover rounded-xl"
+                  />
+                  <div className="space-y-1">
+                    <h1 className="font-semibold text-md line-clamp-2">
+                      {article.title}
+                    </h1>
+                    <p className="text-sm text-muted-foreground">
+                      {format(new Date(article.created_at), "d MMMM yyyy", {
+                        locale: id,
+                      })}
+                    </p>
+                  </div>
+                </Link>
+              ))}
         </div>
       </div>
     </>
