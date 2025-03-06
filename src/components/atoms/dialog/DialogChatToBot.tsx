@@ -79,11 +79,12 @@ export default function DialogChatToBot({
   useEffect(() => {
     setMessages([
       {
-        text: "👋 Hai Parents! Aku Biwi",
+        text: "👋 Hai Parents! Aku Biwi, asisten virtual CharingCub 😊. Aku siap membantu menjawab pertanyaan seputar layanan daycare dan nanny. Silakan tanyakan apa saja ya! ✨",
         sender: "bot",
       },
     ]);
   }, []);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>

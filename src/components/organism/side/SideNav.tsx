@@ -37,11 +37,6 @@ export default function Sidenav({ children, session }: SidenavProps) {
 
   const links = useMemo(
     () => [
-      {
-        href: "/",
-        label: "Home",
-        icon: Home,
-      },
       ...(session?.user.role === "admin"
         ? [
             {
@@ -137,6 +132,11 @@ export default function Sidenav({ children, session }: SidenavProps) {
               active: pathname.startsWith("/dashboard/bookings/nannies"),
             },
           ]),
+      {
+        href: "/",
+        label: "Ke Beranda",
+        icon: Home,
+      },
       {
         href: "/dashboard/settings",
         label: "Setting",
