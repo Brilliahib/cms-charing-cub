@@ -89,7 +89,7 @@ export default function DialogChatToBot({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Chat With Biwi</DialogTitle>
+          <DialogTitle>Tanya Biwi🧸</DialogTitle>
           <DialogDescription>
             Biwi akan menjawab semua pertanyaan Anda
           </DialogDescription>
