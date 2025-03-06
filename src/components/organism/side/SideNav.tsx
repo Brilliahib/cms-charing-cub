@@ -14,6 +14,7 @@ import {
   HousePlus,
   Notebook,
   Wallet,
+  Home,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -36,6 +37,11 @@ export default function Sidenav({ children, session }: SidenavProps) {
 
   const links = useMemo(
     () => [
+      {
+        href: "/",
+        label: "Home",
+        icon: Home,
+      },
       ...(session?.user.role === "admin"
         ? [
             {
