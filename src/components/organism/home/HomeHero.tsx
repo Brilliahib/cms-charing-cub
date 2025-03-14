@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HomeHero() {
   return (
     <>
-      <div className="pad-x lg:pt-8 md:pt-6 pt-4">
+      <div className="pad-x-xl lg:pt-8 md:pt-6 pt-4">
         <div
           className="relative md:min-h-[80vh] min-h-[70vh] rounded-2xl w-full flex flex-col items-center text-center justify-center"
           style={{
@@ -25,9 +25,9 @@ export default function HomeHero() {
                     Cub Location
                   </h1>
                 </Link>
-                <Link href={"/cub-nest"} className="hover:text-primary">
+                <Link href={"/cub-talk"} className="hover:text-primary">
                   <h1 className="font-semibold md:text-base text-sm">
-                    Cub Nest
+                    Cub Talk
                   </h1>
                 </Link>
                 <Link href={"/cub-care"} className="hover:text-primary">

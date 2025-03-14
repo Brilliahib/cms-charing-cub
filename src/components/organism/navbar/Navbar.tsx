@@ -26,9 +26,9 @@ export default function Navbar() {
         active: pathname.startsWith("/cub-location"),
       },
       {
-        href: "/cub-nest",
-        label: "Cub Nest",
-        active: pathname.startsWith("/cub-nest"),
+        href: "/cub-talk",
+        label: "Cub Talk",
+        active: pathname.startsWith("/cub-talk"),
       },
       {
         href: "/cub-care",

@@ -1,5 +1,5 @@
 import { Auth } from "../auth/auth";
-import { DaycareReviews } from "../daycares/daycare";
+import { DayCare, DaycareReviews } from "../daycares/daycare";
 
 export interface Nannies {
   id: number;
@@ -25,6 +25,8 @@ export interface Nannies {
   created_at: Date;
   user: Auth;
   reviews: NanniesDaycareReview[];
+  daycare?: DayCare;
+  price_lists: NanniesPriceList[];
 }
 
 export interface NanniesDaycareReview {
@@ -35,4 +37,13 @@ export interface NanniesDaycareReview {
   comment: string;
   name: string;
   created_at: Date;
+}
+
+interface NanniesPriceList {
+  id: string;
+  nanny_id: string;
+  age_start: string;
+  age_end: string;
+  name: string;
+  price: number;
 }

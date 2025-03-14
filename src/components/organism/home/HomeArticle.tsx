@@ -13,7 +13,7 @@ export default function HomeArticle() {
 
   return (
     <>
-      <div className="pad-x md:pt-24 pt-16 space-y-12">
+      <div className="pad-x-xl md:pt-24 pt-16 space-y-12">
         <div className="md:w-[70rem] w-fit">
           <h1 className="font-bold tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
             Our Article🤝

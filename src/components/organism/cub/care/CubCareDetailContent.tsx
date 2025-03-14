@@ -88,24 +88,30 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                   <h1 className="font-bold text-lg">{data?.data.name}</h1>
                   <p>{data?.data.experience_description}</p>
                 </div>
-                <div className="flex gap-4 items-center">
-                  <Image
-                    src={`${baseUrl}/${data?.data.daycare_profile}`}
-                    alt={data?.data.daycare_name ?? "Daycare"}
-                    width={1000}
-                    height={1000}
-                    className="rounded-full max-w-[50px] max-h-[50px]"
-                  />
-                  <div className="space-y-1">
-                    <h1>{data?.data.daycare_name}</h1>
-                    <div className="flex items-center space-x-2">
-                      <RatingStars rating={data?.data.rating || 0} />{" "}
-                      <span className="text-sm text-muted-foreground">
-                        ({data?.data.rating_count})
-                      </span>
+                {data?.data.daycare && (
+                  <div className="flex gap-4 items-center">
+                    {data.data.daycare.images && (
+                      <Image
+                        src={`${baseUrl}/${data.data.daycare.images}`}
+                        alt={data.data.daycare_name ?? "Daycare"}
+                        width={1000}
+                        height={1000}
+                        className="rounded-full max-w-[50px] max-h-[50px]"
+                      />
+                    )}
+                    <div className="space-y-1">
+                      <h1>{data.data.daycare.name}</h1>
+                      {data.data.daycare.rating && (
+                        <div className="flex items-center space-x-2">
+                          <RatingStars rating={data.data.daycare.rating} />
+                          <span className="text-sm text-muted-foreground">
+                            ({data.data.daycare.rating})
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -115,27 +121,50 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
             <CardContent className="p-6 shadow border rounded-xl">
               <div className="space-y-4">
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Daycare</div>
-                  <div className="md:w-8/12">{data?.data.daycare_name}</div>
-                </div>
-                <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Harga</div>
+                  <div className="md:w-4/12 text-muted-foreground">Daycare</div>
                   <div className="md:w-8/12">
-                    {formatPrice(data?.data.price_half)} - {""}
-                    {formatPrice(data?.data.price_full)}
+                    {data?.data.daycare?.name ?? "Tidak Memiliki Daycare"}
                   </div>
                 </div>
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Nomor Telepon</div>
+                  <div className="md:w-4/12 text-muted-foreground">
+                    Nomor Telepon
+                  </div>
                   <div className="md:w-8/12">{data?.data.contact}</div>
                 </div>
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Lokasi</div>
-                  <div className="md:w-8/12">{data?.data.daycare_location}</div>
+                  <div className="md:w-4/12 text-muted-foreground">Lokasi</div>
+                  <div className="md:w-8/12">
+                    {data?.data.daycare?.address ?? "Lokasi Tidak Ada"}
+                  </div>
                 </div>
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Pria / Wanita</div>
-                  <div className="md:w-8/12">{data?.data.gender}</div>
+                  <div className="md:w-4/12 text-muted-foreground">
+                    Jenis Kelamin
+                  </div>
+                  <div className="md:w-8/12">
+                    {data?.data.gender === "male"
+                      ? "Laki-laki"
+                      : data?.data.gender === "female"
+                      ? "Perempuan"
+                      : data?.data.gender}
+                  </div>
+                </div>
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12 text-muted-foreground">
+                    Pilihan Harga
+                  </div>
+                  <div className="md:w-8/12">
+                    <div className="space-y-2">
+                      {data?.data.price_lists.map((price) => (
+                        <div key={price.id}>
+                          <h1>
+                            {formatPrice(price.price)} ({price.name})
+                          </h1>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-4">
                   <Button
@@ -143,14 +172,7 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                     size={"lg"}
                     onClick={handleBookingClick}
                   >
-                    Book Now
-                  </Button>
-                  <Button
-                    variant={"outline"}
-                    size={"lg"}
-                    className="w-full border bg-secondary hover:bg-secondary/80"
-                  >
-                    Contact Center
+                    Booking Sekarang
                   </Button>
                 </div>
               </div>
