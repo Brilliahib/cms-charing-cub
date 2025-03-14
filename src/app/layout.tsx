@@ -61,7 +61,7 @@ export default function RootLayout({
       <body>
         <GlobalProvider>
           <main className="font-jakarta">{children}</main>
-          <Toaster richColors closeButton />
+          <Toaster />
         </GlobalProvider>
       </body>
     </html>

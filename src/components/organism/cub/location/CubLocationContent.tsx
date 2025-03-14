@@ -93,85 +93,63 @@ export default function CubLocationContent() {
           <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-6">
             {isPending ? (
               Array.from({ length: 4 }).map((_, index) => (
-                <Card className="shadow-md hover:shadow-xl h-full" key={index}>
-                  <CardHeader className="relative p-0 mb-4">
-                    {/* Skeleton untuk gambar utama */}
-                    <Skeleton className="w-full object-cover md:h-[150px] h-[180px] rounded-t-xl" />
-
-                    {/* Skeleton untuk logo overlay */}
-                    <Skeleton className="absolute top-0 right-2 w-10 h-10 rounded-full border border-white shadow-lg" />
-                  </CardHeader>
-                  <CardContent className="space-y-3 px-4">
-                    {/* Skeleton untuk judul dan harga */}
-                    <div className="flex justify-between items-start">
-                      <Skeleton className="h-6 w-1/2" />
-                      <Skeleton className="h-6 w-1/4" />
-                    </div>
-
-                    {/* Skeleton untuk alamat */}
-                    <div className="flex gap-2 items-center">
-                      <MapPin className="h-4 w-4 flex-shrink-0 text-gray-300" />
-                      <Skeleton className="h-4 w-3/4" />
-                    </div>
-
-                    {/* Skeleton untuk rating */}
-                    <div className="flex items-center gap-2">
-                      <Star
-                        className="h-4 w-4 text-gray-300"
-                        fill="currentColor"
-                      />
-                      <Skeleton className="h-4 w-1/4" />
+                <Card className="border-0 shadow-none" key={index}>
+                  <CardContent className="p-0">
+                    <div className="space-y-4">
+                      <Skeleton className="w-full h-[180px] rounded-xl" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-6 w-full" />
+                        <div className="flex gap-2 items-center">
+                          <MapPin className="h-4 w-4" />
+                          <Skeleton className="h-4 w-3/4" />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RatingStars rating={0} />
+                          <Skeleton className="h-4 w-1/4" />
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
               ))
             ) : !filteredDaycares || filteredDaycares.length === 0 ? (
-              <p>No daycares available</p>
+              <p>Belum ada daycare yang tersedia</p>
             ) : (
               filteredDaycares.map((daycare) => (
                 <Link href={`/cub-location/${daycare.id}`} key={daycare.id}>
-                  <Card className="shadow-md hover:shadow-xl h-full">
-                    <CardHeader className="relative p-0 mb-4">
-                      <Image
-                        src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
-                        alt={daycare.name}
-                        width={1000}
-                        height={1000}
-                        className="w-full object-cover md:h-[150px] h-[180px] rounded-t-xl"
-                      />
-                      <Image
-                        src={`${baseUrl}/${daycare.images}`}
-                        alt={`${daycare.name} Logo`}
-                        width={50}
-                        height={50}
-                        className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
-                      />
-                    </CardHeader>
-                    <CardContent className="space-y-2 px-4">
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center">
-                          <h1 className="font-semibold">{daycare.name}</h1>
-                          <p className="text-sm font-semibold text-primary">
-                            {daycare.distance} km
-                          </p>
-                        </div>
-                        <div className="flex gap-2">
-                          <MapPin className="h-4 w-4 flex-shrink-0" />
-                          <p className="line-clamp-2 text-sm">
-                            {daycare.address}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Star
-                            className="h-4 w-4 text-yellow-500"
-                            fill="currentColor"
+                  <Card className="border-0 shadow-none">
+                    <CardContent className="p-0">
+                      <div className="flex flex-col space-y-4">
+                        <div className="relative p-0">
+                          <Image
+                            src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
+                            alt={daycare.name}
+                            width={1000}
+                            height={1000}
+                            className="w-full object-cover h-[180px] rounded-xl"
                           />
-                          <p className="font-semibold text-sm">
-                            {daycare.rating}{" "}
-                            <span className="text-muted-foreground font-medium">
-                              ({daycare.reviewers_count} reviews)
+                          <Image
+                            src={`${baseUrl}/${daycare.images}`}
+                            alt={`${daycare.name} Logo`}
+                            width={50}
+                            height={50}
+                            className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <h1 className="font-bold">{daycare.name}</h1>
+                          <div className="flex items-center space-x-2">
+                            <RatingStars rating={daycare.rating || 0} />{" "}
+                            <span className="text-sm text-muted-foreground">
+                              ({daycare.reviewers_count})
                             </span>
-                          </p>
+                          </div>
+                          <div className="flex gap-2 items-center text-muted-foreground">
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <p className="line-clamp-1 text-sm">
+                              {daycare.location}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
