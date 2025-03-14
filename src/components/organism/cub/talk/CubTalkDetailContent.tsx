@@ -23,10 +23,8 @@ export default function CubTalkDetailContent({
             subtitle="Ask the Experts About Parenting & Childcare"
           />
         </div>
-      </div>
-      <PageContainer>
         <CardDetailQuestionTalk data={data?.data!} isLoading={isPending} />
-      </PageContainer>
+      </div>
     </>
   );
 }

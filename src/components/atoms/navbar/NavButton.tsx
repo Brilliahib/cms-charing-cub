@@ -68,10 +68,18 @@ export default function NavButton({ links }: NavHeaderProps) {
         ) : (
           <div className="flex items-center gap-4">
             <Link href="/login">
-              <Button variant={"outline"}>Login</Button>
+              <Button
+                variant={"outline"}
+                className="text-primary hover:text-primary border-primary"
+                size={"lg"}
+              >
+                Login
+              </Button>
             </Link>
             <Link href="/register">
-              <Button variant={"default"}>Register</Button>
+              <Button variant={"default"} size={"lg"}>
+                Register
+              </Button>
             </Link>
           </div>
         )}
@@ -155,7 +163,10 @@ export default function NavButton({ links }: NavHeaderProps) {
               ) : (
                 <div className="flex flex-col space-y-4">
                   <Link href="/login">
-                    <Button variant={"outline"} className="w-full">
+                    <Button
+                      variant={"outline"}
+                      className="w-full text-primary hover:text-primary border-primary"
+                    >
                       Login
                     </Button>
                   </Link>
