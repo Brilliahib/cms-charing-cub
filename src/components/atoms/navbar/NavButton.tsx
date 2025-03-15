@@ -130,6 +130,9 @@ export default function NavButton({ links }: NavHeaderProps) {
                         className="rounded-full"
                       >
                         <Avatar className="border border-muted">
+                          <AvatarImage
+                            src={buildFromAppURL(session.user.profile)}
+                          />
                           <AvatarFallback className="text-gray-700 bg-white">
                             {generateFallbackFromName(session.user.name)}
                           </AvatarFallback>

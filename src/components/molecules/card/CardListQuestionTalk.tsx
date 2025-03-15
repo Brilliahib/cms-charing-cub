@@ -19,7 +19,7 @@ export default function CardListQuestionTalk({
           <div className="flex md:gap-4 gap-2">
             <div>
               <Avatar className="h-12 w-12 border border-muted">
-                <AvatarImage src={data?.user.profile} />
+                <AvatarImage src={buildFromAppURL(data?.user.profile)} />
                 <AvatarFallback className="h-12 w-12 font-semibold bg-[#EED584] text-white">
                   {generateFallbackFromName(data?.user.name ?? "")}
                 </AvatarFallback>

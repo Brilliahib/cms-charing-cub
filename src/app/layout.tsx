@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Figtree } from "next/font/google";
+import { Plus_Jakarta_Sans, Figtree, Poppins } from "next/font/google";
 import "./globals.css";
 import GlobalProvider from "@/components/organism/GlobalProvider";
 import { Toaster } from "sonner";
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   ],
 };
 
-const jakartaSans = Plus_Jakarta_Sans({
+const jakartaSans = Poppins({
   subsets: ["latin"],
   display: "swap",
   weight: ["200", "300", "400", "500", "600", "700", "800"],

@@ -26,7 +26,7 @@ export default function FooterContent() {
               </div>
             </div>
             <div className="space-y-2 md:space-y-4">
-              <h1 className="font-semibold">Jelajahi</h1>
+              <h1 className="font-semibold">Fitur Kami</h1>
               <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm">
                 <li>
                   <Link href={"/cub-location"} className="hover:underline">
@@ -52,21 +52,40 @@ export default function FooterContent() {
             </div>
             <div className="space-y-2 md:space-y-4">
               <h1 className="font-semibold">Pusat Bantuan</h1>
-              <div className="space-y-2 text-sm">
-                <p>Syarat dan Ketentuan</p>
-                <p>Kebijakan Privasi</p>
-              </div>
+              <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm">
+                <li>
+                  <Link href={"/privacy-policy"} className="hover:underline">
+                    Kebijakan Privasi
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/cub-able"} className="hover:underline">
+                    Syarat dan Ketentuan
+                  </Link>
+                </li>
+              </ul>
             </div>
             <div className="space-y-2 md:space-y-4">
               <h1 className="font-semibold">Ikuti Kami</h1>
-              <div className="space-y-2 text-sm">
-                <p>Instagram</p>
-                <p>Blog</p>
-              </div>
+              <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm">
+                <li>
+                  <Link
+                    href={"https://www.instagram.com/charing.cub"}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    Instagram
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"#"} className="hover:underline">
+                    Blog
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="py-4 md:py-6 lg:py-8 text-center space-y-6">
-            <hr />
+          <div className="py-4 md:py-6 lg:py-8 space-y-6">
             <p className="text-sm">
               © 2025 Charing Cub | One Step to Embrace Love
             </p>

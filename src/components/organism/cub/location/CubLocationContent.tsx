@@ -2,10 +2,10 @@
 
 import RatingStars from "@/components/atoms/rating/RatingStar";
 import SectionTitle from "@/components/atoms/typography/SectionTitle";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useGetAllDaycare } from "@/http/daycares/get-all-daycares";
 import { baseUrl } from "@/utils/app";
-import { MapPin, Star } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,7 +13,6 @@ import SearchInput from "@/components/atoms/search/SearchInput";
 import { useEffect, useState } from "react";
 import DialogFilterDaycare from "@/components/atoms/dialog/DialogFilterDaycare";
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/utils/price";
 
 export default function CubLocationContent() {
   const [query, setQuery] = useState("");
@@ -75,7 +74,7 @@ export default function CubLocationContent() {
           <div className="flex md:flex-row flex-col items-center gap-4">
             <SearchInput
               onSearch={onSearch}
-              props="Search Daycare"
+              props="Cari daycare terdekat"
               className="md:max-w-[250px] w-full"
             />
             <div className="flex gap-4 w-full">
@@ -137,7 +136,13 @@ export default function CubLocationContent() {
                           />
                         </div>
                         <div className="space-y-2">
-                          <h1 className="font-bold">{daycare.name}</h1>
+                          <div className="flex justify-between">
+                            <h1 className="font-bold">{daycare.name}</h1>
+                            <div className="flex gap-1 items-center">
+                              <MapPin className="text-primary h-4 w-4" />
+                              <p className="text-sm">{daycare.distance} Km</p>
+                            </div>
+                          </div>
                           <div className="flex items-center space-x-2">
                             <RatingStars rating={daycare.rating || 0} />{" "}
                             <span className="text-sm text-muted-foreground">
