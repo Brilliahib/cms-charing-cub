@@ -5,9 +5,9 @@ export default function HomeIntroVideo() {
     <div className="py-24 space-y-12 pad-x-xl">
       <div className="md:w-[70rem] w-fit">
         <h1 className="font-bold tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
-          Get to know!👀
+          Kenal Lebih Dekat!👀
         </h1>
-        <span className="md:w-[20rem] w-[10rem] h-[2rem] bg-gradient-to-r from-yellow-500 to-yellow-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
+        <span className="md:w-[25rem] w-[20rem] h-[2rem] bg-gradient-to-r from-yellow-500 to-yellow-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
       </div>
       <iframe
         className="w-full md:min-h-[500px] min-h-[250px] rounded-3xl"
