@@ -41,7 +41,8 @@ export default function CardDetailQuestionTalk({
           </div>
         </CardHeader>
         <CardContent>
-          <div>
+          <div className="space-y-4">
+            <p className="font-semibold">{data.question_title}</p>
             <p className="leading-relaxed">{data.question_detail}</p>
           </div>
         </CardContent>
