@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { QuestionTalk } from "@/types/talk/question-talk";
-import { generateFallbackFromName } from "@/utils/misc";
+import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
 import { formatRelativeTime } from "@/utils/time-post";
 import SkeletonCardDetailQuestionTalkSkeleton from "../skeleton/SkeletonCardDetailQuestionTalk";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -26,7 +26,7 @@ export default function CardDetailQuestionTalk({
           <div className="flex justify-between">
             <div className="flex gap-4 items-center">
               <Avatar className="h-12 w-12 border border-muted">
-                <AvatarImage src={data?.user.profile} />
+                <AvatarImage src={buildFromAppURL(data?.user.profile)} />
                 <AvatarFallback className="h-12 w-12 font-semibold bg-[#EED584] text-white">
                   {generateFallbackFromName(data?.user.name ?? "")}
                 </AvatarFallback>
