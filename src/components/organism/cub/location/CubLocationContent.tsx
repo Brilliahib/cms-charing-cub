@@ -84,7 +84,7 @@ export default function CubLocationContent() {
                   href={"/cub-location/maps"}
                   className="flex items-center gap-2 font-normal"
                 >
-                  <MapPin /> See With Map
+                  <MapPin /> Lihat di Peta
                 </Link>
               </Button>
             </div>

@@ -59,7 +59,10 @@ export default function FooterContent() {
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/cub-able"} className="hover:underline">
+                  <Link
+                    href={"/terms-and-condition"}
+                    className="hover:underline"
+                  >
                     Syarat dan Ketentuan
                   </Link>
                 </li>
