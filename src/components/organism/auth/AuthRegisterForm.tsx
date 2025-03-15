@@ -103,9 +103,9 @@ export default function RegisterForm() {
       <Card className="border-0 shadow-transparent">
         <div className="w-full md:p-10">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold">Register</CardTitle>
+            <CardTitle className="text-3xl font-bold">Daftar</CardTitle>
             <CardDescription>
-              Welcome! Please register by filling in the following data.
+              Selamat Datang! Masukkan data untuk mendaftarkan akun.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -124,7 +124,7 @@ export default function RegisterForm() {
                         <Input
                           type="text"
                           id="email"
-                          placeholder="Enter your name"
+                          placeholder="John Doe"
                           {...field}
                         />
                       </FormControl>
@@ -142,7 +142,7 @@ export default function RegisterForm() {
                         <Input
                           type="text"
                           id="email"
-                          placeholder="Enter your email"
+                          placeholder="johndoe@example.com"
                           {...field}
                         />
                       </FormControl>
@@ -185,7 +185,7 @@ export default function RegisterForm() {
                         <Input
                           type="password"
                           id="password"
-                          placeholder="Enter your password"
+                          placeholder="Masukkan password"
                           {...field}
                         />
                       </FormControl>
@@ -198,12 +198,12 @@ export default function RegisterForm() {
                   name="password_confirmation"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password Confirmation</FormLabel>
+                      <FormLabel>Konfirmasi Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
                           id="password"
-                          placeholder="Enter your password confirmation"
+                          placeholder="Masukkan konfirmasi password"
                           {...field}
                         />
                       </FormControl>
@@ -213,19 +213,19 @@ export default function RegisterForm() {
                 />
                 <div>
                   <Button type="submit" className="w-full" disabled={isPending}>
-                    {isPending ? "Loading..." : "Register"}
+                    {isPending ? "Loading..." : "Daftar"}
                   </Button>
                 </div>
               </form>
             </Form>
             <div className="mt-6 text-center">
               <div className="text-center text-sm">
-                Already have an account?{" "}
+                Sudah punya akun?{" "}
                 <Link
                   href="/login"
                   className="underline underline-offset-4 text-primary"
                 >
-                  Sign In
+                  Masuk Sekarang
                 </Link>
               </div>
             </div>

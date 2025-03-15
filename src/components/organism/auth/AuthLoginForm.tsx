@@ -65,9 +65,9 @@ export default function LoginForm() {
       <Card className="border-0 shadow-transparent">
         <div className="w-full md:p-10">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold">Login</CardTitle>
+            <CardTitle className="text-3xl font-bold">Masuk</CardTitle>
             <CardDescription>
-              Welcome! Enter your email below to login to your account
+              Selamat Datang! Silahkan isi email dan password terlebih dahulu.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -104,7 +104,7 @@ export default function LoginForm() {
                         <Input
                           type="password"
                           id="password"
-                          placeholder="Enter your password"
+                          placeholder="Masukkan password"
                           {...field}
                         />
                       </FormControl>
@@ -114,19 +114,19 @@ export default function LoginForm() {
                 />
                 <div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Loading..." : "Login"}{" "}
+                    {isLoading ? "Loading..." : "Masuk"}{" "}
                   </Button>
                 </div>
               </form>
             </Form>
             <div className="mt-6 text-center space-y-4">
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
+                Tidak punya akun?{" "}
                 <Link
                   href="/register"
                   className="underline underline-offset-4 text-primary"
                 >
-                  Sign up
+                  Daftar Sekarang
                 </Link>
               </div>
             </div>

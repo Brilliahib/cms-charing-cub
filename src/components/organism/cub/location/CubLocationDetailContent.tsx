@@ -59,8 +59,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
-      toast.error("Not Login Yet", {
-        description: "Please login to continue booking!",
+      toast.error("Belum Login", {
+        description: "Silahkan login sebelum melakukan pesan!",
       });
     } else {
       router.push(`/cub-location/${data?.data.id}/booking`);
@@ -68,7 +68,13 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   };
 
   const handleGiveRating = () => {
-    setIsDialogOpen(true);
+    if (!session.data?.access_token) {
+      toast.error("Belum Login", {
+        description: "Silahkan login sebelum memberikan ulasan!",
+      });
+    } else {
+      setIsDialogOpen(true);
+    }
   };
 
   const handleMarkerClick = () => {

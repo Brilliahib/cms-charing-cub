@@ -81,7 +81,7 @@ export default function FooterContent() {
                   </Link>
                 </li>
                 <li>
-                  <Link href={"#"} className="hover:underline">
+                  <Link href={"/articles"} className="hover:underline">
                     Blog
                   </Link>
                 </li>

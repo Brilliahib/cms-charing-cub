@@ -73,12 +73,12 @@ export default function NavButton({ links }: NavHeaderProps) {
                 className="text-primary hover:text-primary border-primary"
                 size={"lg"}
               >
-                Login
+                Masuk
               </Button>
             </Link>
             <Link href="/register">
               <Button variant={"default"} size={"lg"}>
-                Register
+                Daftar
               </Button>
             </Link>
           </div>
@@ -170,12 +170,12 @@ export default function NavButton({ links }: NavHeaderProps) {
                       variant={"outline"}
                       className="w-full text-primary hover:text-primary border-primary"
                     >
-                      Login
+                      Masuk
                     </Button>
                   </Link>
                   <Link href="/register">
                     <Button variant={"default"} className="w-full">
-                      Register
+                      Daftar
                     </Button>
                   </Link>
                 </div>
