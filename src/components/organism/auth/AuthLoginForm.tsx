@@ -52,9 +52,9 @@ export default function LoginForm() {
       return;
     }
 
-    toast.success("Login Successful", {
+    toast.success("Login Berhasil", {
       description:
-        "Welcome back! You have successfully logged into your account.",
+        "Selamat datang kembali! Anda telah berhasil masuk ke akun Anda",
     });
 
     router.push("/dashboard");

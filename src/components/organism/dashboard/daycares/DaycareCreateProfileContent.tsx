@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -205,7 +206,7 @@ export default function DaycareCreateProfileContent() {
 
   return (
     <div className="w-full py-8 space-y-8">
-      <DashboardTitle title="Create Profile Daycare" />
+      <DashboardTitle title="Lengkapi Profil Daycare" />
       <Card className="shadow-md">
         <CardContent className="py-4 space-y-6">
           <AlertInformationCreateProfileDaycare />
@@ -217,7 +218,9 @@ export default function DaycareCreateProfileContent() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Daycare</FormLabel>
+                      <FormLabel>
+                        Nama Daycare <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -234,7 +237,9 @@ export default function DaycareCreateProfileContent() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Deskripsi</FormLabel>
+                      <FormLabel>
+                        Deskripsi <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Masukkan deskripsi / pengenalan tentang daycare Anda"
@@ -251,7 +256,9 @@ export default function DaycareCreateProfileContent() {
                   name="location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Lokasi Daycare</FormLabel>
+                      <FormLabel>
+                        Lokasi Daycare <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Popover open={open} onOpenChange={setOpen}>
                           <PopoverTrigger asChild>
@@ -265,18 +272,20 @@ export default function DaycareCreateProfileContent() {
                                 ? locations.find(
                                     (location) => location.value === field.value
                                   )?.label
-                                : "Select Location..."}
+                                : "Pilih kota / kabupaten..."}
                               <ChevronsUpDown className="opacity-50" />
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-full p-0">
                             <Command>
                               <CommandInput
-                                placeholder="Search location..."
+                                placeholder="Cari lokasi..."
                                 className="h-9"
                               />
                               <CommandList>
-                                <CommandEmpty>No city found.</CommandEmpty>
+                                <CommandEmpty>
+                                  Lokasi tidak ditemukan
+                                </CommandEmpty>
                                 <CommandGroup>
                                   {locations.map((location) => (
                                     <CommandItem
@@ -317,7 +326,9 @@ export default function DaycareCreateProfileContent() {
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jalan</FormLabel>
+                      <FormLabel>
+                        Jalan <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Masukkan jalan di lokasi daycare"
@@ -334,7 +345,10 @@ export default function DaycareCreateProfileContent() {
                   name="location_tracking"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Location Tracking</FormLabel>
+                      <FormLabel>
+                        Lokasi Dekat Dengan {""}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -351,7 +365,9 @@ export default function DaycareCreateProfileContent() {
                   name="opening_days"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Hari Buka</FormLabel>
+                      <FormLabel>
+                        Buka Setiap Hari <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -368,7 +384,9 @@ export default function DaycareCreateProfileContent() {
                   name="opening_hours"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jam Buka</FormLabel>
+                      <FormLabel>
+                        Jam Buka <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="time"
@@ -385,7 +403,9 @@ export default function DaycareCreateProfileContent() {
                   name="closing_hours"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jam Tutup</FormLabel>
+                      <FormLabel>
+                        Jam Tutup <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="time"
@@ -403,7 +423,9 @@ export default function DaycareCreateProfileContent() {
                   name="phone_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nomor Telepon</FormLabel>
+                      <FormLabel>
+                        Nomor Telepon <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -413,6 +435,9 @@ export default function DaycareCreateProfileContent() {
                         />
                       </FormControl>
                       <FormMessage />
+                      <FormDescription>
+                        * Masukkan nomor yang terhubung ke Whatsapp
+                      </FormDescription>
                     </FormItem>
                   )}
                 />
@@ -421,7 +446,9 @@ export default function DaycareCreateProfileContent() {
                   name="bank_account"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Bank</FormLabel>
+                      <FormLabel>
+                        Nama Bank <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
@@ -449,7 +476,9 @@ export default function DaycareCreateProfileContent() {
                   name="bank_account_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nomor Rekening</FormLabel>
+                      <FormLabel>
+                        Nomor Rekening <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -466,7 +495,10 @@ export default function DaycareCreateProfileContent() {
                   name="bank_account_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Atas Nama di Bank</FormLabel>
+                      <FormLabel>
+                        Atas Nama di Bank{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -484,7 +516,9 @@ export default function DaycareCreateProfileContent() {
                 name="is_disability"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status Disabilitas</FormLabel>
+                    <FormLabel>
+                      Status Disabilitas <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <div className="flex flex-col gap-2 mt-2">
                         <div className="flex items-center gap-2">
@@ -528,7 +562,9 @@ export default function DaycareCreateProfileContent() {
                 name="images"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Logo</FormLabel>
+                    <FormLabel>
+                      Logo <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <div>
                         <div
@@ -586,7 +622,9 @@ export default function DaycareCreateProfileContent() {
                 name="facility_images"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Gambar Fasilitas</FormLabel>
+                    <FormLabel>
+                      Gambar Fasilitas <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <div>
                         <div
@@ -653,7 +691,9 @@ export default function DaycareCreateProfileContent() {
                   name="latitude"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Latitude</FormLabel>
+                      <FormLabel>
+                        Latitude <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -674,7 +714,9 @@ export default function DaycareCreateProfileContent() {
                   name="longitude"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Longitude</FormLabel>
+                      <FormLabel>
+                        Longitude <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -723,7 +765,9 @@ export default function DaycareCreateProfileContent() {
                 )}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <FormLabel>Price List</FormLabel>
+                    <FormLabel>
+                      Daftar Harga <span className="text-red-500">*</span>
+                    </FormLabel>
                     <Button
                       type="button"
                       onClick={() =>
@@ -751,7 +795,7 @@ export default function DaycareCreateProfileContent() {
                           name={`price_lists.${index}.name`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Keterangan</FormLabel>
+                              <FormLabel>Keterangan Harga</FormLabel>
                               <FormControl>
                                 <Input
                                   type="text"
@@ -760,6 +804,9 @@ export default function DaycareCreateProfileContent() {
                                 />
                               </FormControl>
                               <FormMessage />
+                              <FormDescription>
+                                * Contoh: Harga Sehari Penuh
+                              </FormDescription>
                             </FormItem>
                           )}
                         />
@@ -772,11 +819,14 @@ export default function DaycareCreateProfileContent() {
                               <FormControl>
                                 <Input
                                   type="text"
-                                  placeholder="12 Bulan"
+                                  placeholder="3 Tahun"
                                   {...field}
                                 />
                               </FormControl>
                               <FormMessage />
+                              <FormDescription>
+                                * Isi menggunakan bulan / tahun
+                              </FormDescription>
                             </FormItem>
                           )}
                         />
@@ -789,11 +839,14 @@ export default function DaycareCreateProfileContent() {
                               <FormControl>
                                 <Input
                                   type="text"
-                                  placeholder="24 Bulan"
+                                  placeholder="4 Tahun"
                                   {...field}
                                 />
                               </FormControl>
                               <FormMessage />
+                              <FormDescription>
+                                * Isi menggunakan bulan / tahun
+                              </FormDescription>
                             </FormItem>
                           )}
                         />
@@ -814,6 +867,9 @@ export default function DaycareCreateProfileContent() {
                                 />
                               </FormControl>
                               <FormMessage />
+                              <FormDescription>
+                                * Isi tanpa Rp. Contoh: 150000
+                              </FormDescription>
                             </FormItem>
                           )}
                         />
@@ -832,7 +888,7 @@ export default function DaycareCreateProfileContent() {
               </div>
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
-                  {isPending ? "Menambahkan..." : "Tambahkan Daycare"}
+                  {isPending ? "Menyimpan..." : "Simpan Data"}
                 </Button>
               </div>
             </form>

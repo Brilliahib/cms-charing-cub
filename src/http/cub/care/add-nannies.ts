@@ -23,9 +23,13 @@ export const addNanniesHandler = async (
 
   formData.append("gender", body.gender);
   formData.append("contact", body.contact);
-  formData.append("price_half", body.price_half.toString());
-  formData.append("price_full", body.price_full.toString());
   formData.append("experience_description", body.experience_description);
+  body.price_lists.forEach((priceList, index) => {
+    formData.append(`price_lists[${index}][age_start]`, priceList.age_start);
+    formData.append(`price_lists[${index}][age_end]`, priceList.age_end);
+    formData.append(`price_lists[${index}][price]`, priceList.price.toString());
+    formData.append(`price_lists[${index}][name]`, priceList.name);
+  });
 
   if (body.images) {
     formData.append("images", body.images as File);

@@ -61,6 +61,13 @@ export default function RegisterForm() {
     onError: (error) => {
       const errors = error.response?.data;
 
+      if (errors.statusCode === 400) {
+        toast.error("Email Sudah Terdaftar", {
+          description: "Silahkan gunakan email yang lain untuk mendaftar",
+        });
+        return;
+      }
+
       Object.keys(errors).forEach((k) => {
         form.setError(k as keyof RegisterType, {
           type: "manual",
@@ -68,8 +75,8 @@ export default function RegisterForm() {
         });
       });
 
-      toast.error("Register Failed", {
-        description: "Check again the data you entered.",
+      toast.error("Gagal Mendaftar", {
+        description: "Cek kembali data yang Anda masukkan",
       });
     },
     onSuccess: async () => {
@@ -80,15 +87,15 @@ export default function RegisterForm() {
       });
 
       if (!res || res.error == "") {
-        toast.error("Login Failed", {
-          description: "An error occurred, please try again.",
+        toast.error("Gagal Masuk", {
+          description: "Kesalahan, coba lagi nanti",
         });
         return;
       }
 
-      toast.success("Register Successful", {
+      toast.success("Berhasil Mendaftar", {
         description:
-          "Your account has been created and automatically logged in.",
+          "Akun anda berhasil didaftarkan dan akan diarahkan ke dashboard",
       });
       return router.push("/dashboard");
     },

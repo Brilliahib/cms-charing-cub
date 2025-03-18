@@ -6,10 +6,10 @@ export default function AlertInformationCreateProfileDaycare() {
     <>
       <Alert variant={"warning"}>
         <TriangleAlert className="h-4 w-4" />
-        <AlertTitle>Information</AlertTitle>
+        <AlertTitle>Perhatian</AlertTitle>
         <AlertDescription>
-          Please fill in the following data carefully because it will be used
-          for your daycare profile.
+          Mohon isi data dengan benar karena data tersebut nanti akan digunakan
+          untuk profil daycare Anda.
         </AlertDescription>
       </Alert>
     </>

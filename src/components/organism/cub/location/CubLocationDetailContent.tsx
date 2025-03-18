@@ -209,7 +209,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       Buka Jam
                     </div>
                     <div className="md:w-8/12">
-                      {data?.data.opening_days}, {""}
+                      {data?.data.opening_days}, Pukul {""}
                       {formatTime(data?.data.opening_hours)} -{" "}
                       {formatTime(data?.data.closing_hours)}
                     </div>
@@ -242,7 +242,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                           <li key={price.id}>
                             <div className="flex flex-col">
                               <span className="text-base font-semibold text-gray-800">
-                                {formatPrice(price.price)}
+                                {formatPrice(price.price)} - {price.name}
                               </span>
                               <span className="text-sm text-gray-600">
                                 Untuk umur {price.age_start} hingga{" "}
