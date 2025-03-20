@@ -16,6 +16,7 @@ export default function AboutUsTeam() {
               alt="Regina S"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
@@ -34,6 +35,7 @@ export default function AboutUsTeam() {
               alt="Muhammad Ahib Ibrilli"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
@@ -52,6 +54,7 @@ export default function AboutUsTeam() {
               alt="Talitha Zarifah"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
@@ -70,6 +73,7 @@ export default function AboutUsTeam() {
               alt="Dimas Cahyadi"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
@@ -88,6 +92,7 @@ export default function AboutUsTeam() {
               alt="Hasna Nuraini"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
@@ -106,6 +111,7 @@ export default function AboutUsTeam() {
               alt="Maulana Fadullah"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
@@ -124,6 +130,7 @@ export default function AboutUsTeam() {
               alt="Clarissa Wijaya"
               width={2052}
               height={2052}
+              loading="lazy"
               className="bg-primary object-cover rounded-full h-[150px] w-[150px]"
             />
           </CardHeader>
