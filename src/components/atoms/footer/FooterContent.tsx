@@ -25,9 +25,9 @@ export default function FooterContent() {
                 </p>
               </div>
             </div>
-            <div className="space-y-2 md:space-y-4">
+            <div className="space-y-4">
               <h1 className="font-semibold">Fitur Kami</h1>
-              <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm">
+              <ul className="space-y-4 text-sm">
                 <li>
                   <Link href={"/cub-location"} className="hover:underline">
                     Cub Location
@@ -50,9 +50,9 @@ export default function FooterContent() {
                 </li>
               </ul>
             </div>
-            <div className="space-y-2 md:space-y-4">
+            <div className="space-y-4">
               <h1 className="font-semibold">Pusat Bantuan</h1>
-              <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm">
+              <ul className="space-y-4 text-sm">
                 <li>
                   <Link href={"/privacy-policy"} className="hover:underline">
                     Kebijakan Privasi
@@ -68,9 +68,9 @@ export default function FooterContent() {
                 </li>
               </ul>
             </div>
-            <div className="space-y-2 md:space-y-4">
+            <div className="space-y-4">
               <h1 className="font-semibold">Ikuti Kami</h1>
-              <ul className="space-y-6 md:space-y-8 lg:space-y-4 text-sm">
+              <ul className="space-y-4 text-sm">
                 <li>
                   <Link
                     href={"https://www.instagram.com/charing.cub"}
@@ -83,6 +83,11 @@ export default function FooterContent() {
                 <li>
                   <Link href={"/articles"} className="hover:underline">
                     Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/about-us"} className="hover:underline">
+                    Tentang Kami
                   </Link>
                 </li>
               </ul>

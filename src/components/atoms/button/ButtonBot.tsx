@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import DialogChatToBot from "../dialog/DialogChatToBot";
+import { MessageSquareText } from "lucide-react";
 
 export default function ButtonBot() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -20,15 +20,9 @@ export default function ButtonBot() {
           <h1 className="text-sm font-semibold">Butuh bantuan?</h1>
         </div>
 
-        <div className="relative flex items-center justify-center rounded-full bg-primary p-2 text-white shadow-lg ">
+        <div className="relative flex items-center justify-center rounded-full bg-primary p-4 text-white shadow-lg ">
           <div className="scale-1 absolute inset-0 animate-ping rounded-full bg-primary opacity-20"></div>
-          <Image
-            src="/images/logo.png"
-            alt="Charing Cub"
-            width={1000}
-            height={1000}
-            className="md:max-w-[50px] max-w-[40px]"
-          />
+          <MessageSquareText />
         </div>
       </div>
       <DialogChatToBot open={isDialogOpen} setOpen={setIsDialogOpen} />
