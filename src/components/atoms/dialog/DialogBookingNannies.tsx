@@ -47,7 +47,7 @@ export default function DialogBookingNannies({
   const form = useForm<BookingNanniesType>({
     resolver: zodResolver(bookingNanniesSchema),
     defaultValues: {
-      nanny_id: id,
+      nanny_id: String(id),
       name_babies: "",
       age_babies: 0,
       special_request: "",
@@ -73,7 +73,7 @@ export default function DialogBookingNannies({
   });
 
   const onSubmit = (body: BookingNanniesType) => {
-    addBookingNanniesHandler({ ...body, nanny_id: id });
+    addBookingNanniesHandler({ ...body, nanny_id: String(id) });
     setOpen(false);
   };
   return (
