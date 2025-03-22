@@ -12,16 +12,28 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useAddBookingNannies } from "@/http/nannies/add-booking-nannies";
 import { useGetDetailNannies } from "@/http/nannies/get-detail-nannies";
+import { NanniesPriceList } from "@/types/cub/cub";
 import { baseUrl } from "@/utils/app";
+import { formatPrice } from "@/utils/price";
 import {
   bookingNanniesSchema,
   BookingNanniesType,
@@ -29,18 +41,17 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { format } from "date-fns";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-interface CubCareBookingParams {
-  id: number;
-}
-
 export default function CubCareBookingContent() {
   const { id } = useParams();
+  const [selectedPrice, setSelectedPrice] = useState<NanniesPriceList | null>(
+    null
+  );
 
   const { data } = useGetDetailNannies({ id: String(id) });
 
@@ -50,7 +61,8 @@ export default function CubCareBookingContent() {
   const form = useForm<BookingNanniesType>({
     resolver: zodResolver(bookingNanniesSchema),
     defaultValues: {
-      nanny_id: Number(id),
+      nanny_id: String(id),
+      price_id: "",
       name_babies: "",
       age_babies: 0,
       special_request: "",
@@ -62,34 +74,38 @@ export default function CubCareBookingContent() {
 
   const { mutate: addBookingNanniesHandler, isPending } = useAddBookingNannies({
     onError: (error: AxiosError<any>) => {
-      toast.error("Failed to booking nannies", {
+      toast.error("Gagal melakukan booking nannies", {
         description: error.response?.data.message,
       });
     },
     onSuccess: () => {
-      toast.success("Successfully to booking nannies");
+      toast.success("Berhasil melakukan booking nannies");
       queryClient.invalidateQueries({
         queryKey: ["nannies-list"],
       });
-      router.push("/dashboard/booking");
+      router.push("/dashboard/bookings/nannies");
     },
   });
 
   const onSubmit = (body: BookingNanniesType) => {
-    addBookingNanniesHandler({ ...body, nanny_id: Number(id) });
+    addBookingNanniesHandler({ ...body, nanny_id: String(id) });
+    console.log(body);
   };
 
-  const createdYear = data?.data.created_at
-    ? format(new Date(data.data.created_at), "MMMM yyyy")
-    : "";
   return (
     <>
-      <div className="pad-x-xl py-8">
+      <div className="pad-x py-8">
         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-6">
-          <div>
-            <Card className="border shadow-sm">
-              <CardContent className="p-6">
-                <div className="space-y-4">
+          <div className="space-y-4 md:space-y-6">
+            <Card className="border shadow-sm md:sticky md:top-20">
+              <CardHeader>
+                <CardTitle>Detail Nannies</CardTitle>
+                <CardDescription>
+                  Menampilkan detail informasi nannies
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-8">
                   <div className="flex gap-4 items-center">
                     <Image
                       src={`${baseUrl}/${data?.data.images}`}
@@ -100,16 +116,84 @@ export default function CubCareBookingContent() {
                     />
                     <div className="space-y-2">
                       <h1 className="text-lg font-semibold">
-                        {data?.data.name}
+                        {data?.data.user.name}
                       </h1>
                       <div className="flex items-center space-x-2">
-                        <RatingStars rating={data?.data.rating || 0} />{" "}
+                        <RatingStars rating={data?.data.daycare?.rating || 0} />{" "}
                         <span className="text-sm text-muted-foreground">
-                          ({data?.data.rating_count})
+                          ({data?.data.daycare?.rating})
                         </span>
                       </div>
                     </div>
                   </div>
+                  <div>
+                    <div className="space-y-4">
+                      <div className="flex md:flex-row flex-col">
+                        <div className="md:w-4/12 text-muted-foreground">
+                          Daycare
+                        </div>
+                        <div className="md:w-8/12">
+                          {data?.data.daycare?.name ?? "Tidak Memiliki Daycare"}
+                        </div>
+                      </div>
+                      <div className="flex md:flex-row flex-col">
+                        <div className="md:w-4/12 text-muted-foreground">
+                          Nomor Telepon
+                        </div>
+                        <div className="md:w-8/12">{data?.data.contact}</div>
+                      </div>
+                      <div className="flex md:flex-row flex-col">
+                        <div className="md:w-4/12 text-muted-foreground">
+                          Lokasi
+                        </div>
+                        <div className="md:w-8/12">
+                          {data?.data.daycare?.address ?? "Lokasi Tidak Ada"}
+                        </div>
+                      </div>
+                      <div className="flex md:flex-row flex-col">
+                        <div className="md:w-4/12 text-muted-foreground">
+                          Jenis Kelamin
+                        </div>
+                        <div className="md:w-8/12">
+                          {data?.data.gender === "male"
+                            ? "Laki-laki"
+                            : data?.data.gender === "female"
+                            ? "Perempuan"
+                            : data?.data.gender}
+                        </div>
+                      </div>
+                      <div className="flex md:flex-row flex-col">
+                        <div className="md:w-4/12 text-muted-foreground">
+                          Pilihan Harga
+                        </div>
+                        <div className="md:w-8/12">
+                          <div className="space-y-2">
+                            {data?.data.price_lists.map((price) => (
+                              <div key={price.id}>
+                                <h1>
+                                  {formatPrice(price.price)} ({price.name})
+                                </h1>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div>
+            <Card className="border shadow-sm">
+              <CardHeader>
+                <CardTitle>Form Booking</CardTitle>
+                <CardDescription>
+                  Lengkapi form berikut untuk melakukan booking nannies
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
                   <div>
                     <Form {...form}>
                       <form
@@ -121,11 +205,11 @@ export default function CubCareBookingContent() {
                           name="name_babies"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Babies Name</FormLabel>
+                              <FormLabel>Nama Anak</FormLabel>
                               <FormControl>
                                 <Input
                                   type="text"
-                                  placeholder="Masukkan nama bayi"
+                                  placeholder="Masukkan nama anak Anda"
                                   {...field}
                                 />
                               </FormControl>
@@ -138,7 +222,7 @@ export default function CubCareBookingContent() {
                           name="age_babies"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Age</FormLabel>
+                              <FormLabel>Umur Anak</FormLabel>
                               <FormControl>
                                 <Input
                                   type="number"
@@ -147,6 +231,9 @@ export default function CubCareBookingContent() {
                                   className="text-muted-foreground"
                                 />
                               </FormControl>
+                              <FormDescription>
+                                * Umur dalam tahun
+                              </FormDescription>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -156,7 +243,7 @@ export default function CubCareBookingContent() {
                           name="start_time"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Start Time</FormLabel>
+                              <FormLabel>Mulai Booking</FormLabel>
                               <FormControl>
                                 <Input
                                   type="datetime-local"
@@ -179,7 +266,7 @@ export default function CubCareBookingContent() {
                           name="end_time"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>End Time</FormLabel>
+                              <FormLabel>Selesai Booking</FormLabel>
                               <FormControl>
                                 <Input
                                   type="datetime-local"
@@ -202,54 +289,73 @@ export default function CubCareBookingContent() {
                           name="special_request"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Special Request</FormLabel>
+                              <FormLabel>Permintaan Tambahan</FormLabel>
                               <FormControl>
                                 <Textarea
-                                  placeholder="Masukkan special request"
+                                  placeholder="Masukkan permintaan tambahan"
                                   {...field}
                                 />
                               </FormControl>
+                              <FormDescription>
+                                * Contoh: Anak saya alergi udang, hindari
+                                makanan seafood
+                              </FormDescription>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
+                        <FormField
+                          control={form.control}
+                          name="price_id"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Pilih Paket Harga</FormLabel>
+                              <Select
+                                onValueChange={(value) => {
+                                  field.onChange(value);
+                                  const selected = data?.data.price_lists.find(
+                                    (price) => price.id === value
+                                  );
+                                  setSelectedPrice(selected ?? null);
+                                }}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Pilih harga yang diinginkan" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    <SelectLabel>Daftar Harga</SelectLabel>
+                                    {data?.data.price_lists.map((price) => (
+                                      <SelectItem
+                                        key={price.id}
+                                        value={price.id}
+                                      >
+                                        {price.name} -{" "}
+                                        {formatPrice(price.price)}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
                         <div className="flex justify-end">
-                          <Button type="submit" disabled={isPending}>
-                            {isPending ? "Loading..." : "Booking Now"}
+                          <Button
+                            type="submit"
+                            disabled={isPending}
+                            className="font-medium"
+                          >
+                            {isPending ? "Loading..." : "Booking Sekarang"}
                           </Button>
                         </div>
                       </form>
                     </Form>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="space-y-4 md:space-y-6">
-            <Card className="border shadow-sm">
-              <CardHeader>
-                <CardTitle>Payment</CardTitle>
-                <CardDescription>
-                  Make payment to the following bank account.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4 p-3 border rounded-md">
-                  <div className="flex items-center justify-between text-sm">
-                    <h1 className="text-muted-foreground text-sm">Bank Name</h1>
-                    <h1 className="font-semibold">{data?.data.daycare_bank}</h1>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <h1 className="text-muted-foreground text-sm">Name</h1>
-                    <h1 className="font-semibold">
-                      {data?.data.daycare_bank_name}
-                    </h1>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <h1 className="text-muted-foreground">Bank Number</h1>
-                    <h1 className="font-semibold">
-                      {data?.data.daycare_bank_number}
-                    </h1>
                   </div>
                 </div>
               </CardContent>

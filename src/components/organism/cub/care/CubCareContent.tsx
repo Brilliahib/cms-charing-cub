@@ -1,5 +1,6 @@
 "use client";
 
+import RatingStars from "@/components/atoms/rating/RatingStar";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import SectionTitle from "@/components/atoms/typography/SectionTitle";
 import { Button } from "@/components/ui/button";
@@ -39,7 +40,7 @@ export default function CubCareContent() {
             <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
           </Button>
         </div>
-        <div className="grid md:grid-cols-3 grid-cols-1 md:gap-8 gap-4">
+        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card key={index}>
@@ -59,42 +60,37 @@ export default function CubCareContent() {
           ) : (
             data.data.map((nannies) => (
               <Link key={nannies.id} href={`/cub-care/${nannies.id}`}>
-                <Card>
-                  <CardContent className="p-4 shadow border rounded-xl space-y-4">
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-center gap-4">
+                <Card className="border-0 shadow-none">
+                  <CardContent className="p-0">
+                    <div className="flex flex-col space-y-4">
+                      <div className="relative p-0 bg-secondary rounded-xl">
+                        {/* image doctor */}
                         <Image
                           src={`${baseUrl}/${nannies.images}`}
                           alt={nannies.name}
                           width={1000}
                           height={1000}
-                          className="w-[100px] bg-secondary h-[100px] rounded-full"
+                          className="w-fit object-cover h-[200px] rounded-xl mx-auto"
                         />
-                        <div className="text-base space-y-2">
-                          {nannies.daycare?.rating ? (
-                            <div className="w-fit flex gap-1 items-center text-sm bg-secondary px-3 py-1 rounded-full font-semibold">
-                              <Star
-                                className="h-4 w-4 text-yellow-500"
-                                fill="currentColor"
-                              />
-                              {nannies.daycare.rating}
-                            </div>
-                          ) : null}
-
-                          <div>
-                            <h1 className="font-semibold">
-                              {nannies.user.name}
-                            </h1>
-                            <p className="text-muted-foreground">
-                              {nannies.daycare?.name ??
-                                "Tidak Memiliki Daycare"}
-                            </p>
-                          </div>
+                        <Image
+                          src={`${baseUrl}/${nannies.daycare?.images}`}
+                          alt={`${nannies.daycare?.name} Logo`}
+                          width={50}
+                          height={50}
+                          className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <h1 className="font-bold">{nannies.user.name}</h1>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RatingStars rating={nannies.daycare?.rating || 0} />{" "}
+                          <span className="text-sm text-muted-foreground">
+                            ({nannies.daycare?.reviewers_count})
+                          </span>
                         </div>
                       </div>
-                    </div>
-                    <div className="space-y-4">
-                      <Button className="w-full">Lihat Detail</Button>
                     </div>
                   </CardContent>
                 </Card>

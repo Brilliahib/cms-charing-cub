@@ -9,18 +9,16 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/hooks/use-toast";
 import { useGetDetailNannies } from "@/http/nannies/get-detail-nannies";
 import { baseUrl } from "@/utils/app";
 import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
-import { format } from "date-fns";
 import Autoplay from "embla-carousel-autoplay";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 
 interface CubNestDetailProps {
   id: string;
@@ -29,12 +27,6 @@ interface CubNestDetailProps {
 export default function CubCareDetailContent({ id }: CubNestDetailProps) {
   const { data, isPending } = useGetDetailNannies({ id });
   const session = useSession();
-
-  const createdYear = data?.data.created_at
-    ? format(new Date(data.data.created_at), "MMMM yyyy")
-    : "";
-
-  const { toast } = useToast();
   const router = useRouter();
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
@@ -42,11 +34,7 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
-      toast({
-        title: "Not logged in yet",
-        description: "Please login to continue booking!",
-        variant: "destructive",
-      });
+      toast.error("Silahkan login terlebih dahulu untuk booking nannies!");
     } else {
       router.push(`/cub-care/${data?.data.id}/booking`);
     }
@@ -173,6 +161,14 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                     onClick={handleBookingClick}
                   >
                     Booking Sekarang
+                  </Button>
+                  <Button
+                    className="w-full border-primary text-primary hover:text-primary"
+                    size={"lg"}
+                    onClick={handleBookingClick}
+                    variant={"outline"}
+                  >
+                    Lihat Daycare Terkait
                   </Button>
                 </div>
               </div>

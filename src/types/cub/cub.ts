@@ -39,7 +39,7 @@ export interface NanniesDaycareReview {
   created_at: Date;
 }
 
-interface NanniesPriceList {
+export interface NanniesPriceList {
   id: string;
   nanny_id: string;
   age_start: string;
