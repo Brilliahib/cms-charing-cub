@@ -40,6 +40,10 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
     }
   };
 
+  const handleCheckDaycare = () => {
+    router.push(`/cub-location/${data?.data.daycare_id}`);
+  };
+
   return (
     <div className="pad-x-xl py-8 space-y-8">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:gap-8">
@@ -165,7 +169,7 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                   <Button
                     className="w-full border-primary text-primary hover:text-primary"
                     size={"lg"}
-                    onClick={handleBookingClick}
+                    onClick={handleCheckDaycare}
                     variant={"outline"}
                   >
                     Lihat Daycare Terkait

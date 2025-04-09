@@ -133,11 +133,6 @@ export default function Sidenav({ children, session }: SidenavProps) {
             },
           ]),
       {
-        href: "/",
-        label: "Ke Beranda",
-        icon: Home,
-      },
-      {
         href: "/dashboard/settings",
         label: "Setting",
         active: pathname.startsWith("/dashboard/settings"),

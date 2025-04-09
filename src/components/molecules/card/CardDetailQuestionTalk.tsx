@@ -40,7 +40,7 @@ export default function CardDetailQuestionTalk({
 
   return (
     <div className="space-y-8 md:space-y-12">
-      <Card className="border shadow">
+      <Card className="border shadow-none">
         <CardHeader>
           <div className="flex justify-between">
             <div className="flex gap-4 items-center">
@@ -95,7 +95,7 @@ export default function CardDetailQuestionTalk({
           )}
         </div>
         {data.talk_answers.map((answer) => (
-          <Card key={answer.id} className="border shadow">
+          <Card key={answer.id} className="border shadow-none">
             <CardHeader>
               <div className="flex justify-between">
                 <div className="flex gap-4 items-center">

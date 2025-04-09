@@ -21,43 +21,18 @@ export default function DaycareBookingContent() {
     Number(searchParams.get("page")) || 1
   );
 
-  const { data, isPending } = useGetAllBookingFromDaycares(
+  const { data } = useGetAllBookingFromDaycares(
     session?.access_token as string,
     query,
     currentPage,
     { enabled: status === "authenticated" }
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isDialogViewPaymentProofOpen, setIsDialogViewPaymentProofOpen] =
-    useState(false);
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
-  );
-  const [selectedPaymentProofId, setSelectedPaymentProofId] = useState<
-    string | null
-  >(null);
-
-  const openUploadDialog = (id: string) => {
-    setSelectedBookingId(id);
-    setIsDialogOpen(true);
-  };
-
-  const openViewPaymentDialog = (id: string) => {
-    setSelectedPaymentProofId(id);
-    setIsDialogViewPaymentProofOpen(true);
-  };
 
   const filteredData =
     data?.data.filter((article) =>
       article.name_babies.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setCurrentPage(1);
-    router.push(`?query=${e.target.value}&page=1`);
-  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -67,15 +42,9 @@ export default function DaycareBookingContent() {
     <>
       <div className="py-4 space-y-8">
         <div className="flex w-full">
-          <SearchInput onSearch={setSearchQuery} props="Search Booking..." />
+          <SearchInput onSearch={setSearchQuery} props="Cari data booking..." />
         </div>
-        <DataTable
-          columns={bookingDaycareColumns(
-            openUploadDialog,
-            openViewPaymentDialog
-          )}
-          data={filteredData}
-        />
+        <DataTable columns={bookingDaycareColumns} data={filteredData} />
         <PaginationComponent
           totalItems={data?.pagination.total || 0}
           itemsPerPage={data?.pagination.per_page || 10}
@@ -83,20 +52,6 @@ export default function DaycareBookingContent() {
           onPageChange={handlePageChange}
         />
       </div>
-      {selectedBookingId && (
-        <DialogUploadPaymentProofDaycareType
-          open={isDialogOpen}
-          setOpen={setIsDialogOpen}
-          id={selectedBookingId}
-        />
-      )}
-      {selectedPaymentProofId && (
-        <DialogViewPaymentProofDaycare
-          open={isDialogViewPaymentProofOpen}
-          setOpen={setIsDialogViewPaymentProofOpen}
-          id={selectedPaymentProofId}
-        />
-      )}
     </>
   );
 }

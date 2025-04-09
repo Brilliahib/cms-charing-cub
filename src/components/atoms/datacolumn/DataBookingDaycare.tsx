@@ -13,20 +13,18 @@ import {
   ArrowUpDown,
   CircleCheck,
   CircleX,
-  Image,
+  Eye,
   ImagePlus,
-  Timer,
+  Loader,
 } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export const bookingDaycareColumns = (
-  openUploadDialog: (id: string) => void,
-  openViewPaymentProofDialog: (id: string) => void
-): ColumnDef<BookingDaycare>[] => [
+export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
   {
     accessorKey: "name_babies",
-    header: "Child Name",
+    header: "Nama Anak",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -50,7 +48,7 @@ export const bookingDaycareColumns = (
   },
   {
     accessorKey: "daycare_location",
-    header: "Daycare Location",
+    header: "Lokasi Daycare",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -62,56 +60,39 @@ export const bookingDaycareColumns = (
   },
   {
     accessorKey: "payment_status",
-    header: "Payment Status",
+    header: "Status Pembayaran",
     cell: ({ row }) => {
       const data = row.original;
+
       switch (data.payment_status) {
         case "paid":
           return (
             <div className="flex items-center gap-2 text-sm">
               <CircleCheck className="text-green-500 h-4 w-4" />
-              <span className="text-green-500 capitalize">
-                {data.payment_status}
-              </span>
+              <span className="text-green-500">Dibayar</span>
             </div>
           );
         case "pending":
           return (
             <div className="flex items-center gap-2 text-sm">
-              <Timer className="text-yellow-500 h-4 w-4" />
-              <span className="text-yellow-500 capitalize">
-                {data.payment_status}
-              </span>
+              <Loader className="text-yellow-500 h-4 w-4" />
+              <span className="text-yellow-500">Belum Dibayar</span>
             </div>
           );
         case "cancelled":
           return (
             <div className="flex items-center gap-2 text-sm">
               <CircleX className="text-red-500 h-4 w-4" />
-              <span className="text-red-500 capitalize">
-                {data.payment_status}
-              </span>
+              <span className="text-red-500">Dibatalkan</span>
+            </div>
+          );
+        default:
+          return (
+            <div className="text-muted-foreground text-sm">
+              Status tidak dikenal
             </div>
           );
       }
-    },
-  },
-
-  {
-    accessorKey: "payment_proof",
-    header: "Payment Proof",
-    cell: ({ row }) => {
-      const data = row.original;
-
-      if (data.payment_proof) {
-        return (
-          <Image
-            onClick={() => openViewPaymentProofDialog(data.id)}
-            className="h-5 w-5 cursor-pointer"
-          />
-        );
-      }
-      return <p className="text-orange-500 font-semibold">Tanpa Bukti</p>;
     },
   },
   {
@@ -122,7 +103,7 @@ export const bookingDaycareColumns = (
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Start Booking
+          Tanggal Booking
           <ArrowUpDown />
         </Button>
       );
@@ -154,11 +135,14 @@ export const bookingDaycareColumns = (
         <ActionButton>
           <DropdownMenuLabel>Aksi</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => openUploadDialog(data.id)}>
-            <div className="flex items-center text-gray-700 cursor-pointer">
-              <ImagePlus className="h-4 w-4" />
-              <span className="ml-2">Upload Payment</span>
-            </div>
+          <DropdownMenuItem>
+            <Link
+              href={`/dashboard/daycares/booking/${data.id}`}
+              className="flex items-center text-gray-700 hover:underline"
+            >
+              <Eye className="h-4 w-4" />
+              <span className="ml-2">Detail</span>
+            </Link>
           </DropdownMenuItem>
         </ActionButton>
       );
