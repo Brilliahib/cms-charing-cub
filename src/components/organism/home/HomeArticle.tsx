@@ -15,7 +15,7 @@ export default function HomeArticle() {
     <>
       <div className="pad-x-xl md:pt-24 pt-16 space-y-12">
         <div className="md:w-[70rem] w-fit">
-          <h1 className="font-bold tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
+          <h1 className="font-paytone tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
             Artikel Kami🤝
           </h1>
           <span className="md:w-[20rem] w-[10rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
