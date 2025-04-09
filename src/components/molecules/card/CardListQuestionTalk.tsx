@@ -26,9 +26,7 @@ export default function CardListQuestionTalk({
               </Avatar>
             </div>
             <div className="space-y-1">
-              <h1 className="font-semibold line-clamp-1">
-                {data.question_title}
-              </h1>
+              <h1 className="font-semibold line-clamp-1">{data?.user.name}</h1>
               {/* <p className="text-sm">{data.user.name}</p> */}
               <div className="text-sm text-muted-foreground capitalize">
                 {formatRelativeTime(data.created_at)}
