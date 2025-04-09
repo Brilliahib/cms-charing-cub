@@ -11,7 +11,7 @@ export default function HomeIntroVideo() {
       </div>
       <iframe
         className="w-full md:min-h-[500px] min-h-[250px] rounded-3xl"
-        src="https://www.youtube.com/embed/PROUU9rN6w0?si=Zne9uHqJP_RXJTrd"
+        src="https://www.youtube.com/embed/jZRR7JKAMxg?si=O-lbRWuQ0wbJqQmm"
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
