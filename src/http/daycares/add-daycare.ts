@@ -25,14 +25,13 @@ export const addDaycareHandler = async (
   formData.append("bank_account", body.bank_account);
   formData.append("bank_account_name", body.bank_account_name);
   formData.append("bank_account_number", body.bank_account_number);
-
-  if (body.price_half) {
-    formData.append("price_half", body.price_half.toString());
-  }
-
-  if (body.price_full) {
-    formData.append("price_full", body.price_full.toString());
-  }
+  formData.append("bank_account_number", body.bank_account_number);
+  body.price_lists.forEach((priceList, index) => {
+    formData.append(`price_lists[${index}][age_start]`, priceList.age_start);
+    formData.append(`price_lists[${index}][age_end]`, priceList.age_end);
+    formData.append(`price_lists[${index}][price]`, priceList.price.toString());
+    formData.append(`price_lists[${index}][name]`, priceList.name);
+  });
 
   if (body.description) {
     formData.append("description", body.description);

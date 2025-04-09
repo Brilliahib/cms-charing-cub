@@ -4,22 +4,34 @@ import AlertApproveBookingDaycare from "@/components/atoms/alert/AlertApproveBoo
 import AlertApprovePaymentDaycare from "@/components/atoms/alert/AlertApprovePaymentDaycare";
 import { bookingDaycareFromDaycareColumns } from "@/components/atoms/datacolumn/DataBookingFromDaycare";
 import DialogViewPaymentProofDaycare from "@/components/atoms/dialog/DialogPaymentProofDaycareDetail";
-import SearchInput from "@/components/atoms/search/SearchInput";
+import SearchQueryInput from "@/components/atoms/search/SearchQueryInput";
 import { DataTable } from "@/components/molecules/datatable/DataTable";
+import PaginationComponent from "@/components/molecules/pagination/Pagination";
 import { useApproveBookingDaycare } from "@/http/daycares/bookings/add-approve-booking-daycare";
 import { useApprovePaymentDaycare } from "@/http/daycares/bookings/add-confirm-payment-daycare";
 import { useGetAllBookingDaycareList } from "@/http/daycares/bookings/get-all-booking-daycare-list";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export default function DaycareBookingFromDaycareContent() {
   const { data: session, status } = useSession();
   const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+
   const { data, isPending } = useGetAllBookingDaycareList(
     session?.access_token as string,
+    query,
+    currentPage,
     { enabled: status === "authenticated" }
   );
   const approvePaymentDaycare = useApprovePaymentDaycare({
@@ -53,32 +65,31 @@ export default function DaycareBookingFromDaycareContent() {
   });
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDialogViewPaymentProofOpen, setIsDialogViewPaymentProofOpen] =
     useState(false);
   const [isDialogPaymentOpen, setIsDialogPaymentOpen] = useState(false);
   const [isDialogBookingOpen, setIsDialogBookingOpen] = useState(false);
-  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(
+  const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
     null
   );
-  const [selectedBookingId, setSelectedBokingId] = useState<number | null>(
+  const [selectedBookingId, setSelectedBokingId] = useState<string | null>(
     null
   );
   const [selectedPaymentProofId, setSelectedPaymentProofId] = useState<
-    number | null
+    string | null
   >(null);
 
-  const openViewPaymentDialog = (id: number) => {
+  const openViewPaymentDialog = (id: string) => {
     setSelectedPaymentProofId(id);
     setIsDialogViewPaymentProofOpen(true);
   };
 
-  const openConfirmPaymentDialog = (id: number) => {
+  const openConfirmPaymentDialog = (id: string) => {
     setSelectedPaymentId(id);
     setIsDialogPaymentOpen(true);
   };
 
-  const openConfirmBookingDialog = (id: number) => {
+  const openConfirmBookingDialog = (id: string) => {
     setSelectedBokingId(id);
     setIsDialogBookingOpen(true);
   };
@@ -99,11 +110,27 @@ export default function DaycareBookingFromDaycareContent() {
     data?.data.filter((article) =>
       article.name_babies.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setCurrentPage(1);
+    router.push(`?query=${e.target.value}&page=1`);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    router.push(`?query=${query}&page=${page}`);
+  };
   return (
     <>
       <div className="py-4 space-y-8">
         <div className="flex w-full">
-          <SearchInput onSearch={setSearchQuery} props="Search Booking..." />
+          <SearchQueryInput
+            value={query}
+            onChange={handleSearch}
+            placeholder="Search by child name or parent name..."
+            className="md:w-[350px]"
+          />
         </div>
         <DataTable
           columns={bookingDaycareFromDaycareColumns(
@@ -112,6 +139,12 @@ export default function DaycareBookingFromDaycareContent() {
             openConfirmBookingDialog
           )}
           data={filteredData}
+        />
+        <PaginationComponent
+          totalItems={data?.pagination.total || 0}
+          itemsPerPage={data?.pagination.per_page || 10}
+          currentPage={data?.pagination.current_page || 1}
+          onPageChange={handlePageChange}
         />
       </div>
       {selectedPaymentProofId && (

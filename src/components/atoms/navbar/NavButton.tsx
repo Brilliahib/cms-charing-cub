@@ -29,6 +29,9 @@ export default function NavButton({ links }: NavHeaderProps) {
         {session ? (
           <DropdownMenu>
             <div className="flex items-center gap-5">
+              <p className="font-semibold text-sm">
+                Halo, {session.user.name}!
+              </p>
               <DropdownMenuTrigger asChild>
                 <Button variant="tertiary" size="icon" className="rounded-full">
                   <Avatar className="border border-muted">
@@ -64,25 +67,37 @@ export default function NavButton({ links }: NavHeaderProps) {
           </DropdownMenu>
         ) : (
           <div className="flex items-center gap-4">
-            <Button variant={"unique"}>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button variant="outline">
-              <Link href="/register">Register</Link>
-            </Button>
+            <Link href="/login">
+              <Button
+                variant={"outline"}
+                className="text-primary hover:text-primary border-primary"
+                size={"lg"}
+              >
+                Masuk
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button variant={"default"} size={"lg"}>
+                Daftar
+              </Button>
+            </Link>
           </div>
         )}
       </div>
 
       <div className="md:hidden flex items-center">
         <Sheet>
+          {/* Hamburger */}
           <SheetTrigger asChild>
             <Button
               variant="outline"
               size="icon"
               className="shrink-0 md:hidden bg-white border-0 w-full"
             >
-              <Menu className="h-5 w-5" />
+              <Menu
+                style={{ height: "20px", width: "20px" }}
+                className="h-24 w-24"
+              />
             </Button>
           </SheetTrigger>
 
@@ -115,12 +130,18 @@ export default function NavButton({ links }: NavHeaderProps) {
                         className="rounded-full"
                       >
                         <Avatar className="border border-muted">
+                          <AvatarImage
+                            src={buildFromAppURL(session.user.profile)}
+                          />
                           <AvatarFallback className="text-gray-700 bg-white">
                             {generateFallbackFromName(session.user.name)}
                           </AvatarFallback>
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
+                    <p className="font-semibold text-sm">
+                      Halo, {session.user.name}!
+                    </p>
                     <DropdownMenuContent
                       align="center"
                       className="font-poppins"
@@ -144,12 +165,19 @@ export default function NavButton({ links }: NavHeaderProps) {
                 </DropdownMenu>
               ) : (
                 <div className="flex flex-col space-y-4">
-                  <Button variant={"unique"}>
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button variant="outline">
-                    <Link href="/register">Register</Link>
-                  </Button>
+                  <Link href="/login">
+                    <Button
+                      variant={"outline"}
+                      className="w-full text-primary hover:text-primary border-primary"
+                    >
+                      Masuk
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button variant={"default"} className="w-full">
+                      Daftar
+                    </Button>
+                  </Link>
                 </div>
               )}
             </nav>

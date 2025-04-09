@@ -46,7 +46,7 @@ export default function CubAbleContent() {
                   href={"/cub-location/maps"}
                   className="flex items-center gap-2 font-normal"
                 >
-                  <MapPin /> See With Map
+                  <MapPin /> Lihat di Peta
                 </Link>
               </Button>
             </div>
@@ -81,15 +81,26 @@ export default function CubAbleContent() {
                   <Card className="border-0 shadow-none">
                     <CardContent className="p-0">
                       <div className="flex flex-col space-y-4">
-                        <Image
-                          src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
-                          alt={daycare.name}
-                          width={1000}
-                          height={1000}
-                          className="w-full object-cover h-[200px] rounded-xl"
-                        />
+                        <div className="relative p-0">
+                          <Image
+                            src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
+                            alt={daycare.name}
+                            width={1000}
+                            height={1000}
+                            className="w-full object-cover h-[180px] rounded-xl"
+                          />
+                          <Image
+                            src={`${baseUrl}/${daycare.images}`}
+                            alt={`${daycare.name} Logo`}
+                            width={50}
+                            height={50}
+                            className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
+                          />
+                        </div>
                         <div className="space-y-2">
-                          <h1 className="font-bold">{daycare.name}</h1>
+                          <div className="flex justify-between">
+                            <h1 className="font-bold">{daycare.name}</h1>
+                          </div>
                           <div className="flex items-center space-x-2">
                             <RatingStars rating={daycare.rating || 0} />{" "}
                             <span className="text-sm text-muted-foreground">

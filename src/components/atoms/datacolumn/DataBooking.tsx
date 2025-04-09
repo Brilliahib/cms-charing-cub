@@ -1,8 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import { baseUrl } from "@/utils/app";
 import ActionButton from "@/components/molecules/datatable/ActionButton";
 import {
   DropdownMenuItem,
@@ -10,11 +8,11 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Eye, SquarePen } from "lucide-react";
+import { ArrowUpDown, CircleCheck, Eye, Loader } from "lucide-react";
 import { BookingNannies } from "@/types/booking/booking";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
   {
@@ -26,7 +24,7 @@ export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
   },
   {
     accessorKey: "name",
-    header: "Nannies",
+    header: "Nama Nannies",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -37,72 +35,48 @@ export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
     },
   },
   {
-    accessorKey: "start_time",
-    header: "Start Booking",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "end_time",
-    header: "End Booking",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.end_time, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "time",
-    header: "Overtime",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p>
-          {format(data.start_time, "HH:mm", {
-            locale: id,
-          })}{" "}
-          -{" "}
-          {format(data.end_time, "HH:mm", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
     accessorKey: "is_approved",
-    header: "Status Approve",
+    header: "Status Booking",
     cell: ({ row }) => {
       const data = row.original;
+
+      if (data.is_approved) {
+        return (
+          <div className="flex items-center gap-2 text-sm">
+            <CircleCheck className="text-green-500 h-4 w-4" />
+            <span className="text-green-500">Diterima</span>
+          </div>
+        );
+      }
+
       return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Pending"}
-        </Badge>
+        <div className="flex items-center gap-2 text-sm">
+          <Loader className="text-yellow-500 h-4 w-4" />
+          <span className="text-yellow-500">Menunggu Konfirmasi</span>
+        </div>
       );
     },
   },
   {
     accessorKey: "is_paid",
-    header: "Status Payment",
+    header: "Status Pembayaran",
     cell: ({ row }) => {
       const data = row.original;
+
+      if (data.is_paid) {
+        return (
+          <div className="flex items-center gap-2 text-sm">
+            <CircleCheck className="text-green-500 h-4 w-4" />
+            <span className="text-green-500">Dibayar</span>
+          </div>
+        );
+      }
+
       return (
-        <Badge variant={data.is_paid ? "success" : "destructive"}>
-          {data.is_paid ? "Paid" : "Pending"}
-        </Badge>
+        <div className="flex items-center gap-2 text-sm">
+          <Loader className="text-yellow-500 h-4 w-4" />
+          <span className="text-yellow-500">Belum Dibayar</span>
+        </div>
       );
     },
   },
@@ -116,6 +90,36 @@ export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
           {data.payment_proof ?? "Belum dibayar"}
         </p>
       );
+    },
+  },
+  {
+    accessorKey: "start_time",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tanggal Booking
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
+            locale: id,
+          })}
+        </p>
+      );
+    },
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const timeA = new Date(rowA.original.start_time).getTime();
+      const timeB = new Date(rowB.original.start_time).getTime();
+      return timeA - timeB;
     },
   },
   {

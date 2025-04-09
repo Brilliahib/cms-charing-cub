@@ -23,7 +23,11 @@ export const getAllDaycareHandler = async (params?: {
 };
 
 export const useGetAllDaycare = (
-  params?: { location?: string },
+  params?: {
+    location?: string;
+    latitude?: number | null;
+    longitude?: number | null;
+  },
   options?: Partial<UseQueryOptions<GetAllDaycareResponse, AxiosError>>
 ) => {
   return useQuery({

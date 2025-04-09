@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const bookingDaycareSchema = z.object({
   daycare_id: z.string(),
+  price_id: z.string(),
   start_time: z
     .string()
     .min(1, { message: "Waktu mulai harus diisi" })

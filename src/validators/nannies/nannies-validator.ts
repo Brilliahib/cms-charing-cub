@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const nanniesSchema = z.object({
   daycare_id: z
-    .number()
+    .string()
     .min(1, { message: "Daycare harus diisi dan minimal 1" }),
   images: z
     .union([
@@ -32,12 +32,24 @@ export const nanniesSchema = z.object({
     .string()
     .min(1, { message: "Kontak harus diisi" })
     .max(20, { message: "Kontak maksimal 20 karakter" }),
-  price_half: z
-    .number()
-    .min(1, { message: "Harga setengah hari harus diisi dan minimal 1" }),
-  price_full: z
-    .number()
-    .min(1, { message: "Harga penuh harus diisi dan minimal 1" }),
+  price_lists: z
+    .array(
+      z.object({
+        age_start: z
+          .string()
+          .min(0, { message: "Umur awal harus minimal 0 tahun" }),
+        age_end: z
+          .string()
+          .min(0, { message: "Umur akhir harus minimal 0 tahun" }),
+        price: z
+          .number()
+          .min(1, { message: "Harga harus diisi dan minimal 1" }),
+        name: z
+          .string()
+          .min(1, { message: "Nama keterangan price list wajib diisi" }),
+      })
+    )
+    .min(1, { message: "Setidaknya satu price list harus diisi" }),
   experience_description: z
     .string()
     .min(1, { message: "Deskripsi pengalaman harus diisi" }),

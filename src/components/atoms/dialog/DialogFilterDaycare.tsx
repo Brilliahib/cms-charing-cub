@@ -44,15 +44,15 @@ export default function DialogFilterDaycare({
           {selectedLocation
             ? locations.find((location) => location.value === selectedLocation)
                 ?.label || "Tanpa Filter"
-            : "All Locations"}
+            : "Semua Kota"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="md:w-[200px] w-full p-0">
         <Command>
-          <CommandInput placeholder="Search location..." className="h-9" />
+          <CommandInput placeholder="Cari Kota..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No city found.</CommandEmpty>
+            <CommandEmpty>Kota tidak ditemukan</CommandEmpty>
             <CommandGroup>
               <CommandItem
                 key="all"

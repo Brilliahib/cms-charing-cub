@@ -9,49 +9,46 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { Eye, Image, ImagePlus, SquarePen } from "lucide-react";
+import {
+  ArrowUpDown,
+  CircleCheck,
+  CircleX,
+  Eye,
+  ImagePlus,
+  Loader,
+} from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export const bookingDaycareColumns = (
-  openUploadDialog: (id: number) => void,
-  openViewPaymentProofDialog: (id: number) => void
-): ColumnDef<BookingDaycare>[] => [
-  {
-    accessorKey: "index",
-    header: "No",
-    cell: ({ row }) => {
-      return <p suppressHydrationWarning>{row.index + 1}</p>;
-    },
-  },
+export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
   {
     accessorKey: "name_babies",
-    header: "Child Name",
+    header: "Nama Anak",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p suppressHydrationWarning className="line-clamp-2">
           {data.name_babies}
         </p>
       );
     },
   },
   {
-    accessorKey: "daycare",
+    accessorKey: "daycare_name",
     header: "Daycare",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p suppressHydrationWarning className="line-clamp-2">
           {data.daycares?.name}
         </p>
       );
     },
   },
   {
-    accessorKey: "daycare",
-    header: "Daycare Location",
+    accessorKey: "daycare_location",
+    header: "Lokasi Daycare",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -62,8 +59,55 @@ export const bookingDaycareColumns = (
     },
   },
   {
+    accessorKey: "payment_status",
+    header: "Status Pembayaran",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      switch (data.payment_status) {
+        case "paid":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleCheck className="text-green-500 h-4 w-4" />
+              <span className="text-green-500">Dibayar</span>
+            </div>
+          );
+        case "pending":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <Loader className="text-yellow-500 h-4 w-4" />
+              <span className="text-yellow-500">Belum Dibayar</span>
+            </div>
+          );
+        case "cancelled":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleX className="text-red-500 h-4 w-4" />
+              <span className="text-red-500">Dibatalkan</span>
+            </div>
+          );
+        default:
+          return (
+            <div className="text-muted-foreground text-sm">
+              Status tidak dikenal
+            </div>
+          );
+      }
+    },
+  },
+  {
     accessorKey: "start_time",
-    header: "Start Booking",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tanggal Booking
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -74,34 +118,11 @@ export const bookingDaycareColumns = (
         </p>
       );
     },
-  },
-  {
-    accessorKey: "is_approved",
-    header: "Status Approved",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Waiting"}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "payment_proof",
-    header: "Payment Proof",
-    cell: ({ row }) => {
-      const data = row.original;
-
-      if (data.payment_proof) {
-        return (
-          <Image
-            onClick={() => openViewPaymentProofDialog(data.id)}
-            className="h-5 w-5 cursor-pointer"
-          />
-        );
-      }
-      return <Badge variant="destructive">Belum Dibayar</Badge>;
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const timeA = new Date(rowA.original.start_time).getTime();
+      const timeB = new Date(rowB.original.start_time).getTime();
+      return timeA - timeB;
     },
   },
 
@@ -116,18 +137,12 @@ export const bookingDaycareColumns = (
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/bookings/daycares/${data.id}`}
-              className="flex items-center text-gray-700"
+              href={`/dashboard/daycares/booking/${data.id}`}
+              className="flex items-center text-gray-700 hover:underline"
             >
               <Eye className="h-4 w-4" />
-              <span className="ml-2">See Detail</span>
+              <span className="ml-2">Detail</span>
             </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => openUploadDialog(data.id)}>
-            <div className="flex items-center text-gray-700 cursor-pointer">
-              <ImagePlus className="h-4 w-4" />
-              <span className="ml-2">Upload Payment</span>
-            </div>
           </DropdownMenuItem>
         </ActionButton>
       );

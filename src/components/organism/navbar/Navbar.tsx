@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 import NavButton from "@/components/atoms/navbar/NavButton";
 import NavL from "@/components/atoms/navbar/NavL";
 import NavLink from "@/components/atoms/navbar/NavLink";
-import { PropsWithChildren } from "react";
-import { Session } from "next-auth";
 
 export interface Link {
   href: string;
@@ -26,9 +24,9 @@ export default function Navbar() {
         active: pathname.startsWith("/cub-location"),
       },
       {
-        href: "/cub-nest",
-        label: "Cub Nest",
-        active: pathname.startsWith("/cub-nest"),
+        href: "/cub-talk",
+        label: "Cub Talk",
+        active: pathname.startsWith("/cub-talk"),
       },
       {
         href: "/cub-care",

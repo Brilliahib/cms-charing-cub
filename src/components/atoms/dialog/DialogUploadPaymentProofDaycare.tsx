@@ -32,7 +32,7 @@ import { toast } from "sonner";
 interface DialogUploadPaymentProofDaycareProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  id: number;
+  id: string;
 }
 
 export default function DialogUploadPaymentProofDaycareType({

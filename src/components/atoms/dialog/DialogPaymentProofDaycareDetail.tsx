@@ -13,7 +13,7 @@ import Image from "next/image";
 interface DialogViewPaymentProofDaycareProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  id: number;
+  id: string;
 }
 
 export default function DialogViewPaymentProofDaycare({
@@ -25,6 +25,7 @@ export default function DialogViewPaymentProofDaycare({
   const { data, isPending } = useGetDetailBookingFromDaycare(
     {
       id,
+      token: session.data?.access_token as string,
     },
     { enabled: session.status === "authenticated" }
   );

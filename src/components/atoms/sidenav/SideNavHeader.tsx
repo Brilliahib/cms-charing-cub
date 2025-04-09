@@ -91,7 +91,7 @@ export default function SideNavHeader({ session, links }: SideNavHeaderProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className="cursor-pointer">
               <Link href="/">
-                <House /> Home
+                <House /> Beranda
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

@@ -9,18 +9,16 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/hooks/use-toast";
 import { useGetDetailNannies } from "@/http/nannies/get-detail-nannies";
 import { baseUrl } from "@/utils/app";
 import { generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
-import { format } from "date-fns";
 import Autoplay from "embla-carousel-autoplay";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 
 interface CubNestDetailProps {
   id: string;
@@ -29,12 +27,6 @@ interface CubNestDetailProps {
 export default function CubCareDetailContent({ id }: CubNestDetailProps) {
   const { data, isPending } = useGetDetailNannies({ id });
   const session = useSession();
-
-  const createdYear = data?.data.created_at
-    ? format(new Date(data.data.created_at), "MMMM yyyy")
-    : "";
-
-  const { toast } = useToast();
   const router = useRouter();
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false })
@@ -42,14 +34,14 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
-      toast({
-        title: "Not logged in yet",
-        description: "Please login to continue booking!",
-        variant: "destructive",
-      });
+      toast.error("Silahkan login terlebih dahulu untuk booking nannies!");
     } else {
       router.push(`/cub-care/${data?.data.id}/booking`);
     }
+  };
+
+  const handleCheckDaycare = () => {
+    router.push(`/cub-location/${data?.data.daycare_id}`);
   };
 
   return (
@@ -88,24 +80,30 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                   <h1 className="font-bold text-lg">{data?.data.name}</h1>
                   <p>{data?.data.experience_description}</p>
                 </div>
-                <div className="flex gap-4 items-center">
-                  <Image
-                    src={`${baseUrl}/${data?.data.daycare_profile}`}
-                    alt={data?.data.daycare_name ?? "Daycare"}
-                    width={1000}
-                    height={1000}
-                    className="rounded-full max-w-[50px] max-h-[50px]"
-                  />
-                  <div className="space-y-1">
-                    <h1>{data?.data.daycare_name}</h1>
-                    <div className="flex items-center space-x-2">
-                      <RatingStars rating={data?.data.rating || 0} />{" "}
-                      <span className="text-sm text-muted-foreground">
-                        ({data?.data.rating_count})
-                      </span>
+                {data?.data.daycare && (
+                  <div className="flex gap-4 items-center">
+                    {data.data.daycare.images && (
+                      <Image
+                        src={`${baseUrl}/${data.data.daycare.images}`}
+                        alt={data.data.daycare_name ?? "Daycare"}
+                        width={1000}
+                        height={1000}
+                        className="rounded-full max-w-[50px] max-h-[50px]"
+                      />
+                    )}
+                    <div className="space-y-1">
+                      <h1>{data.data.daycare.name}</h1>
+                      {data.data.daycare.rating && (
+                        <div className="flex items-center space-x-2">
+                          <RatingStars rating={data.data.daycare.rating} />
+                          <span className="text-sm text-muted-foreground">
+                            ({data.data.daycare.rating})
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -115,27 +113,50 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
             <CardContent className="p-6 shadow border rounded-xl">
               <div className="space-y-4">
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Daycare</div>
-                  <div className="md:w-8/12">{data?.data.daycare_name}</div>
-                </div>
-                <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Harga</div>
+                  <div className="md:w-4/12 text-muted-foreground">Daycare</div>
                   <div className="md:w-8/12">
-                    {formatPrice(data?.data.price_half)} - {""}
-                    {formatPrice(data?.data.price_full)}
+                    {data?.data.daycare?.name ?? "Tidak Memiliki Daycare"}
                   </div>
                 </div>
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Nomor Telepon</div>
+                  <div className="md:w-4/12 text-muted-foreground">
+                    Nomor Telepon
+                  </div>
                   <div className="md:w-8/12">{data?.data.contact}</div>
                 </div>
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Lokasi</div>
-                  <div className="md:w-8/12">{data?.data.daycare_location}</div>
+                  <div className="md:w-4/12 text-muted-foreground">Lokasi</div>
+                  <div className="md:w-8/12">
+                    {data?.data.daycare?.address ?? "Lokasi Tidak Ada"}
+                  </div>
                 </div>
                 <div className="flex md:flex-row flex-col">
-                  <div className="md:w-4/12">Pria / Wanita</div>
-                  <div className="md:w-8/12">{data?.data.gender}</div>
+                  <div className="md:w-4/12 text-muted-foreground">
+                    Jenis Kelamin
+                  </div>
+                  <div className="md:w-8/12">
+                    {data?.data.gender === "male"
+                      ? "Laki-laki"
+                      : data?.data.gender === "female"
+                      ? "Perempuan"
+                      : data?.data.gender}
+                  </div>
+                </div>
+                <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12 text-muted-foreground">
+                    Pilihan Harga
+                  </div>
+                  <div className="md:w-8/12">
+                    <div className="space-y-2">
+                      {data?.data.price_lists.map((price) => (
+                        <div key={price.id}>
+                          <h1>
+                            {formatPrice(price.price)} ({price.name})
+                          </h1>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-4">
                   <Button
@@ -143,14 +164,15 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                     size={"lg"}
                     onClick={handleBookingClick}
                   >
-                    Book Now
+                    Booking Sekarang
                   </Button>
                   <Button
-                    variant={"outline"}
+                    className="w-full border-primary text-primary hover:text-primary"
                     size={"lg"}
-                    className="w-full border bg-secondary hover:bg-secondary/80"
+                    onClick={handleCheckDaycare}
+                    variant={"outline"}
                   >
-                    Contact Center
+                    Lihat Daycare Terkait
                   </Button>
                 </div>
               </div>

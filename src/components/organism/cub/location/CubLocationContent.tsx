@@ -10,15 +10,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchInput from "@/components/atoms/search/SearchInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DialogFilterDaycare from "@/components/atoms/dialog/DialogFilterDaycare";
 import { Button } from "@/components/ui/button";
 
 export default function CubLocationContent() {
   const [query, setQuery] = useState("");
   const [locationFilter, setLocationFilter] = useState<string>("");
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
 
-  const { data, isPending } = useGetAllDaycare({ location: locationFilter });
+  const { data, isPending } = useGetAllDaycare({
+    location: locationFilter,
+    latitude,
+    longitude,
+  });
 
   const onSearch = (value: string) => {
     setQuery(value);
@@ -27,6 +33,29 @@ export default function CubLocationContent() {
   const onFilterChange = (location: string) => {
     setLocationFilter(location);
   };
+
+  const getCurrentLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert(
+            "Tidak dapat mendapatkan lokasi. Pastikan izin lokasi diaktifkan."
+          );
+        }
+      );
+    } else {
+      alert("Geolocation tidak didukung oleh browser ini.");
+    }
+  };
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
   const filteredDaycares = Array.isArray(data?.data)
     ? data.data.filter((daycare) =>
@@ -45,7 +74,7 @@ export default function CubLocationContent() {
           <div className="flex md:flex-row flex-col items-center gap-4">
             <SearchInput
               onSearch={onSearch}
-              props="Search Daycare"
+              props="Cari daycare terdekat"
               className="md:max-w-[250px] w-full"
             />
             <div className="flex gap-4 w-full">
@@ -55,27 +84,27 @@ export default function CubLocationContent() {
                   href={"/cub-location/maps"}
                   className="flex items-center gap-2 font-normal"
                 >
-                  <MapPin /> See With Map
+                  <MapPin /> Lihat di Peta
                 </Link>
               </Button>
             </div>
           </div>
-          <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-6">
+          <div className="grid 2xl:grid-cols-4 md:grid-cols-3 grid-cols-1 md:gap-8 gap-6">
             {isPending ? (
               Array.from({ length: 4 }).map((_, index) => (
                 <Card className="border-0 shadow-none" key={index}>
                   <CardContent className="p-0">
                     <div className="space-y-4">
-                      <Skeleton className="w-full h-[200px] rounded-xl" />
+                      <Skeleton className="w-full h-[180px] rounded-xl" />
                       <div className="space-y-2">
                         <Skeleton className="h-6 w-full" />
-                        <div className="flex items-center space-x-2">
-                          <RatingStars rating={0} />
-                          <Skeleton className="h-4 w-1/4" />
-                        </div>
                         <div className="flex gap-2 items-center">
                           <MapPin className="h-4 w-4" />
                           <Skeleton className="h-4 w-3/4" />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RatingStars rating={0} />
+                          <Skeleton className="h-4 w-1/4" />
                         </div>
                       </div>
                     </div>
@@ -83,22 +112,37 @@ export default function CubLocationContent() {
                 </Card>
               ))
             ) : !filteredDaycares || filteredDaycares.length === 0 ? (
-              <p>No daycares available</p>
+              <p>Belum ada daycare yang tersedia</p>
             ) : (
               filteredDaycares.map((daycare) => (
                 <Link href={`/cub-location/${daycare.id}`} key={daycare.id}>
                   <Card className="border-0 shadow-none">
                     <CardContent className="p-0">
                       <div className="flex flex-col space-y-4">
-                        <Image
-                          src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
-                          alt={daycare.name}
-                          width={1000}
-                          height={1000}
-                          className="w-full object-cover h-[200px] rounded-xl"
-                        />
+                        <div className="relative p-0">
+                          <Image
+                            src={`${baseUrl}/${daycare.facility_images[0].image_url}`}
+                            alt={daycare.name}
+                            width={1000}
+                            height={1000}
+                            className="w-full object-cover h-[180px] rounded-xl"
+                          />
+                          <Image
+                            src={`${baseUrl}/${daycare.images}`}
+                            alt={`${daycare.name} Logo`}
+                            width={50}
+                            height={50}
+                            className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
+                          />
+                        </div>
                         <div className="space-y-2">
-                          <h1 className="font-bold">{daycare.name}</h1>
+                          <div className="flex justify-between">
+                            <h1 className="font-bold">{daycare.name}</h1>
+                            <div className="flex gap-1 items-center">
+                              <MapPin className="text-primary h-4 w-4" />
+                              <p className="text-sm">{daycare.distance} Km</p>
+                            </div>
+                          </div>
                           <div className="flex items-center space-x-2">
                             <RatingStars rating={daycare.rating || 0} />{" "}
                             <span className="text-sm text-muted-foreground">

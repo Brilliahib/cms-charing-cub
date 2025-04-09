@@ -10,8 +10,8 @@ body {
   font-family: var(--font-jakarta);
 }
 
-.font-figtree {
-  font-family: var(--font-figtree);
+.font-paytone {
+  font-family: var(--font-paytone);
 }
 
 .no-scrollbar {
@@ -51,7 +51,7 @@ body {
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 204 20% 82%;
+    --border: 240 5.9% 90%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
@@ -105,12 +105,21 @@ body {
   }
 }
 
-@layer components {
+/* @layer components {
   .pad-x {
     @apply px-4 md:px-[8%] lg:px-[12%];
   }
   .pad-x-xl {
     @apply px-4 md:px-[6%] lg:px-[8%];
+  }
+} */
+
+@layer components {
+  .pad-x {
+    @apply mx-auto max-w-[1280px] px-4 md:px-[4%];
+  }
+  .pad-x-xl {
+    @apply px-4 md:px-[6%] lg:px-[10%] xl:px-[12%];
   }
 }
 

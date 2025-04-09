@@ -10,20 +10,45 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Check, CheckCheck, Eye, Image, ImagePlus } from "lucide-react";
+import {
+  ArrowUpDown,
+  Check,
+  CheckCheck,
+  CircleCheck,
+  CircleX,
+  Eye,
+  Timer,
+} from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
+import { Button } from "@/components/ui/button";
 
 export const bookingDaycareFromDaycareColumns = (
-  openViewPaymentProofDialog: (id: number) => void,
-  openConfirmPaymentDialog: (id: number) => void,
-  openConfirmBookingDialog: (id: number) => void
+  openViewPaymentProofDialog: (id: string) => void,
+  openConfirmPaymentDialog: (id: string) => void,
+  openConfirmBookingDialog: (id: string) => void
 ): ColumnDef<BookingDaycare>[] => [
   {
-    accessorKey: "index",
-    header: "No",
+    accessorKey: "name",
+    header: "Name",
     cell: ({ row }) => {
-      return <p suppressHydrationWarning>{row.index + 1}</p>;
+      const data = row.original;
+      return (
+        <>
+          <div className="flex gap-2 items-center">
+            <Avatar className="border border-muted">
+              <AvatarImage src={buildFromAppURL(data.user.profile)} />
+              <AvatarFallback className="text-gray-700">
+                {generateFallbackFromName(data.user.name)}
+              </AvatarFallback>
+            </Avatar>
+            <p suppressHydrationWarning className="line-clamp-2">
+              {data.user.name}
+            </p>
+          </div>
+        </>
+      );
     },
   },
   {
@@ -32,65 +57,97 @@ export const bookingDaycareFromDaycareColumns = (
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p suppressHydrationWarning className="line-clamp-2">
           {data.name_babies}
         </p>
       );
     },
   },
   {
-    accessorKey: "start_time",
-    header: "Start Booking",
+    accessorKey: "special_request",
+    header: "Special Request",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
-            locale: id,
-          })}
+        <p suppressHydrationWarning className="line-clamp-2">
+          {data.special_request}
         </p>
       );
     },
   },
   {
-    accessorKey: "is_approved",
-    header: "Status Approved",
+    accessorKey: "payment_status",
+    header: "Payment Status",
     cell: ({ row }) => {
       const data = row.original;
-      return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Waiting"}
-        </Badge>
-      );
+      switch (data.payment_status) {
+        case "paid":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleCheck className="text-green-500 h-4 w-4" />
+              <span className="text-green-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+        case "pending":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <Timer className="text-yellow-500 h-4 w-4" />
+              <span className="text-yellow-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+        case "cancelled":
+          return (
+            <div className="flex items-center gap-2 text-sm">
+              <CircleX className="text-red-500 h-4 w-4" />
+              <span className="text-red-500 capitalize">
+                {data.payment_status}
+              </span>
+            </div>
+          );
+      }
     },
   },
   {
-    accessorKey: "is_paid",
-    header: "Status Paiment",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <Badge variant={data.is_paid ? "success" : "destructive"}>
-          {data.is_paid ? "Approved" : "Waiting"}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "payment_proof",
-    header: "Payment Proof",
+    accessorKey: "payment_method",
+    header: "Payment Method",
     cell: ({ row }) => {
       const data = row.original;
 
-      if (data.payment_proof) {
-        return (
-          <Image
-            onClick={() => openViewPaymentProofDialog(data.id)}
-            className="h-5 w-5 cursor-pointer"
-          />
-        );
-      }
-      return <Badge variant="destructive">Belum Dibayar</Badge>;
+      return <p>{data.payment_method ?? "Belum Memilih"}</p>;
+    },
+  },
+  {
+    accessorKey: "start_time",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+          {format(data.start_time, "EEEE, d MMMM yyyy", {
+            locale: id,
+          })}
+        </p>
+      );
+    },
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const timeA = new Date(rowA.original.start_time).getTime();
+      const timeB = new Date(rowB.original.start_time).getTime();
+      return timeA - timeB;
     },
   },
 

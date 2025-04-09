@@ -52,9 +52,9 @@ export default function LoginForm() {
       return;
     }
 
-    toast.success("Login Successful", {
+    toast.success("Login Berhasil", {
       description:
-        "Welcome back! You have successfully logged into your account.",
+        "Selamat datang kembali! Anda telah berhasil masuk ke akun Anda",
     });
 
     router.push("/dashboard");
@@ -65,9 +65,9 @@ export default function LoginForm() {
       <Card className="border-0 shadow-transparent">
         <div className="w-full md:p-10">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold">Login</CardTitle>
+            <CardTitle className="text-3xl font-bold">Masuk</CardTitle>
             <CardDescription>
-              Selamat datang! Silahkan masuk menggunakan akun anda.
+              Selamat Datang! Silahkan isi email dan password terlebih dahulu.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -86,7 +86,7 @@ export default function LoginForm() {
                         <Input
                           type="text"
                           id="email"
-                          placeholder="Masukkan email"
+                          placeholder="m@example.com"
                           {...field}
                         />
                       </FormControl>
@@ -119,15 +119,16 @@ export default function LoginForm() {
                 </div>
               </form>
             </Form>
-            <div className="mt-6 text-center">
-              <p className="text-muted-foreground text-sm">
-                Belum punya akun?{" "}
-                <Link href={"/register"}>
-                  <span className="text-primary underline font-semibold">
-                    Daftar Sekarang
-                  </span>
+            <div className="mt-6 text-center space-y-4">
+              <div className="text-center text-sm">
+                Tidak punya akun?{" "}
+                <Link
+                  href="/register"
+                  className="underline underline-offset-4 text-primary"
+                >
+                  Daftar Sekarang
                 </Link>
-              </p>
+              </div>
             </div>
           </CardContent>
         </div>

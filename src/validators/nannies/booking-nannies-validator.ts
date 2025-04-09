@@ -2,8 +2,9 @@ import { z } from "zod";
 
 export const bookingNanniesSchema = z.object({
   nanny_id: z
-    .number()
+    .string()
     .min(1, { message: "ID pengasuh harus diisi dan minimal 1" }),
+  price_id: z.string(),
   start_time: z
     .string()
     .min(1, { message: "Waktu mulai harus diisi" })

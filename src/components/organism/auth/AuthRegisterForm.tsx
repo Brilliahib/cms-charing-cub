@@ -61,6 +61,13 @@ export default function RegisterForm() {
     onError: (error) => {
       const errors = error.response?.data;
 
+      if (errors.statusCode === 400) {
+        toast.error("Email Sudah Terdaftar", {
+          description: "Silahkan gunakan email yang lain untuk mendaftar",
+        });
+        return;
+      }
+
       Object.keys(errors).forEach((k) => {
         form.setError(k as keyof RegisterType, {
           type: "manual",
@@ -68,8 +75,8 @@ export default function RegisterForm() {
         });
       });
 
-      toast.error("Register Failed", {
-        description: "Check again the data you entered.",
+      toast.error("Gagal Mendaftar", {
+        description: "Cek kembali data yang Anda masukkan",
       });
     },
     onSuccess: async () => {
@@ -80,15 +87,15 @@ export default function RegisterForm() {
       });
 
       if (!res || res.error == "") {
-        toast.error("Login Failed", {
-          description: "An error occurred, please try again.",
+        toast.error("Gagal Masuk", {
+          description: "Kesalahan, coba lagi nanti",
         });
         return;
       }
 
-      toast.success("Register Successful", {
+      toast.success("Berhasil Mendaftar", {
         description:
-          "Your account has been created and automatically logged in.",
+          "Akun anda berhasil didaftarkan dan akan diarahkan ke dashboard",
       });
       return router.push("/dashboard");
     },
@@ -103,9 +110,9 @@ export default function RegisterForm() {
       <Card className="border-0 shadow-transparent">
         <div className="w-full md:p-10">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold">Register</CardTitle>
+            <CardTitle className="text-3xl font-bold">Daftar</CardTitle>
             <CardDescription>
-              Selamat datang! Silahkan daftar menggunakan akun anda.
+              Selamat Datang! Masukkan data untuk mendaftarkan akun.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -119,12 +126,12 @@ export default function RegisterForm() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama</FormLabel>
+                      <FormLabel>Name</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
                           id="email"
-                          placeholder="Masukkan nama"
+                          placeholder="John Doe"
                           {...field}
                         />
                       </FormControl>
@@ -142,7 +149,7 @@ export default function RegisterForm() {
                         <Input
                           type="text"
                           id="email"
-                          placeholder="Masukkan email"
+                          placeholder="johndoe@example.com"
                           {...field}
                         />
                       </FormControl>
@@ -219,14 +226,15 @@ export default function RegisterForm() {
               </form>
             </Form>
             <div className="mt-6 text-center">
-              <p className="text-muted-foreground text-sm">
+              <div className="text-center text-sm">
                 Sudah punya akun?{" "}
-                <Link href={"/login"}>
-                  <span className="text-primary underline font-semibold">
-                    Masuk Sekarang
-                  </span>
+                <Link
+                  href="/login"
+                  className="underline underline-offset-4 text-primary"
+                >
+                  Masuk Sekarang
                 </Link>
-              </p>
+              </div>
             </div>
           </CardContent>
         </div>

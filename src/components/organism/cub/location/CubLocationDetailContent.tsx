@@ -16,7 +16,7 @@ import { buildFromAppURL, generateFallbackFromName } from "@/utils/misc";
 import { formatPrice } from "@/utils/price";
 import Autoplay from "embla-carousel-autoplay";
 import "leaflet/dist/leaflet.css";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Info, Star } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,7 @@ import {
   Marker,
 } from "@react-google-maps/api";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 interface DaycareDetailProps {
   id: string;
@@ -58,8 +59,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
 
   const handleBookingClick = () => {
     if (!session.data?.access_token) {
-      toast.error("Not Login Yet", {
-        description: "Please login to continue booking!",
+      toast.error("Belum Login", {
+        description: "Silahkan login sebelum melakukan pesan!",
       });
     } else {
       router.push(`/cub-location/${data?.data.id}/booking`);
@@ -67,7 +68,13 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
   };
 
   const handleGiveRating = () => {
-    setIsDialogOpen(true);
+    if (!session.data?.access_token) {
+      toast.error("Belum Login", {
+        description: "Silahkan login sebelum memberikan ulasan!",
+      });
+    } else {
+      setIsDialogOpen(true);
+    }
   };
 
   const handleMarkerClick = () => {
@@ -116,33 +123,42 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                 )}
 
                 {/* Clickable Thumbnails */}
-                <div className="flex gap-4 overflow-x-auto no-scrollbar">
-                  {data?.data.facility_images?.length
-                    ? data.data.facility_images.map((facilitiesImage) => (
-                        <button
-                          key={facilitiesImage.id}
-                          onClick={() =>
-                            setPreviewImage(
-                              `${baseUrl}/${facilitiesImage.image_url}`
-                            )
-                          }
-                        >
-                          <Image
-                            src={`${baseUrl}/${facilitiesImage.image_url}`}
-                            alt={data?.data.name ?? "Daycare"}
-                            width={1000}
-                            height={1000}
-                            className="md:w-[350px] object-cover md:h-[150px] w-full h-[100px] rounded-lg"
-                          />
-                        </button>
-                      ))
-                    : Array.from({ length: 4 }).map((_, index) => (
-                        <Skeleton
-                          key={index}
-                          className="w-[280px] h-[150px] rounded-lg"
-                        />
-                      ))}
-                </div>
+                <Carousel>
+                  <CarouselContent>
+                    {data?.data.facility_images?.length
+                      ? data.data.facility_images.map((facilitiesImage) => (
+                          <CarouselItem
+                            className="pl-1 basis-1/2 lg:basis-1/3"
+                            key={facilitiesImage.id}
+                          >
+                            <button
+                              onClick={() =>
+                                setPreviewImage(
+                                  `${baseUrl}/${facilitiesImage.image_url}`
+                                )
+                              }
+                              className="block w-full h-full md:px-2 px-1"
+                            >
+                              <Image
+                                src={`${baseUrl}/${facilitiesImage.image_url}`}
+                                alt={data?.data.name ?? "Daycare"}
+                                width={1000}
+                                height={1000}
+                                className="md:w-[350px] object-cover md:h-[150px] w-full h-[100px] rounded-lg"
+                              />
+                            </button>
+                          </CarouselItem>
+                        ))
+                      : Array.from({ length: 4 }).map((_, index) => (
+                          <CarouselItem
+                            className="pl-1 md:basis-1/2 lg:basis-1/3"
+                            key={index}
+                          >
+                            <Skeleton className="w-[280px] h-[150px] rounded-lg" />
+                          </CarouselItem>
+                        ))}
+                  </CarouselContent>
+                </Carousel>
               </div>
 
               <div className="space-y-4">
@@ -167,7 +183,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       onClick={() => setIsExpanded(!isExpanded)}
                       className="text-primary underline"
                     >
-                      {isExpanded ? "Show Less" : "Read More"}
+                      {isExpanded ? "Lihat Sebagian" : "Lihat Selengkapnya"}
                     </button>
                   </div>
                 </div>
@@ -182,38 +198,61 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       Menerima Disabilitas
                     </span>
                   ) : null}
-                  <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Alamat</div>
+                  <div className="flex md:flex-row flex-col gap-1">
+                    <div className="md:w-4/12 text-muted-foreground">
+                      Alamat
+                    </div>
                     <div className="md:w-8/12">{data?.data.address}</div>
                   </div>
-                  <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Jam Buka</div>
+                  <div className="flex md:flex-row flex-col gap-1">
+                    <div className="md:w-4/12 text-muted-foreground">
+                      Buka Jam
+                    </div>
                     <div className="md:w-8/12">
-                      {data?.data.opening_days}{" "}
+                      {data?.data.opening_days}, Pukul {""}
                       {formatTime(data?.data.opening_hours)} -{" "}
                       {formatTime(data?.data.closing_hours)}
                     </div>
                   </div>
-                  <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Harga</div>
-                    <div className="md:w-8/12">
-                      {formatPrice(data?.data.price_half)} - {""}
-                      {formatPrice(data?.data.price_full)}
+                  <div className="flex md:flex-row flex-col gap-1">
+                    <div className="md:w-4/12 text-muted-foreground">
+                      Nomor Telepon
                     </div>
-                  </div>
-                  <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Nomor Telepon</div>
                     <div className="md:w-8/12">{data?.data.phone_number}</div>
                   </div>
-                  <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Lokasi</div>
+                  <div className="flex md:flex-row flex-col gap-1">
+                    <div className="md:w-4/12 text-muted-foreground">
+                      Lokasi
+                    </div>
                     <div className="md:w-8/12">
                       {data?.data.location_tracking}
                     </div>
                   </div>
-                  <div className="flex md:flex-row flex-col">
-                    <div className="md:w-4/12">Kota</div>
+                  <div className="flex md:flex-row flex-col gap-1">
+                    <div className="md:w-4/12 text-muted-foreground">Kota</div>
                     <div className="md:w-8/12">{data?.data.location}</div>
+                  </div>
+                  <div className="flex md:flex-row flex-col gap-1">
+                    <div className="md:w-4/12 text-muted-foreground">
+                      Daftar Harga
+                    </div>
+                    <div className="md:w-8/12">
+                      <ol className="flex flex-col gap-4 ">
+                        {data?.data.price_lists.map((price) => (
+                          <li key={price.id}>
+                            <div className="flex flex-col">
+                              <span className="text-base font-semibold text-gray-800">
+                                {formatPrice(price.price)} - {price.name}
+                              </span>
+                              <span className="text-sm text-gray-600">
+                                Untuk umur {price.age_start} hingga{" "}
+                                {price.age_end}
+                              </span>
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
                   </div>
                   <div className="space-y-4">
                     <Button
@@ -221,15 +260,15 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                       size={"lg"}
                       onClick={handleBookingClick}
                     >
-                      Book Now
+                      Pesan Sekarang
                     </Button>
                     <Button
                       variant={"outline"}
                       size={"lg"}
-                      className="w-full border bg-secondary hover:bg-secondary/80"
+                      className="w-full border-primary text-primary hover:text-primary"
                       onClick={handleGiveRating}
                     >
-                      Give a Rating
+                      Berikan Ulasan
                     </Button>
                   </div>
                 </CardContent>
@@ -277,7 +316,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
             <CardContent className="p-0">
               <div className="space-y-4 md:space-y-6">
                 <div className="space-y-2 text-left">
-                  <h1 className="font-bold text-xl">Reviewers</h1>
+                  <h1 className="font-bold text-xl">Daftar Ulasan</h1>
                 </div>
                 <div>
                   <Carousel plugins={[plugin.current]}>
@@ -292,17 +331,8 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                               className="bg-secondary border-0 h-full"
                               key={review.id}
                             >
-                              <CardContent className="p-4 flex flex-col justify-between h-full">
-                                <div className="space-y-4">
-                                  <div className="flex items-center space-x-2">
-                                    <RatingStars rating={review.rating || 0} />
-                                  </div>
-                                  <div className="flex-grow">
-                                    <p>{review.comment}</p>
-                                  </div>
-                                </div>
-                                {/* profile reviewers */}
-                                <div className="flex gap-2 items-center mt-4">
+                              <CardContent className="p-6 flex flex-col justify-between h-full">
+                                <div className="flex gap-4 items-center mb-4">
                                   <Avatar className="border border-muted">
                                     <AvatarImage
                                       src={buildFromAppURL(review.user.profile)}
@@ -313,10 +343,25 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                                       )}
                                     </AvatarFallback>
                                   </Avatar>
-                                  <p className="font-semibold text-sm">
-                                    {review.user.name}
-                                  </p>
+                                  <div className="space-y-1">
+                                    <p className="font-semibold text-sm">
+                                      {review.user.name}
+                                    </p>
+                                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                                      <Star
+                                        className="h-4 w-4 text-yellow-500"
+                                        fill="currentColor"
+                                      />
+                                      {review.rating}
+                                    </div>
+                                  </div>
                                 </div>
+                                <div className="space-y-4">
+                                  <div className="flex-grow">
+                                    <p>{review.comment}</p>
+                                  </div>
+                                </div>
+                                {/* profile reviewers */}
                               </CardContent>
                             </Card>
                           </div>
