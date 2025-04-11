@@ -5,7 +5,7 @@ import { formatRelativeTime } from "@/utils/time-post";
 import SkeletonCardDetailQuestionTalkSkeleton from "../skeleton/SkeletonCardDetailQuestionTalk";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
 import FormQuestionAnswer from "../form/FormQuestionAnswer";
 import { useSession } from "next-auth/react";
@@ -52,7 +52,7 @@ export default function CardDetailQuestionTalk({
               </Avatar>
               <div>
                 <h1 className="font-semibold">{data.user.name}</h1>
-                <div className="text-sm text-muted-foreground capitalize">
+                <div className="text-sm text-muted-foreground">
                   {formatRelativeTime(data.created_at)}
                 </div>
               </div>
@@ -60,8 +60,7 @@ export default function CardDetailQuestionTalk({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <p className="font-semibold">{data.question_title}</p>
+          <div>
             <p className="leading-relaxed">{data.question_detail}</p>
           </div>
         </CardContent>
@@ -80,13 +79,13 @@ export default function CardDetailQuestionTalk({
       )}
       <div className="md:space-y-8 space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="font-bold text-xl">Jawaban</h1>
+          <h1 className="font-semibold text-xl">Jawaban</h1>
           {!isAnswering ? (
             <Button
               onClick={handleAnswerClick}
               disabled={isAuthenticated && !isPsychiatrist}
             >
-              <Plus className="mr-2" /> Beri Jawaban
+              Beri Jawaban
             </Button>
           ) : (
             <Button variant="destructive" onClick={() => setIsAnswering(false)}>

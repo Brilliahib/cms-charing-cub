@@ -84,7 +84,7 @@ export default function LoginForm() {
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
-                          type="text"
+                          type="email"
                           id="email"
                           placeholder="m@example.com"
                           {...field}

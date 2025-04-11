@@ -16,7 +16,7 @@ export default function CardListQuestionTalk({
     <Link href={`/cub-talk/${data.id}`}>
       <Card className="border">
         <CardHeader>
-          <div className="flex md:gap-4 gap-2">
+          <div className="flex items-center md:gap-4 gap-2">
             <div>
               <Avatar className="h-12 w-12 border border-muted">
                 <AvatarImage src={buildFromAppURL(data?.user.profile)} />
@@ -25,10 +25,9 @@ export default function CardListQuestionTalk({
                 </AvatarFallback>
               </Avatar>
             </div>
-            <div className="space-y-1">
-              <h1 className="font-semibold line-clamp-1">{data?.user.name}</h1>
-              {/* <p className="text-sm">{data.user.name}</p> */}
-              <div className="text-sm text-muted-foreground capitalize">
+            <div>
+              <h1 className="line-clamp-1">{data?.user.name}</h1>
+              <div className="text-sm text-muted-foreground">
                 {formatRelativeTime(data.created_at)}
               </div>
             </div>
