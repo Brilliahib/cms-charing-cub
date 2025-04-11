@@ -1,11 +1,9 @@
 "use client";
 
-import PageContainer from "@/components/atoms/container/PageContainer";
 import SectionTitle from "@/components/atoms/typography/SectionTitle";
 import CardListQuestionTalk from "@/components/molecules/card/CardListQuestionTalk";
 import { Button } from "@/components/ui/button";
 import { useGetAllQuestionTalk } from "@/http/cub/talk/get-all-question-talk";
-import { Plus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -32,9 +30,7 @@ export default function CubTalkContent() {
             title="Cub Talk"
             subtitle="Ask the Experts About Parenting & Childcare"
           />
-          <Button onClick={handleCreateClick}>
-            <Plus className="mr-2" /> Mulai Bertanya
-          </Button>
+          <Button onClick={handleCreateClick}>Mulai Bertanya</Button>
         </div>
         <div className="flex flex-col space-y-4 md:space-y-6">
           {data?.data.map((question) => (

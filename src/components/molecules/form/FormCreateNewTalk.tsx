@@ -54,7 +54,7 @@ export default function FormCreateNewTalk() {
   };
   return (
     <div>
-      <Card className="shadow-md">
+      <Card className="border shadow-none">
         <CardContent className="py-4">
           <Form {...form}>
             <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
@@ -99,7 +99,7 @@ export default function FormCreateNewTalk() {
 
               <div className="flex justify-end py-4">
                 <Button type="submit" disabled={isPending}>
-                  {isPending ? "Mengirim..." : "Kirim Pertanyaan"}
+                  {isPending ? "Mengirim..." : "Kirim"}
                 </Button>
               </div>
             </form>
