@@ -8,13 +8,7 @@ import {
   ResponsiveContainer,
   XAxis,
 } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -60,24 +54,24 @@ export default function DaycareIncomeSummary() {
     },
   } satisfies ChartConfig;
 
-  const rangeLabelMap = {
-    weekly: "7 hari terakhir",
-    monthly: "30 hari terakhir",
-    yearly: "12 bulan terakhir",
-  };
-
   return (
-    <div className="py-8 space-y-8">
+    <div className="py-8 space-y-6">
+      <div>
+        <Card className="border">
+          <CardContent className="p-4 md:p-6">
+            <div className="space-y-2">
+              <span className="text-muted-foreground md:text-base text-sm">
+                Total Pemasukan
+              </span>
+              <h1 className="font-bold md:text-2xl text-xl">
+                {formatRupiahString(data?.data.total_income)}
+              </h1>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
       <Card className="border ">
-        <CardHeader>
-          <CardTitle>
-            Total Pendapatan: {formatRupiahString(data?.data.total_income)}
-          </CardTitle>
-          <CardDescription>
-            Menampilkan total pendapatan dalam {rangeLabelMap[range]}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="md:p-6 p-4">
           <div className="flex justify-end mb-4">
             <Select
               value={range}
