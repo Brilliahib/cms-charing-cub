@@ -9,14 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import {
-  ArrowUpDown,
-  CircleCheck,
-  CircleX,
-  Eye,
-  ImagePlus,
-  Loader,
-} from "lucide-react";
+import { ArrowUpDown, Eye } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -68,22 +61,13 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
         case "paid":
           return (
             <div className="flex items-center gap-2 text-sm">
-              <CircleCheck className="text-green-500 h-4 w-4" />
-              <span className="text-green-500">Dibayar</span>
+              <span className="text-green-500">Sudah Dibayar</span>
             </div>
           );
         case "pending":
           return (
             <div className="flex items-center gap-2 text-sm">
-              <Loader className="text-yellow-500 h-4 w-4" />
-              <span className="text-yellow-500">Belum Dibayar</span>
-            </div>
-          );
-        case "cancelled":
-          return (
-            <div className="flex items-center gap-2 text-sm">
-              <CircleX className="text-red-500 h-4 w-4" />
-              <span className="text-red-500">Dibatalkan</span>
+              <span className="text-red-500">Belum Dibayar</span>
             </div>
           );
         default:

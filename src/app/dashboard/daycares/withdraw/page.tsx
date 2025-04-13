@@ -4,7 +4,7 @@ import DaycareWithdrawWrapper from "@/components/organism/dashboard/daycares/Day
 export default function DashboardWithdrawDaycarePage() {
   return (
     <>
-      <DashboardTitle title="Withdraw" />
+      <DashboardTitle title="Penarikan Dana" />
       <DaycareWithdrawWrapper />
     </>
   );

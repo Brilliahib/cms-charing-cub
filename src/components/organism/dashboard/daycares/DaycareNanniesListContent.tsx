@@ -23,16 +23,16 @@ export default function DaycareNanniesListContent() {
 
   const filteredData =
     data?.data.filter((users) =>
-      users.name.toLowerCase().includes(searchQuery.toLowerCase())
+      users.user.name.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
   return (
     <>
-      <div className="py-8 space-y-8">
+      <div className="py-4 space-y-8">
         <div className="flex justify-between items-center">
           <SearchInput
             onSearch={setSearchQuery}
-            props="Search nannies..."
-            className="min-w-[250px]"
+            props="Cari berdasarkan nama"
+            className="min-w-[350px]"
           />
           <div className="flex gap-4">
             <Link href={"/dashboard/daycares/nannies/create"}>

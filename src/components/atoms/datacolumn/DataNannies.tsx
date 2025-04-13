@@ -28,7 +28,7 @@ export const nanniesColumns: ColumnDef<Nannies>[] = [
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.name}
+          {data.user.name}
         </p>
       );
     },
@@ -46,25 +46,25 @@ export const nanniesColumns: ColumnDef<Nannies>[] = [
     },
   },
   {
-    accessorKey: "price_half",
-    header: "Harga Half Day",
+    accessorKey: "contact",
+    header: "Kontak",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.price_half}
+          {data.contact}
         </p>
       );
     },
   },
   {
-    accessorKey: "price_full",
-    header: "Harga Full Day",
+    accessorKey: "age",
+    header: "Umur",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.price_full}
+          {data.age} Tahun
         </p>
       );
     },

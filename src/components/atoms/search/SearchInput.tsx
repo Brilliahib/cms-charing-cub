@@ -39,7 +39,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           placeholder={props}
           value={query}
           onChange={handleChange}
-          className="w-full text-md border bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-xl py-4 focus:outline-none"
+          className="w-full text-md border text-base bg-white md:max-w-xs w-full border-none rounded-l-none rounded-r-xl py-4 focus:outline-none"
         />
       </div>
     </>

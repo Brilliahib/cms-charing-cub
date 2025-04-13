@@ -4,7 +4,7 @@ import DaycareNanniesListContent from "@/components/organism/dashboard/daycares/
 export default function DashboardDaycareNanniesPage() {
   return (
     <>
-      <DashboardTitle title="Nannies List" />
+      <DashboardTitle title="Daftar Nannies" />
       <DaycareNanniesListContent />
     </>
   );
