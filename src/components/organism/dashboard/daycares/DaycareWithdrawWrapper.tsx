@@ -7,10 +7,9 @@ export default function DaycareWithdrawWrapper() {
       <div className="py-6">
         <Alert variant={"warning"}>
           <TriangleAlert className="h-4 w-4" />
-          <AlertTitle>Information</AlertTitle>
+          <AlertTitle>Informasi</AlertTitle>
           <AlertDescription>
-            We are currently developing this feature and it will be used for
-            balance withdrawals.
+            Sedang dalam proses pengembangan, mohon bersabar ya!
           </AlertDescription>
         </Alert>
       </div>

@@ -1,15 +1,13 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetDetailBookingDaycare } from "@/http/daycares/bookings/get-detail-booking-daycare";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { id as idLocale } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
-import { Download, Image } from "lucide-react";
-import { useState } from "react";
-import DialogDaycareViewPaymentProof from "@/components/atoms/dialog/DialogViewPaymentProof";
+import { Download } from "lucide-react";
+import { formatPaymentMethod } from "@/utils/format-payment-method";
 
 interface DaycareBookingDetailProps {
   id: string;
@@ -26,83 +24,95 @@ export default function DaycareBookingDetailContent({
     { enabled: session.status === "authenticated" }
   );
 
-  const [dialogViewPaymentProofOpen, setDialogViewPaymentProofOpen] =
-    useState(false);
-
-  const handleDialogViewPaymentProof = () => {
-    setDialogViewPaymentProofOpen(true);
-  };
   return (
     <>
-      <div className="w-full space-y-4 md:space-y-6 py-8">
+      <div className="w-full space-y-8 py-4">
         <div>
           <Button variant={"outline"}>
-            <Download /> Download Invoice
+            <Download /> Download PDF
           </Button>
         </div>
-        <Card className="border shadow-md">
+        <Card className="border">
           <CardContent className="p-4 md:p-6">
             <div className="grid md:grid-cols-3 grid-cols-1 md:gap-10 gap-6">
               <div className="space-y-2">
-                <p className="font-semibold">Booking Id</p>
-                <p>{data?.data.id}</p>
+                <p className="font-semibold">ID Booking</p>
+                <p className="uppercase text-muted-foreground">
+                  #{data?.data.id}
+                </p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Child Name</p>
-                <p>{data?.data.name_babies}</p>
+                <p className="font-semibold">Nama Pengguna</p>
+                <p className="text-muted-foreground">{data?.data.user.name}</p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Name</p>
-                <p>{data?.data.user.name}</p>
+                <p className="font-semibold">Email Pengguna</p>
+                <p className="text-muted-foreground">{data?.data.user.email}</p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Daycare Name</p>
-                <p>{data?.data.daycares?.name}</p>
+                <p className="font-semibold">Nama Anak</p>
+                <p className="text-muted-foreground">
+                  {data?.data.name_babies}
+                </p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Daycare Location</p>
-                <p>{data?.data.daycares?.location}</p>
+                <p className="font-semibold">Permintaan Khusus</p>
+                <p className="text-muted-foreground">
+                  {data?.data.special_request ?? "Tidak ada"}
+                </p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Daycare Address</p>
-                <p>{data?.data.daycares?.address}</p>
+                <p className="font-semibold">Daycare</p>
+                <p className="text-muted-foreground">
+                  {data?.data.daycares?.name}
+                </p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Payment Status</p>
-                <Badge
-                  variant={
-                    data?.data.payment_status ? "destructive" : "success"
+                <p className="font-semibold">Lokasi Daycare</p>
+                <p className="text-muted-foreground">
+                  {data?.data.daycares?.location}
+                </p>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold">Alamat Daycare</p>
+                <p className="text-muted-foreground">
+                  {data?.data.daycares?.address}
+                </p>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold">Status Pembayaran</p>
+                {(() => {
+                  switch (data?.data.payment_status) {
+                    case "paid":
+                      return (
+                        <div className="flex items-center gap-2">
+                          <span className="text-green-500">Sudah Dibayar</span>
+                        </div>
+                      );
+                    case "pending":
+                      return (
+                        <div className="flex items-center gap-2">
+                          <span className="text-red-500">Belum Dibayar</span>
+                        </div>
+                      );
+                    default:
+                      return (
+                        <div className="text-muted-foreground">
+                          Status tidak dikenal
+                        </div>
+                      );
                   }
-                >
-                  {data?.data.payment_status}
-                </Badge>
+                })()}
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Payment Method</p>
-                <p>{data?.data.payment_method ?? "Belum Memilih"}</p>
+                <p className="font-semibold">Metode Pembayaran</p>
+                <p className="text-muted-foreground">
+                  {formatPaymentMethod(data?.data.payment_method!)}
+                </p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">Payment Proof</p>
-                {data?.data.payment_proof ? (
-                  <div
-                    className="flex items-center gap-2 cursor-pointer"
-                    onClick={handleDialogViewPaymentProof}
-                  >
-                    <Image size={20} />
-                    <p className="line-clamp-1">View Payment Proof</p>
-                  </div>
-                ) : (
-                  <p className="text-red-600">Not Paid</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <p className="font-semibold">Special Request</p>
-                <p>{data?.data.special_request}</p>
-              </div>
-              <div className="space-y-2">
-                <p className="font-semibold">Start Time</p>
-                <p className="md:line-clamp-2 line-clamp-1">
+                <p className="font-semibold">Mulai Booking</p>
+                <p className="md:line-clamp-2 line-clamp-1 text-muted-foreground">
                   {data?.data.start_time
                     ? format(
                         new Date(data.data.start_time),
@@ -115,8 +125,8 @@ export default function DaycareBookingDetailContent({
                 </p>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold">End Time</p>
-                <p className="md:line-clamp-2 line-clamp-1">
+                <p className="font-semibold">Selesai Booking</p>
+                <p className="md:line-clamp-2 line-clamp-1 text-muted-foreground">
                   {data?.data.end_time
                     ? format(
                         new Date(data.data.end_time),
@@ -132,11 +142,6 @@ export default function DaycareBookingDetailContent({
           </CardContent>
         </Card>
       </div>
-      <DialogDaycareViewPaymentProof
-        open={dialogViewPaymentProofOpen}
-        setOpen={setDialogViewPaymentProofOpen}
-        id={id}
-      />
     </>
   );
 }

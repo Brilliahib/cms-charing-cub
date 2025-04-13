@@ -12,9 +12,9 @@ import {
   CalendarCheck,
   HeartHandshake,
   HousePlus,
-  Notebook,
   Wallet,
-  Home,
+  CalendarFold,
+  ChartSpline,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -80,21 +80,27 @@ export default function Sidenav({ children, session }: SidenavProps) {
             },
             {
               href: "/dashboard/daycares/bookings",
-              label: "Booking",
-              icon: CalendarCheck,
+              label: "Daftar Booking",
+              icon: CalendarFold,
               active: pathname.startsWith("/dashboard/daycares/bookings"),
-            },
-            {
-              href: "/dashboard/daycares/withdraw",
-              label: "Withdraw",
-              icon: Wallet,
-              active: pathname.startsWith("/dashboard/daycares/withdraw"),
             },
             {
               href: "/dashboard/daycares/nannies",
               label: "Nannies",
               icon: UserRound,
               active: pathname.startsWith("/dashboard/daycares/nannies"),
+            },
+            {
+              href: "/dashboard/daycares/income",
+              label: "Analisa Pendapatan",
+              icon: ChartSpline,
+              active: pathname.startsWith("/dashboard/daycares/income"),
+            },
+            {
+              href: "/dashboard/daycares/withdraw",
+              label: "Penarikan Dana",
+              icon: Wallet,
+              active: pathname.startsWith("/dashboard/daycares/withdraw"),
             },
           ]
         : session?.user.role === "nannies"
@@ -134,7 +140,7 @@ export default function Sidenav({ children, session }: SidenavProps) {
           ]),
       {
         href: "/dashboard/settings",
-        label: "Setting",
+        label: "Pengaturan",
         active: pathname.startsWith("/dashboard/settings"),
         icon: Settings2Icon,
       },

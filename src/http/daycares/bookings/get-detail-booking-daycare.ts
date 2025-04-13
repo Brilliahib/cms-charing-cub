@@ -30,7 +30,7 @@ export const useGetDetailBookingDaycare = (
   >
 ) => {
   return useQuery({
-    queryKey: ["booking-daycare-detail"],
+    queryKey: ["booking-daycare-detail", id],
     queryFn: () => GetDetailBookingDaycareHandler({ id }),
     ...options,
   });

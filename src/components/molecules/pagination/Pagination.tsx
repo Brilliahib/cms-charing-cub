@@ -52,8 +52,8 @@ export default function PaginationComponent({
 
   return (
     <div className="flex md:flex-row flex-col justify-between w-full md:gap-0 gap-4">
-      <p className="text-center md:text-left w-full text-sm font-medium">
-        Showing {startItem} to {endItem} of {totalItems} entries
+      <p className="text-center md:text-left w-full text-sm">
+        Menampikan {startItem} - {endItem} dari {totalItems} data
       </p>
       <Pagination className="md:justify-end justify-center">
         <PaginationContent className="gap-2">
