@@ -50,7 +50,7 @@ export default function DaycareIncomeSummary() {
   const chartConfig = {
     income: {
       label: "Pendapatan",
-      color: "hsl(var(--chart-1))",
+      color: "hsl(var(--primary))",
     },
   } satisfies ChartConfig;
 
