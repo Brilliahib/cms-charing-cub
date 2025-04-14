@@ -48,37 +48,25 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
     <div className="pad-x-xl py-8 space-y-8">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:gap-8">
         <div>
-          <Card>
-            <div className="relative">
-              {/* Background Image */}
-              <CardHeader className="p-0 rounded-t-xl">
-                <Image
-                  src="/images/background.png"
-                  alt="Background Nannies"
-                  width={1000}
-                  height={1000}
-                  className="rounded-t-xl max-h-[100px] object-cover"
-                />
-              </CardHeader>
-
-              {/* Profile Image */}
-              <div className="absolute top-12 pl-6">
-                <Image
-                  src={`${baseUrl}/${data?.data.images}`}
-                  alt={data?.data.name ?? "Nannies"}
-                  width={100}
-                  height={100}
-                  className="rounded-full bg-primary"
-                />
-              </div>
-            </div>
-
-            {/* Content */}
-            <CardContent className="p-6 shadow border rounded-b-xl pt-14">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <h1 className="font-bold text-lg">{data?.data.name}</h1>
-                  <p>{data?.data.experience_description}</p>
+          <Card className="border shadow">
+            <CardContent className="p-6">
+              <div className="space-y-6">
+                <div className="flex md:flex-row flex-col gap-4">
+                  <Image
+                    src={`${baseUrl}/${data?.data.images}`}
+                    alt={data?.data.name ?? "Nannies"}
+                    width={1000}
+                    height={1000}
+                    className="rounded-xl max-w-[150px]"
+                  />
+                  <div className="space-y-1">
+                    <h1 className="font-semibold text-lg">
+                      {data?.data.user.name}
+                    </h1>
+                    <p className="text-muted-foreground">
+                      {data?.data.experience_description}
+                    </p>
+                  </div>
                 </div>
                 {data?.data.daycare && (
                   <div className="flex gap-4 items-center">
@@ -113,6 +101,10 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
             <CardContent className="p-6 shadow border rounded-xl">
               <div className="space-y-4">
                 <div className="flex md:flex-row flex-col">
+                  <div className="md:w-4/12 text-muted-foreground">Nama</div>
+                  <div className="md:w-8/12">{data?.data.user.name}</div>
+                </div>
+                <div className="flex md:flex-row flex-col">
                   <div className="md:w-4/12 text-muted-foreground">Daycare</div>
                   <div className="md:w-8/12">
                     {data?.data.daycare?.name ?? "Tidak Memiliki Daycare"}
@@ -142,20 +134,26 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
                       : data?.data.gender}
                   </div>
                 </div>
-                <div className="flex md:flex-row flex-col">
+                <div className="flex md:flex-row flex-col gap-1">
                   <div className="md:w-4/12 text-muted-foreground">
-                    Pilihan Harga
+                    Daftar Harga
                   </div>
                   <div className="md:w-8/12">
-                    <div className="space-y-2">
+                    <ol className="flex flex-col gap-4 ">
                       {data?.data.price_lists.map((price) => (
-                        <div key={price.id}>
-                          <h1>
-                            {formatPrice(price.price)} ({price.name})
-                          </h1>
-                        </div>
+                        <li key={price.id}>
+                          <div className="flex flex-col">
+                            <span className="text-base font-semibold text-gray-800">
+                              {formatPrice(price.price)} - {price.name}
+                            </span>
+                            <span className="text-sm text-gray-600">
+                              Untuk umur {price.age_start} hingga{" "}
+                              {price.age_end}
+                            </span>
+                          </div>
+                        </li>
                       ))}
-                    </div>
+                    </ol>
                   </div>
                 </div>
                 <div className="space-y-4">
