@@ -8,6 +8,7 @@ import { id as idLocale } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { formatPaymentMethod } from "@/utils/format-payment-method";
+import { formatPrice } from "@/utils/price";
 
 interface DaycareBookingDetailProps {
   id: string;
@@ -136,6 +137,17 @@ export default function DaycareBookingDetailContent({
                         }
                       )
                     : "Loading"}
+                </p>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold">Harga Yang Dipilih</p>
+                <p className="md:line-clamp-2 line-clamp-1 text-muted-foreground">
+                  {formatPrice(data?.data.price_lists.price)}
+                </p>
+                <p className="md:line-clamp-2 line-clamp-1 text-muted-foreground">
+                  {data?.data.price_lists.name} (
+                  {data?.data.price_lists.age_start} -{" "}
+                  {data?.data.price_lists.age_end} tahun)
                 </p>
               </div>
             </div>

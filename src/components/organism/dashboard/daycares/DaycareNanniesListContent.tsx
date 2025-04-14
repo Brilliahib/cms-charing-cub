@@ -37,7 +37,7 @@ export default function DaycareNanniesListContent() {
           <div className="flex gap-4">
             <Link href={"/dashboard/daycares/nannies/create"}>
               <Button>
-                <Plus /> Create Nanny
+                <Plus /> Tambah Nannies
               </Button>
             </Link>
           </div>
