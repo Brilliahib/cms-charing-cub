@@ -1,6 +1,6 @@
 import { Auth } from "../auth/auth";
 import { Nannies } from "../cub/cub";
-import { DayCare } from "../daycares/daycare";
+import { DayCare, PriceListDaycare } from "../daycares/daycare";
 
 export interface BookingNannies {
   id: number;
@@ -37,4 +37,5 @@ export interface BookingDaycare {
   updated_at: string;
   daycares: DayCare | null;
   user: Auth;
+  price_lists: PriceListDaycare;
 }

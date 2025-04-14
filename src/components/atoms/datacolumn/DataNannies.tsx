@@ -96,7 +96,7 @@ export const nanniesColumns: ColumnDef<Nannies>[] = [
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/admin/nannies/${data.id}/edit`}
+              href={`/dashboard/daycares/nannies/${data.id}/edit`}
               className="flex items-center text-gray-700"
             >
               <SquarePen className="h-4 w-4" />
@@ -105,7 +105,7 @@ export const nanniesColumns: ColumnDef<Nannies>[] = [
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/admin/nannies/${data.id}`}
+              href={`/dashboard/daycares/nannies/${data.id}`}
               className="flex items-center text-gray-700"
             >
               <Eye className="h-4 w-4" />
