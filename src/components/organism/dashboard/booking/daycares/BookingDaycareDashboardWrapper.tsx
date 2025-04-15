@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function DaycareBookingContent() {
+export default function BookingDaycareDashboardWrapper() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();

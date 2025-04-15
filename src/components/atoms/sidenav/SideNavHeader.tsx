@@ -101,7 +101,7 @@ export default function SideNavHeader({ session, links }: SideNavHeaderProps) {
             >
               {" "}
               <LogOut />
-              Log Out
+              Keluar
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

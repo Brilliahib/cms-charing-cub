@@ -23,7 +23,10 @@ export default function BookingDashboardContent() {
     <>
       <div className="py-4 space-y-8">
         <div className="flex w-full">
-          <SearchInput onSearch={setSearchQuery} props="Search Booking" />
+          <SearchInput
+            onSearch={setSearchQuery}
+            props="Cari berdasarkan nama"
+          />
         </div>
         <DataTable columns={bookingUserNanniesColumns} data={filteredData} />
       </div>

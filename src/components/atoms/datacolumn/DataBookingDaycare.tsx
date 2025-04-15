@@ -121,7 +121,7 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link
-              href={`/dashboard/daycares/booking/${data.id}`}
+              href={`/dashboard/bookings/daycares/${data.id}`}
               className="flex items-center text-gray-700 hover:underline"
             >
               <Eye className="h-4 w-4" />
