@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import DashboardTitle from "@/components/atoms/typography/DashboardTitle";
+import DashboardWrapperContent from "./DashboardContent";
 
 export default function DashboardContent() {
   const { data: session } = useSession();
@@ -31,6 +32,7 @@ export default function DashboardContent() {
   return (
     <>
       <DashboardTitle title="Dashboard" />
+      <DashboardWrapperContent />
     </>
   );
 }

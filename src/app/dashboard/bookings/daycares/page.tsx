@@ -1,5 +1,5 @@
 import DashboardTitle from "@/components/atoms/typography/DashboardTitle";
-import DaycareBookingContent from "@/components/organism/dashboard/daycares/DaycareBookingContent";
+import BookingDaycareDashboardWrapper from "@/components/organism/dashboard/booking/daycares/BookingDaycareDashboardWrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export default function DashboardBookingDaycarePage() {
   return (
     <>
       <DashboardTitle title="Booking Daycare" />
-      <DaycareBookingContent />
+      <BookingDaycareDashboardWrapper />
     </>
   );
 }

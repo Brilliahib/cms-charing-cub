@@ -9,7 +9,6 @@ import {
   Newspaper,
   Users,
   UserRound,
-  CalendarCheck,
   HeartHandshake,
   HousePlus,
   Wallet,
@@ -128,13 +127,13 @@ export default function Sidenav({ children, session }: SidenavProps) {
             {
               href: "/dashboard/bookings/daycares",
               label: "Booking Daycare",
-              icon: CalendarCheck,
+              icon: CalendarFold,
               active: pathname.startsWith("/dashboard/bookings/daycares"),
             },
             {
               href: "/dashboard/bookings/nannies",
               label: "Booking Nannies",
-              icon: CalendarCheck,
+              icon: CalendarFold,
               active: pathname.startsWith("/dashboard/bookings/nannies"),
             },
           ]),
