@@ -7,11 +7,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Check } from "lucide-react";
+import { ArrowUpDown, Check } from "lucide-react";
 import { BookingNannies } from "@/types/booking/booking";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface BookingNanniesProps extends BookingNannies {
   approveBookingNanniesHandler: (data: BookingNanniesProps) => void;
@@ -37,15 +39,8 @@ const ActionsCell = ({ data }: { data: BookingNanniesProps }) => {
 
 export const bookingNanniesColumns: ColumnDef<BookingNanniesProps>[] = [
   {
-    accessorKey: "index",
-    header: "No",
-    cell: ({ row }) => {
-      return <p suppressHydrationWarning>{row.index + 1}</p>;
-    },
-  },
-  {
     accessorKey: "name",
-    header: "Customer",
+    header: "Nama Pengguna",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -56,73 +51,75 @@ export const bookingNanniesColumns: ColumnDef<BookingNanniesProps>[] = [
     },
   },
   {
-    accessorKey: "start_time",
-    header: "Start Booking",
+    accessorKey: "name",
+    header: "Nama Anak",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "end_time",
-    header: "End Booking",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.end_time, "EEEE, d MMMM yyyy", {
-            locale: id,
-          })}
+          {data.name_babies}
         </p>
       );
     },
   },
   {
     accessorKey: "is_approved",
-    header: "Overtime",
+    header: "Status Diterima",
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p>
-          {format(data.start_time, "HH:mm", {
-            locale: id,
-          })}{" "}
-          -{" "}
-          {format(data.end_time, "HH:mm", {
-            locale: id,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "is_approved",
-    header: "Status Approved",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <Badge variant={data.is_approved ? "success" : "destructive"}>
-          {data.is_approved ? "Approved" : "Waiting"}
-        </Badge>
+        <span className={data.is_approved ? "text-green-500" : "text-red-500"}>
+          {data.is_approved ? "Diterima" : "Menunggu Konfirmasi"}
+        </span>
       );
     },
   },
   {
     accessorKey: "payment_proof",
-    header: "Payment Proof",
+    header: "Bukti Pembayaran",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p
+          suppressHydrationWarning
+          className={cn(
+            "md:line-clamp-2 line-clamp-1",
+            data.payment_proof ? "text-green-500" : "text-red-500"
+          )}
+        >
+          {data.payment_proof ?? "Belum Dibayar"}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "start_time",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tanggal Booking
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.payment_proof ?? "Not yet paid"}
+          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
+            locale: id,
+          })}
         </p>
       );
+    },
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const timeA = new Date(rowA.original.start_time).getTime();
+      const timeB = new Date(rowB.original.start_time).getTime();
+      return timeA - timeB;
     },
   },
   {

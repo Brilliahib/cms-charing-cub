@@ -75,7 +75,10 @@ export default function NanniesBookingDashboardContent() {
     <>
       <div className="md:py-8 space-y-8">
         <div className="flex w-full">
-          <SearchInput onSearch={setSearchQuery} props="Search Booking" />
+          <SearchInput
+            onSearch={setSearchQuery}
+            props="Cari berdasarkan nama"
+          />
         </div>
         <DataTable columns={bookingNanniesColumns} data={dataHandler} />
       </div>
