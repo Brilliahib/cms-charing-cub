@@ -10,3 +10,12 @@ export interface DailyIncome {
   date: Date;
   total: string;
 }
+
+export interface IncomeTotal {
+  total_income: string;
+  daily_income: DailyIncome[];
+}
+
+export interface IncomeToday {
+  total_income_today: number;
+}

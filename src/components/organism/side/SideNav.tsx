@@ -113,8 +113,8 @@ export default function Sidenav({ children, session }: SidenavProps) {
             },
             {
               href: "/dashboard/nannies/bookings",
-              label: "Booking",
-              icon: CalendarCheck,
+              label: "Daftar Booking",
+              icon: CalendarFold,
               active: pathname.startsWith("/dashboard/nannies/bookings"),
             },
           ]

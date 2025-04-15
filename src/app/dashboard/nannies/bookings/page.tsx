@@ -4,7 +4,7 @@ import NanniesBookingDashboardContent from "@/components/organism/dashboard/nann
 export default function DashboardNanniesBookingPage() {
   return (
     <>
-      <DashboardTitle title="Booking List" />
+      <DashboardTitle title="Daftar Booking" />
       <NanniesBookingDashboardContent />
     </>
   );
