@@ -35,7 +35,11 @@ export default function BookingDetailDaycareDashboardContent({
     <>
       <div className="w-full space-y-8 py-4">
         <div>
-          <Button variant={"outline"} onClick={() => reactToPrintFn()}>
+          <Button
+            variant={"outline"}
+            onClick={() => reactToPrintFn()}
+            disabled={isPending}
+          >
             <Download /> Download PDF
           </Button>
         </div>

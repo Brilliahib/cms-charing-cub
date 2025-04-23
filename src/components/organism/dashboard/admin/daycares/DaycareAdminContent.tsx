@@ -5,6 +5,7 @@ import SearchInput from "@/components/atoms/search/SearchInput";
 import { DataTable } from "@/components/molecules/datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import { useGetAllDaycare } from "@/http/daycares/get-all-daycares";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -26,7 +27,9 @@ export default function DaycareAdminContent() {
             className="min-w-[250px]"
           />
           <Link href={"/dashboard/admin/daycares/create"}>
-            <Button className="md:w-fit w-full">Tambah Daycare</Button>
+            <Button className="md:w-fit w-full">
+              <Plus /> Tambah Daycare
+            </Button>
           </Link>
         </div>
         <DataTable columns={daycareColumns} data={filteredData} />

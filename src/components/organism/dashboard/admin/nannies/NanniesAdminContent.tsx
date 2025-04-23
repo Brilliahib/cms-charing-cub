@@ -9,12 +9,12 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function NanniesAdminContent() {
-  const { data, isPending } = useGetAllNannies();
+  const { data } = useGetAllNannies();
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData =
     data?.data.filter((nanny) =>
-      nanny.name.toLowerCase().includes(searchQuery.toLowerCase())
+      nanny.user.name.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
 
   return (
