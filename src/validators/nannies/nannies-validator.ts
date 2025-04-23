@@ -1,9 +1,7 @@
 import { z } from "zod";
 
 export const nanniesSchema = z.object({
-  daycare_id: z
-    .string()
-    .min(1, { message: "Daycare harus diisi dan minimal 1" }),
+  daycare_id: z.string().nullable().optional(),
   images: z
     .union([
       z.string().nullable().optional(),

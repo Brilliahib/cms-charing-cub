@@ -24,7 +24,7 @@ export default function NanniesAdminContent() {
           <SearchInput
             onSearch={setSearchQuery}
             className="min-w-[250px]"
-            props="Search nannies..."
+            props="Cari nannies..."
           />
           <Link href={"/dashboard/admin/nannies/create"}>
             <Button className="md:w-fit w-full">Tambah Nanny</Button>
