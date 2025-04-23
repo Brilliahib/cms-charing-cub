@@ -383,7 +383,7 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
                 </div>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:gap-6">
                   {nannies?.data.map((nanny) => (
-                    <Link href={`/cub-care/${nanny.id}`}>
+                    <Link href={`/cub-care/${nanny.id}`} key={nanny.id}>
                       <Card className="border-0 shadow-none h-full">
                         <CardContent className="p-0">
                           <div className="flex flex-col space-y-4 h-full">
