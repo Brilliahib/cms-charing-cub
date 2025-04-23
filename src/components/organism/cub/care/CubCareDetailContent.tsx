@@ -51,13 +51,13 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
           <Card className="border shadow">
             <CardContent className="p-6">
               <div className="space-y-6">
-                <div className="flex md:flex-row flex-col gap-4">
+                <div className="flex flex-col gap-6">
                   <Image
                     src={`${baseUrl}/${data?.data.images}`}
                     alt={data?.data.name ?? "Nannies"}
                     width={1000}
                     height={1000}
-                    className="rounded-xl max-w-[150px]"
+                    className="rounded-xl bg-secondary max-w-[150px]"
                   />
                   <div className="space-y-1">
                     <h1 className="font-semibold text-lg">
@@ -182,7 +182,7 @@ export default function CubCareDetailContent({ id }: CubNestDetailProps) {
         <CardContent className="p-0">
           <div className="space-y-4 md:space-y-6">
             <div className="space-y-2 text-left">
-              <h1 className="font-bold text-xl">Reviewers Daycare</h1>
+              <h1 className="font-bold text-xl">Nannies Lainnya</h1>
             </div>
             <div>
               <Carousel plugins={[plugin.current]}>
