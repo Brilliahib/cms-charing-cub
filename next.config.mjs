@@ -5,7 +5,7 @@ const nextConfig = {
       "charingcub.site",
       "127.0.0.1",
       "api.sandbox.midtrans.com",
-      "dev.charingcub.site",
+      "development.charingcub.site",
       "charingcub.com",
     ],
   },

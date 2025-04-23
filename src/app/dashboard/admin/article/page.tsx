@@ -3,13 +3,13 @@ import ArticleAdminContent from "@/components/organism/dashboard/admin/article/A
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Article",
+  title: "Artikel",
 };
 
 export default function DashboardAdminArticlePage() {
   return (
     <>
-      <DashboardTitle title="Article" />
+      <DashboardTitle title="Artikel" />
       <ArticleAdminContent />
     </>
   );

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetArticle } from "@/http/article/get-all-article";
 import { useGetAllArticleType } from "@/http/article/type-article/get-all-article-type";
+import { Plus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -54,24 +55,28 @@ export default function ArticleAdminContent() {
         <div className="flex md:flex-row flex-col gap-4 justify-between">
           <SearchInput
             onSearch={setSearchQuery}
-            props="Search article or type..."
+            props="Cari artikel..."
             className="md:w-[250px] w-full"
           />
           <div className="flex md:flex-row flex-col gap-4">
             <Button>
-              <Link href={"/dashboard/admin/article/create"}>
-                Create Article
+              <Link
+                href={"/dashboard/admin/article/create"}
+                className="flex items-center gap-2"
+              >
+                <Plus /> Tambah Artikel
               </Link>
             </Button>
             <Button onClick={handleArticleTypeDialogOpen} variant={"outline"}>
-              Create Article Type
+              <Plus />
+              Tambah Tipe Artikel
             </Button>
           </div>
         </div>
         <Tabs defaultValue="article" className="space-y-4">
           <TabsList className="max-w-[200px] grid w-full grid-cols-2">
-            <TabsTrigger value="article">Article</TabsTrigger>
-            <TabsTrigger value="article-type">Article Type</TabsTrigger>
+            <TabsTrigger value="article">Artikel</TabsTrigger>
+            <TabsTrigger value="article-type">Tipe Artikel</TabsTrigger>
           </TabsList>
           <TabsContent value="article">
             <DataTable columns={articleColumns} data={filteredArticles} />
