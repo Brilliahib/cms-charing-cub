@@ -1,6 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const sponsors = [
+  {
+    name: "Transmarga Jateng",
+    href: "https://www.transmargajateng.co.id/",
+    image: "/images/sponsor/tmj.png",
+  },
+  {
+    name: "Universitas Diponegoro",
+    href: "https://www.undip.ac.id/",
+    image: "/images/sponsor/undip.png",
+  },
+  {
+    name: "Hutama Karya",
+    href: "https://www.hutamakarya.com/",
+    image: "/images/sponsor/hk.png",
+  },
+];
+
 export default function FooterContent() {
   return (
     <>
@@ -91,6 +109,27 @@ export default function FooterContent() {
                   </Link>
                 </li>
               </ul>
+            </div>
+          </div>
+          <div className="py-4 md:py-6 lg:py-8 space-y-6">
+            <p className="font-semibold">Sponsored By</p>
+            <div className="flex flex-row md:gap-0 gap-4">
+              {sponsors.map((sponsor, index) => (
+                <Link
+                  href={sponsor.href}
+                  target="_blank"
+                  key={index}
+                  className="w-[100px] h-[50px]"
+                >
+                  <Image
+                    src={sponsor.image}
+                    alt={sponsor.name}
+                    width={100}
+                    height={50}
+                    className="w-full h-full object-contain"
+                  />
+                </Link>
+              ))}
             </div>
           </div>
           <div className="py-4 md:py-6 lg:py-8 space-y-6">
