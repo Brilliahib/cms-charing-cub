@@ -7,6 +7,7 @@ const nextConfig = {
       "api.sandbox.midtrans.com",
       "development.charingcub.site",
       "charingcub.com",
+      "api-charingcub.com",
     ],
   },
 };
