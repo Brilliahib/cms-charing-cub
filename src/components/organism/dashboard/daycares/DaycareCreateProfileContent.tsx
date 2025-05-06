@@ -700,7 +700,6 @@ export default function DaycareCreateProfileContent() {
                           {...field}
                           value={field.value || ""}
                           placeholder="Latitude marker"
-                          readOnly
                         />
                       </FormControl>
                       <FormMessage />
@@ -723,7 +722,6 @@ export default function DaycareCreateProfileContent() {
                           {...field}
                           value={field.value || ""}
                           placeholder="Longitude marker"
-                          readOnly
                         />
                       </FormControl>
                       <FormMessage />
