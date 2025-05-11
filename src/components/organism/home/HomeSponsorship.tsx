@@ -22,12 +22,12 @@ const sponsors = [
 export default function HomeSponsorship() {
   return (
     <div className="pad-x-xl">
-      <div className="flex flex-col items-center justify-center space-y-12">
-        <div className="md:w-[70rem] w-fit relative flex flex-col items-center">
-          <h1 className="font-paytone tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10 text-center">
+      <div className="flex flex-col space-y-12">
+        <div className="md:w-[70rem] w-fit relative flex flex-col">
+          <h1 className="font-paytone tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
             SPONSORED BY💸
           </h1>
-          <span className="absolute left-1/2 -translate-x-1/2 -translate-y-7 w-[16rem] md:w-[26rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 md:top-10 top-8 -rotate-2 z-0 opacity-30"></span>
+          <span className="absolute -translate-y-7 w-[16rem] md:w-[26rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 md:top-10 top-8 -rotate-2 z-0 opacity-30"></span>
         </div>
         <div>
           <div className="flex md:flex-row flex-col items-center gap-8">

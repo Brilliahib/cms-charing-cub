@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Figtree, Paytone_One, Poppins } from "next/font/google";
+import { Paytone_One, Poppins } from "next/font/google";
 import "./globals.css";
 import GlobalProvider from "@/components/organism/GlobalProvider";
 import { Toaster } from "sonner";
@@ -34,11 +34,11 @@ export const metadata: Metadata = {
   ],
 };
 
-const jakartaSans = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
   weight: ["200", "300", "400", "500", "600", "700", "800"],
-  variable: "--font-jakarta",
+  variable: "--font-poppins",
 });
 
 const paytone = Paytone_One({
@@ -56,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${paytone.variable} ${jakartaSans.variable} antialiased`}
+      className={`${paytone.variable} ${poppins.variable} antialiased`}
     >
       <body>
         <GlobalProvider>
