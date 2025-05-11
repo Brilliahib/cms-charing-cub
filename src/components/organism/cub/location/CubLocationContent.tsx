@@ -125,7 +125,7 @@ export default function CubLocationContent() {
                             alt={daycare.name}
                             width={1000}
                             height={1000}
-                            className="w-full object-cover h-[180px] rounded-xl"
+                            className="w-full object-cover md:h-[200px] h-[220px] rounded-xl"
                           />
                           <Image
                             src={`${baseUrl}/${daycare.images}`}
