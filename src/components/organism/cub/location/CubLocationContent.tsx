@@ -89,7 +89,7 @@ export default function CubLocationContent() {
               </Button>
             </div>
           </div>
-          <div className="grid 2xl:grid-cols-4 md:grid-cols-3 grid-cols-1 md:gap-8 gap-6">
+          <div className="grid 2xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
             {isPending ? (
               Array.from({ length: 4 }).map((_, index) => (
                 <Card className="border-0 shadow-none" key={index}>
@@ -125,7 +125,7 @@ export default function CubLocationContent() {
                             alt={daycare.name}
                             width={1000}
                             height={1000}
-                            className="w-full object-cover h-[180px] rounded-xl"
+                            className="w-full object-cover md:h-[200px] h-[220px] rounded-xl"
                           />
                           <Image
                             src={`${baseUrl}/${daycare.images}`}
