@@ -2,10 +2,9 @@
 const nextConfig = {
   images: {
     domains: [
-      "charingcub.site",
       "127.0.0.1",
       "api.sandbox.midtrans.com",
-      "development.charingcub.site",
+      "development.api-charingcub.com",
       "charingcub.com",
       "api-charingcub.com",
     ],
