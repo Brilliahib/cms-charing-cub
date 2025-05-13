@@ -37,8 +37,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import DialogTermAndCondition from "@/components/atoms/dialog/DialogTermAndCondition";
+import DialogPrivacyAndPolicy from "@/components/atoms/dialog/DialogPrivacyAndPolicy";
 
 export default function RegisterForm() {
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [openTermDialog, setOpenTermDialog] = useState(false);
+  const [openPrivacyDialog, setOpenPrivacyDialog] = useState(false);
   const form = useForm<RegisterType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -106,139 +113,183 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center">
-      <Card className="border-0 shadow-transparent">
-        <div className="w-full md:p-10">
-          <CardHeader>
-            <CardTitle className="text-3xl font-bold">Daftar</CardTitle>
-            <CardDescription>
-              Selamat Datang! Masukkan data untuk mendaftarkan akun.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form
-                className="space-y-5"
-                onSubmit={form.handleSubmit(onSubmit)}
-              >
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          id="email"
-                          placeholder="John Doe"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          id="email"
-                          placeholder="johndoe@example.com"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Role</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Pilih role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="user">User</SelectItem>
-                            <SelectItem value="daycare">Daycare</SelectItem>
-                            <SelectItem value="nannies">Nannies</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          id="password"
-                          placeholder="Masukkan password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password_confirmation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Konfirmasi Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          id="password"
-                          placeholder="Masukkan konfirmasi password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div>
-                  <Button type="submit" className="w-full" disabled={isPending}>
-                    {isPending ? "Loading..." : "Daftar"}
-                  </Button>
-                </div>
-              </form>
-            </Form>
-            <div className="mt-6 text-center">
-              <div className="text-center text-sm">
-                Sudah punya akun?{" "}
-                <Link
-                  href="/login"
-                  className="underline underline-offset-4 text-primary"
+    <>
+      <div className="flex h-full items-center justify-center">
+        <Card className="border-0 shadow-transparent">
+          <div className="w-full md:p-10">
+            <CardHeader>
+              <CardTitle className="text-3xl font-bold">Daftar</CardTitle>
+              <CardDescription>
+                Selamat Datang! Masukkan data untuk mendaftarkan akun.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Form {...form}>
+                <form
+                  className="space-y-5"
+                  onSubmit={form.handleSubmit(onSubmit)}
                 >
-                  Masuk Sekarang
-                </Link>
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            id="email"
+                            placeholder="John Doe"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            id="email"
+                            placeholder="johndoe@example.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="user">User</SelectItem>
+                              <SelectItem value="daycare">Daycare</SelectItem>
+                              <SelectItem value="nannies">Nannies</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            id="password"
+                            placeholder="Masukkan password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password_confirmation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Konfirmasi Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            id="password"
+                            placeholder="Masukkan konfirmasi password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex items-start space-x-2 text-sm">
+                    <Checkbox
+                      id="terms"
+                      checked={isAgreed}
+                      onCheckedChange={(checked) => setIsAgreed(!!checked)}
+                    />
+                    <label
+                      htmlFor="terms"
+                      className="text-muted-foreground text-sm"
+                    >
+                      Dengan masuk, Anda menyetujui{" "}
+                      <button
+                        type="button"
+                        className="underline text-primary"
+                        onClick={() => setOpenTermDialog(true)}
+                      >
+                        Syarat & Ketentuan
+                      </button>{" "}
+                      {""}
+                      serta{" "}
+                      <button
+                        type="button"
+                        className="underline text-primary"
+                        onClick={() => setOpenPrivacyDialog(true)}
+                      >
+                        Kebijakan Privasi
+                      </button>{" "}
+                      kami.
+                    </label>
+                  </div>
+                  <div>
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isPending || !isAgreed}
+                    >
+                      {isPending ? "Loading..." : "Daftar"}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+              <div className="mt-6 text-center">
+                <div className="text-center text-sm">
+                  Sudah punya akun?{" "}
+                  <Link
+                    href="/login"
+                    className="underline underline-offset-4 text-primary"
+                  >
+                    Masuk Sekarang
+                  </Link>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </div>
-      </Card>
-    </div>
+            </CardContent>
+          </div>
+        </Card>
+      </div>
+      <DialogTermAndCondition
+        open={openTermDialog}
+        setOpen={setOpenTermDialog}
+      />
+      <DialogPrivacyAndPolicy
+        open={openPrivacyDialog}
+        setOpen={setOpenPrivacyDialog}
+      />
+    </>
   );
 }
