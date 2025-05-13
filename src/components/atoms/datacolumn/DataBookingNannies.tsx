@@ -2,16 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import ActionButton from "@/components/molecules/datatable/ActionButton";
-import {
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, Check } from "lucide-react";
+import { ArrowUpDown, Check, Trash2 } from "lucide-react";
 import { BookingNannies } from "@/types/booking/booking";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -23,15 +17,17 @@ const ActionsCell = ({ data }: { data: BookingNanniesProps }) => {
   return (
     <>
       <ActionButton>
-        <DropdownMenuLabel>Action</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
+        <div
           className="text-green-500 cursor-pointer focus:text-green-700"
           onClick={() => data.approveBookingNanniesHandler(data)}
         >
           <Check className="h-4 w-4 " />
-          <span className="ml-2 ">Approve Booking</span>
-        </DropdownMenuItem>
+          <span className="ml-2 ">Setujui Booking</span>
+        </div>
+        <div className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline">
+          <Trash2 className="h-4 w-4" />
+          <span className="ml-2">Hapus</span>
+        </div>
       </ActionButton>
     </>
   );

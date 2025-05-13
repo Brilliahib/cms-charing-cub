@@ -3,14 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import ActionButton from "@/components/molecules/datatable/ActionButton";
-import {
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Eye, SquarePen } from "lucide-react";
+import { Eye, KeyRound, Trash2 } from "lucide-react";
 import { Auth } from "@/types/auth/auth";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 export const usersColumns: ColumnDef<Auth>[] = [
   {
@@ -60,32 +57,44 @@ export const usersColumns: ColumnDef<Auth>[] = [
     },
   },
   {
+    accessorKey: "created_at",
+    header: "Tanggal",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p suppressHydrationWarning>
+          {format(new Date(data.created_at), "EEEE, d MMMM yyyy", {
+            locale: id,
+          })}
+        </p>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
 
       return (
         <ActionButton>
-          <DropdownMenuLabel>Action</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/admin/users/${data.id}/edit`}
-              className="flex items-center text-gray-700"
-            >
-              <SquarePen className="h-4 w-4" />
-              <span className="ml-2">Edit Users</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/admin/users/${data.id}`}
-              className="flex items-center text-gray-700"
-            >
-              <Eye className="h-4 w-4" />
-              <span className="ml-2">Detail Users</span>
-            </Link>
-          </DropdownMenuItem>
+          <Link
+            href={`/dashboard/admin/users/${data.id}`}
+            className="flex cursor-pointer items-center text-gray-700 hover:underline"
+          >
+            <Eye className="h-4 w-4" />
+            <span className="ml-2">Detail</span>
+          </Link>
+          <Link
+            href={`/dashboard/admin/users/${data.id}/edit`}
+            className="flex cursor-pointer items-center text-yellow-600 hover:text-yellow-800 hover:underline"
+          >
+            <KeyRound className="h-4 w-4" />
+            <span className="ml-2">Reset Password</span>
+          </Link>
+          <div className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline">
+            <Trash2 className="h-4 w-4" />
+            <span className="ml-2">Hapus</span>
+          </div>
         </ActionButton>
       );
     },

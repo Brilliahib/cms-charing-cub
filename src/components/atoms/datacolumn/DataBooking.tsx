@@ -2,17 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import ActionButton from "@/components/molecules/datatable/ActionButton";
-import {
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { ArrowUpDown, CircleCheck, Eye, Loader } from "lucide-react";
+import { ArrowUpDown, CircleCheck, Eye, Loader, Trash2 } from "lucide-react";
 import { BookingNannies } from "@/types/booking/booking";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
   {
@@ -129,17 +124,17 @@ export const bookingUserNanniesColumns: ColumnDef<BookingNannies>[] = [
 
       return (
         <ActionButton>
-          <DropdownMenuLabel>Action</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/bookings/${data.id}`}
-              className="flex items-center text-gray-700"
-            >
-              <Eye className="h-4 w-4" />
-              <span className="ml-2">Detail Booking</span>
-            </Link>
-          </DropdownMenuItem>
+          <Link
+            href={`/dashboard/bookings/${data.id}`}
+            className="flex cursor-pointer items-center text-gray-700 hover:underline"
+          >
+            <Eye className="h-4 w-4" />
+            <span className="ml-2">Detail</span>
+          </Link>
+          <div className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline">
+            <Trash2 className="h-4 w-4" />
+            <span className="ml-2">Hapus</span>
+          </div>
         </ActionButton>
       );
     },

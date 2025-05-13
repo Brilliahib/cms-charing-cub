@@ -4,12 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import ActionButton from "@/components/molecules/datatable/ActionButton";
-import {
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, Eye } from "lucide-react";
+import { ArrowUpDown, Eye, Trash2 } from "lucide-react";
 import { BookingDaycare } from "@/types/booking/booking";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -117,17 +112,17 @@ export const bookingDaycareColumns: ColumnDef<BookingDaycare>[] = [
 
       return (
         <ActionButton>
-          <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link
-              href={`/dashboard/bookings/daycares/${data.id}`}
-              className="flex items-center text-gray-700 hover:underline"
-            >
-              <Eye className="h-4 w-4" />
-              <span className="ml-2">Detail</span>
-            </Link>
-          </DropdownMenuItem>
+          <Link
+            href={`/dashboard/bookings/daycares/${data.id}`}
+            className="flex items-center text-gray-700 hover:underline"
+          >
+            <Eye className="h-4 w-4" />
+            <span className="ml-2">Detail</span>
+          </Link>
+          <div className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline">
+            <Trash2 className="h-4 w-4" />
+            <span className="ml-2">Hapus</span>
+          </div>
         </ActionButton>
       );
     },

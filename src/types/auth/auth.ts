@@ -9,4 +9,6 @@ export interface Auth {
   profile: string;
   nannies: Nannies;
   daycare: DayCare;
+  created_at: Date;
+  updated_at: Date;
 }
