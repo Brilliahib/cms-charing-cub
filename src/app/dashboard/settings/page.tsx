@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function DashboardSettingPage() {
   return (
     <>
-      <DashboardTitle title="Pengaturan Akun" />
+      <DashboardTitle
+        title="Pengaturan Akun"
+        body="Kelola informasi akun, kata sandi, dan sesuaikan preferensi sesuai kebutuhan Anda"
+      />
       <SettingDashboardContent />
     </>
   );

@@ -14,6 +14,8 @@ import {
   Wallet,
   CalendarFold,
   ChartSpline,
+  MessageSquareQuote,
+  MonitorSmartphone,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -135,6 +137,18 @@ export default function Sidenav({ children, session }: SidenavProps) {
               label: "Booking Nannies",
               icon: CalendarFold,
               active: pathname.startsWith("/dashboard/bookings/nannies"),
+            },
+            {
+              href: "/dashboard/monitoring",
+              label: "Monitoring Anak",
+              icon: MonitorSmartphone,
+              active: pathname.startsWith("/dashboard/monitoring"),
+            },
+            {
+              href: "/dashboard/feedbacks",
+              label: "Beri Masukan",
+              icon: MessageSquareQuote,
+              active: pathname.startsWith("/dashboard/feedbacks"),
             },
           ]),
       {

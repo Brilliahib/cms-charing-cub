@@ -64,7 +64,7 @@ export default function DaycareCreateNanniesContent() {
   };
 
   return (
-    <div className="py-8">
+    <div>
       <Card className="shadow-xl">
         <CardContent className="p-6 md:p-8">
           <Form {...form}>

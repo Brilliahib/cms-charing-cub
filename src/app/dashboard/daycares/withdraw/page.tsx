@@ -4,7 +4,10 @@ import DaycareWithdrawWrapper from "@/components/organism/dashboard/daycares/Day
 export default function DashboardWithdrawDaycarePage() {
   return (
     <>
-      <DashboardTitle title="Penarikan Dana" />
+      <DashboardTitle
+        title="Penarikan Dana"
+        body="Lakukan penarikan dana dari saldo daycare Anda dengan mudah dan aman."
+      />
       <DaycareWithdrawWrapper />
     </>
   );

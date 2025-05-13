@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function DashboardBookingNanniesPage() {
   return (
     <>
-      <DashboardTitle title="Booking Nannies" />
+      <DashboardTitle
+        title="Booking Nannies"
+        body="Menampilkan daftar riwayat booking nannies Anda"
+      />
       <BookingDashboardContent />
     </>
   );

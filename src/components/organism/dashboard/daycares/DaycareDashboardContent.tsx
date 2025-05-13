@@ -23,7 +23,10 @@ export default function DaycareDashboardContent() {
   );
   return (
     <>
-      <DashboardTitle title="Dashboard Daycare" />
+      <DashboardTitle
+        title="Dashboard Daycare"
+        body="Selamat Datang di Charing Cub! Silahkan akses fitur yang tersedia"
+      />
       <div className="py-4 md:space-y-6 space-y-4">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4 md:gap-6">
           <Card className="border">

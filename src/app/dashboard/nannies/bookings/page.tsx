@@ -4,7 +4,10 @@ import NanniesBookingDashboardContent from "@/components/organism/dashboard/nann
 export default function DashboardNanniesBookingPage() {
   return (
     <>
-      <DashboardTitle title="Daftar Booking" />
+      <DashboardTitle
+        title="Daftar Booking"
+        body="Menampilkan daftar booking dari Pengguna"
+      />
       <NanniesBookingDashboardContent />
     </>
   );
