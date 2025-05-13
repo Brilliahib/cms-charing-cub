@@ -25,7 +25,7 @@ export const daycareColumns: ColumnDef<DayCare>[] = [
   },
   {
     accessorKey: "name",
-    header: "Daycare",
+    header: "Nama",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -37,7 +37,7 @@ export const daycareColumns: ColumnDef<DayCare>[] = [
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: "Deskripsi",
     cell: ({ row }) => {
       const data = row.original;
       return (

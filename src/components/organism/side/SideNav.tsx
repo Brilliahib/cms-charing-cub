@@ -16,6 +16,7 @@ import {
   ChartSpline,
   MessageSquareQuote,
   MonitorSmartphone,
+  Mail,
 } from "lucide-react";
 import { Session } from "next-auth";
 import SideNavL from "@/components/atoms/sidenav/SideNavL";
@@ -48,27 +49,33 @@ export default function Sidenav({ children, session }: SidenavProps) {
             },
             {
               href: "/dashboard/admin/article",
-              label: "Article",
+              label: "Artikel",
               icon: Newspaper,
               active: pathname.startsWith("/dashboard/admin/article"),
             },
             {
               href: "/dashboard/admin/daycares",
-              label: "Daycare",
+              label: "Daycares",
               icon: HousePlus,
               active: pathname.startsWith("/dashboard/admin/daycares"),
             },
             {
               href: "/dashboard/admin/nannies",
-              label: "Nanny",
+              label: "Nannies",
               icon: HeartHandshake,
               active: pathname.startsWith("/dashboard/admin/nannies"),
             },
             {
               href: "/dashboard/admin/users",
-              label: "Users",
+              label: "Pengguna",
               icon: Users,
               active: pathname.startsWith("/dashboard/admin/users"),
+            },
+            {
+              href: "/dashboard/admin/feedbacks",
+              label: "Daftar Masukan",
+              icon: Mail,
+              active: pathname.startsWith("/dashboard/admin/feedbacks"),
             },
           ]
         : session?.user.role === "daycare"
