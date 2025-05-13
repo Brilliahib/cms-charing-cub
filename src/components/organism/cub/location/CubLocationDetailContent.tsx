@@ -375,44 +375,53 @@ export default function CubLocationDetailContent({ id }: DaycareDetailProps) {
               </div>
             </CardContent>
           </Card>
-          {nannies?.data && nannies.data.length > 0 && (
-            <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:gap-6">
-              {nannies.data.map((nanny) => (
-                <Link href={`/cub-care/${nanny.id}`} key={nanny.id}>
-                  <Card className="border-0 shadow-none h-full">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col space-y-4 h-full">
-                        <div className="relative p-0 bg-secondary rounded-xl">
-                          {/* image doctor */}
-                          <Image
-                            src={`${baseUrl}/${nanny.images}`}
-                            alt={nanny.name}
-                            width={1000}
-                            height={1000}
-                            className="w-fit object-cover h-[200px] rounded-xl mx-auto"
-                          />
-                          <Image
-                            src={`${baseUrl}/${nanny.daycare?.images}`}
-                            alt={`${nanny.daycare?.name} Logo`}
-                            width={50}
-                            height={50}
-                            className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <h1 className="md:font-bold font-semibold md:text-base text-sm">
-                              {nanny.user.name}
-                            </h1>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="space-y-4 md:space-y-6">
+            {nannies?.data && nannies.data.length > 0 && (
+              <>
+                <div className="space-y-4 md:space-y-6">
+                  <div className="space-y-2 text-left">
+                    <h1 className="font-bold text-xl">Daftar Nannies</h1>
+                  </div>
+                  <div className="grid md:grid-cols-4 grid-cols-1 gap-4 md:gap-6">
+                    {nannies.data.map((nanny) => (
+                      <Link href={`/cub-care/${nanny.id}`} key={nanny.id}>
+                        <Card className="border-0 shadow-none h-full">
+                          <CardContent className="p-0">
+                            <div className="flex flex-col space-y-4 h-full">
+                              <div className="relative p-0 bg-secondary rounded-xl">
+                                {/* image doctor */}
+                                <Image
+                                  src={`${baseUrl}/${nanny.images}`}
+                                  alt={nanny.name}
+                                  width={1000}
+                                  height={1000}
+                                  className="w-fit object-cover h-[200px] rounded-xl mx-auto"
+                                />
+                                <Image
+                                  src={`${baseUrl}/${nanny.daycare?.images}`}
+                                  alt={`${nanny.daycare?.name} Logo`}
+                                  width={50}
+                                  height={50}
+                                  className="absolute top-2 right-4 w-10 h-10 rounded-full object-cover border border-white shadow-lg"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <div className="flex justify-between">
+                                  <h1 className="md:font-bold font-semibold md:text-base text-sm">
+                                    {nanny.user.name}
+                                  </h1>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {isDialogOpen && (
