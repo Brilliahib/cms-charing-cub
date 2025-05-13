@@ -27,6 +27,8 @@ export interface DayCare {
   facility_images: FacilityImages[];
   nannies: Nannies[];
   price_lists: PriceListDaycare[];
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface FacilityImages {

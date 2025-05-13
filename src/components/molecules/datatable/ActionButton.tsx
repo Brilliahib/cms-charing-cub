@@ -2,28 +2,11 @@
 
 import { PropsWithChildren } from "react";
 
-import { MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 const ActionButton = ({ children }: PropsWithChildren) => {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Buka Menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="font-poppins" align="end">
-        {children}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex max-w-max items-center justify-center gap-5">
+      {children}
+    </div>
   );
 };
 

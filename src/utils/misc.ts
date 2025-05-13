@@ -4,7 +4,7 @@ export const generateFallbackFromName = (name: string) => {
 };
 
 export const buildFromAppURL = (path?: string | null) => {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  const appUrl = `${process.env.NEXT_PUBLIC_APP_URL}/public/`;
   if (!path) return appUrl;
   const url = new URL(path, appUrl);
   return url.toString();
