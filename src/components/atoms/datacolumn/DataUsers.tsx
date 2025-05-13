@@ -22,7 +22,7 @@ export const usersColumns: ColumnDef<Auth>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Nama",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -50,7 +50,10 @@ export const usersColumns: ColumnDef<Auth>[] = [
     cell: ({ row }) => {
       const data = row.original;
       return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
+        <p
+          suppressHydrationWarning
+          className="md:line-clamp-2 line-clamp-1 capitalize"
+        >
           {data.role}
         </p>
       );

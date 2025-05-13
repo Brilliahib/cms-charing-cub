@@ -23,7 +23,7 @@ export default function DaycareAdminContent() {
         <div className="flex md:flex-row flex-col gap-4 justify-between">
           <SearchInput
             onSearch={setSearchQuery}
-            props="Search daycare..."
+            props="Cari daycare..."
             className="min-w-[250px]"
           />
           <Link href={"/dashboard/admin/daycares/create"}>
