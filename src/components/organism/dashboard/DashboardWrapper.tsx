@@ -31,7 +31,10 @@ export default function DashboardContent() {
 
   return (
     <>
-      <DashboardTitle title="Dashboard" />
+      <DashboardTitle
+        title="Dashboard"
+        body="Selamat datang di Charing Cub Parents! Silahkan akses fitur yang tersedia"
+      />
       <DashboardWrapperContent />
     </>
   );

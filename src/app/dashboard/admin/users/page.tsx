@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function DashboardAdminUsersPage() {
   return (
     <>
-      <DashboardTitle title="Pengguna" />
+      <DashboardTitle
+        title="Pengguna"
+        body="Menampilkan daftar pengguna yang tersedia"
+      />
       <UsersAdminContent />
     </>
   );

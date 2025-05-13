@@ -1,13 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -60,14 +54,7 @@ export default function FormCreateFeedback() {
   return (
     <div>
       <Card className="border shadow-none">
-        <CardHeader>
-          <CardTitle>Berikan Pengalaman dan Saran!👋</CardTitle>
-          <CardDescription>
-            Kami senang mendengar kabar dari Anda! Bagaimana pengalaman Anda
-            dengan Charging Cub?
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <Form {...form}>
             <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
@@ -77,7 +64,7 @@ export default function FormCreateFeedback() {
                   <FormItem>
                     <FormLabel>Bagaimana Tingkat Kepuasan Anda?</FormLabel>
                     <FormControl>
-                      <div className="grid grid-cols-1 gap-2">
+                      <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                         {[
                           {
                             emoji: "😍",

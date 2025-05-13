@@ -4,7 +4,10 @@ import DaycareIncomeSummary from "@/components/organism/dashboard/daycares/Dayca
 export default function DashboardDaycareIncomePage() {
   return (
     <section>
-      <DashboardTitle title="Analisa Pendapatan" />
+      <DashboardTitle
+        title="Analisa Pendapatan"
+        body="Menampilkan pendapatan Anda setiap harinya"
+      />
       <DaycareIncomeSummary />
     </section>
   );

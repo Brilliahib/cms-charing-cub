@@ -4,7 +4,10 @@ import DashboardFeedbackWrapper from "@/components/organism/dashboard/feedbacks/
 export default function DashboardFeedbacksPage() {
   return (
     <section className="space-y-10">
-      <DashboardTitle title="Beri Masukan Kepada Kami" />
+      <DashboardTitle
+        title="Beri Masukan Untuk Kami"
+        body="Sampaikan pendapat dan saran Anda demi pelayanan yang lebih baik"
+      />
       <DashboardFeedbackWrapper />
     </section>
   );

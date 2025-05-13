@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function DashboardAdminDaycarePage() {
   return (
     <>
-      <DashboardTitle title="Daycares" />
+      <DashboardTitle
+        title="Daycares"
+        body="Menampilkan daftar daycare yang tersedia"
+      />
       <DaycareAdminContent />
     </>
   );

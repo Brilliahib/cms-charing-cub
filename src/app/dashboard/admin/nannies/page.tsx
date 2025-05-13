@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function DashboardAdminNanniesPage() {
   return (
     <>
-      <DashboardTitle title="Nannies" />
+      <DashboardTitle
+        title="Nannies"
+        body="Menampilkan daftar nannies yang tersedia"
+      />
       <NanniesAdminContent />
     </>
   );

@@ -76,7 +76,7 @@ export default function UserCreateAdminContent() {
   };
   return (
     <>
-      <div className="lg:pt-12 md:pt-8 pt-6">
+      <div className="lg:pt-8 md:pt-6 pt-4">
         <Card className="border shadow">
           <CardContent className="p-6">
             <Form {...form}>

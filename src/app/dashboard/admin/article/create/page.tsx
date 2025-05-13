@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ArticleCreateAdminPage() {
   return (
     <>
-      <DashboardTitle title="Create Article" />
+      <DashboardTitle title="Tambah Artikel" />
       <ArticleCreateAdminContent />
     </>
   );

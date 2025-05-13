@@ -4,7 +4,10 @@ import DaycareCreateNanniesContent from "@/components/organism/dashboard/daycare
 export default function DashboardDaycareCreateNanniesPage() {
   return (
     <>
-      <DashboardTitle title="Create Nannies" />
+      <DashboardTitle
+        title="Tambahkan Nannies"
+        body="Lengkapi form berikut untuk menambahkan nannies baru"
+      />
       <DaycareCreateNanniesContent />
     </>
   );
