@@ -2,10 +2,10 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import { api } from "@/lib/axios";
-import { Article } from "@/types/article/article";
+import { ArticleAdmin } from "@/types/article/article";
 
 interface GetArticleResponse {
-  data: Article[];
+  data: ArticleAdmin[];
 }
 
 export const getArticleHandler = async (): Promise<GetArticleResponse> => {

@@ -2,14 +2,14 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import { api } from "@/lib/axios";
-import { Article } from "@/types/article/article";
+import { Article, ArticleAdmin } from "@/types/article/article";
 
 interface GetDetailArticleParams {
-  id: number;
+  id: string;
 }
 
 interface GetDetailArticleResponse {
-  data: Article;
+  data: ArticleAdmin;
 }
 
 export const getDetailArticleHandler = async ({
@@ -25,7 +25,7 @@ export const useGetDetailArticle = (
   options?: Partial<UseQueryOptions<GetDetailArticleResponse, AxiosError>>
 ) => {
   return useQuery({
-    queryKey: ["article-detail"],
+    queryKey: ["article-detail", id],
     queryFn: () => getDetailArticleHandler({ id }),
     ...options,
   });

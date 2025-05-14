@@ -3,14 +3,21 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Article } from "@/types/article/article";
+import { ArticleAdmin } from "@/types/article/article";
 import Image from "next/image";
 import { baseUrl } from "@/utils/app";
 import ActionButton from "@/components/molecules/datatable/ActionButton";
 import Link from "next/link";
 import { Eye, SquarePen, Trash2 } from "lucide-react";
 
-export const articleColumns: ColumnDef<Article>[] = [
+interface ArticleAdminColumnsProps {
+  detailArticleHandler: (data: ArticleAdmin) => void;
+  deleteArticleHandler: (data: ArticleAdmin) => void;
+}
+
+export const articleColumns = (
+  props: ArticleAdminColumnsProps
+): ColumnDef<ArticleAdmin>[] => [
   {
     accessorKey: "index",
     header: "No",
@@ -32,7 +39,7 @@ export const articleColumns: ColumnDef<Article>[] = [
   },
   {
     accessorKey: "image",
-    header: "Image",
+    header: "Foto",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -48,12 +55,12 @@ export const articleColumns: ColumnDef<Article>[] = [
   },
   {
     accessorKey: "created_at",
-    header: "Tanggal",
+    header: "Tanggal Dibuat",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning>
-          {format(new Date(data.created_at), "EEEE, d MMMM yyyy", {
+          {format(new Date(data.created_at), "EEEE, d MMMM yyyy HH:mm:ss", {
             locale: id,
           })}
         </p>
@@ -67,13 +74,13 @@ export const articleColumns: ColumnDef<Article>[] = [
 
       return (
         <ActionButton>
-          <Link
-            href={`/dashboard/admin/article/${data.id}`}
+          <div
+            onClick={() => props.detailArticleHandler(data)}
             className="flex cursor-pointer items-center text-gray-700 hover:underline"
           >
             <Eye className="h-4 w-4" />
             <span className="ml-2">Detail</span>
-          </Link>
+          </div>
           <Link
             href={`/dashboard/admin/article/${data.id}/edit`}
             className="flex cursor-pointer items-center text-yellow-600 hover:text-yellow-800 hover:underline"
@@ -81,7 +88,10 @@ export const articleColumns: ColumnDef<Article>[] = [
             <SquarePen className="h-4 w-4" />
             <span className="ml-2">Edit</span>
           </Link>
-          <div className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline">
+          <div
+            onClick={() => props.deleteArticleHandler(data)}
+            className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline"
+          >
             <Trash2 className="h-4 w-4" />
             <span className="ml-2">Hapus</span>
           </div>

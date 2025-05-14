@@ -12,7 +12,7 @@ import { useGetArticle } from "@/http/article/get-all-article";
 import CardListArticle from "@/components/molecules/card/CardListArticle";
 
 interface ArticleDetailContentParams {
-  id: number;
+  id: string;
 }
 
 export default function ArticleDetailContent({

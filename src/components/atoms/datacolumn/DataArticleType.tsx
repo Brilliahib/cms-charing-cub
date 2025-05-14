@@ -8,7 +8,15 @@ import ActionButton from "@/components/molecules/datatable/ActionButton";
 import Link from "next/link";
 import { Eye, SquarePen, Trash2 } from "lucide-react";
 
-export const articleTypeColumns: ColumnDef<TypesArticle>[] = [
+interface ArticleTypeColumnsProps {
+  detailArticleTypeHandler: (data: TypesArticle) => void;
+  editArticleTypeHandler: (data: TypesArticle) => void;
+  deleteArticleTypeHandler: (data: TypesArticle) => void;
+}
+
+export const articleTypeColumns = (
+  props: ArticleTypeColumnsProps
+): ColumnDef<TypesArticle>[] => [
   {
     accessorKey: "index",
     header: "No",
@@ -18,19 +26,7 @@ export const articleTypeColumns: ColumnDef<TypesArticle>[] = [
   },
   {
     accessorKey: "title",
-    header: "Article Type Id",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {data.id}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "title",
-    header: "Name",
+    header: "Nama",
     cell: ({ row }) => {
       const data = row.original;
       return (
@@ -42,12 +38,12 @@ export const articleTypeColumns: ColumnDef<TypesArticle>[] = [
   },
   {
     accessorKey: "created_at",
-    header: "Tanggal",
+    header: "Tanggal Dibuat",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning>
-          {format(new Date(data.created_at), "EEEE, d MMMM yyyy", {
+          {format(new Date(data.created_at), "EEEE, d MMMM yyyy HH:mm:ss", {
             locale: id,
           })}
         </p>
@@ -61,21 +57,24 @@ export const articleTypeColumns: ColumnDef<TypesArticle>[] = [
 
       return (
         <ActionButton>
-          <Link
-            href={`/dashboard/admin/article/${data.id}`}
+          <div
+            onClick={() => props.detailArticleTypeHandler(data)}
             className="flex cursor-pointer items-center text-gray-700 hover:underline"
           >
             <Eye className="h-4 w-4" />
             <span className="ml-2">Detail</span>
-          </Link>
-          <Link
-            href={`/dashboard/admin/article/${data.id}/edit`}
+          </div>
+          <div
+            onClick={() => props.editArticleTypeHandler(data)}
             className="flex cursor-pointer items-center text-yellow-600 hover:text-yellow-800 hover:underline"
           >
             <SquarePen className="h-4 w-4" />
             <span className="ml-2">Edit</span>
-          </Link>
-          <div className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline">
+          </div>
+          <div
+            onClick={() => props.deleteArticleTypeHandler(data)}
+            className="flex cursor-pointer items-center text-red-600 hover:text-red-800 hover:underline"
+          >
             <Trash2 className="h-4 w-4" />
             <span className="ml-2">Hapus</span>
           </div>

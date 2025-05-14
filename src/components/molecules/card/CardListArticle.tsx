@@ -1,4 +1,4 @@
-import { Article } from "@/types/article/article";
+import { ArticleAdmin } from "@/types/article/article";
 import { baseUrl } from "@/utils/app";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface CardListArticleProps {
-  data: Article[];
+  data: ArticleAdmin[];
 }
 
 export default function CardListArticle({ data }: CardListArticleProps) {
