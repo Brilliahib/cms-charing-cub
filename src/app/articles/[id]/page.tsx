@@ -1,7 +1,7 @@
 import ArticleDetailContent from "@/components/organism/articles/ArticleDetailContent";
 
 interface ArticleParams {
-  params: { id: number };
+  params: { id: string };
 }
 
 export default function ArticlePage({ params }: ArticleParams) {
