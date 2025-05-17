@@ -48,12 +48,12 @@ export const daycareColumns: ColumnDef<DayCare>[] = [
   },
   {
     accessorKey: "created_at",
-    header: "Tanggal",
+    header: "Tanggal Bergabung",
     cell: ({ row }) => {
       const data = row.original;
       return (
         <p suppressHydrationWarning>
-          {format(new Date(data.created_at), "EEEE, d MMMM yyyy", {
+          {format(new Date(data.created_at), "EEEE, d MMMM yyyy HH:mm:ss", {
             locale: id,
           })}
         </p>

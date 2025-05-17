@@ -3,12 +3,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DayCare } from "@/types/daycares/daycare";
+import { MonitoringChildrenDaycare } from "@/types/daycares/monitoring/monitoring-children-daycare";
 import { FileX2, MonitorSmartphone } from "lucide-react";
 import Link from "next/link";
 
 interface CardListDaycareMonitoringProps {
-  data?: DayCare[];
+  data?: MonitoringChildrenDaycare[];
   isLoading?: boolean;
 }
 
@@ -53,10 +53,10 @@ export default function CardListDaycareMonitoring({
 
   return (
     <div className="space-y-4">
-      {data?.map((module) => (
+      {data?.map((monitoring) => (
         <Link
-          key={module.id}
-          href={`/dashboard/modules/${module.id}`}
+          key={monitoring.id}
+          href={`/dashboard/monitoring/${monitoring.id}`}
           className="group block"
         >
           <div className="flex flex-row gap-6">
@@ -70,7 +70,7 @@ export default function CardListDaycareMonitoring({
                     Daycare
                   </Badge>
                   <CardTitle className="text-md font-bold md:text-xl">
-                    {module.name}
+                    {monitoring.daycare.name}
                   </CardTitle>
                 </div>
               </CardHeader>

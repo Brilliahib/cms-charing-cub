@@ -2,7 +2,7 @@ import { Nannies } from "../cub/cub";
 import { DayCare } from "../daycares/daycare";
 
 export interface Auth {
-  id: number;
+  id: string;
   name: string;
   email: string;
   role: string;

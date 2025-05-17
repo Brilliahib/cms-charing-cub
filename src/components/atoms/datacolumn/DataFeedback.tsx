@@ -53,7 +53,7 @@ export const feedbackColumns = (
       const data = row.original;
       return (
         <p suppressHydrationWarning>
-          {format(new Date(data.created_at), "EEEE, d MMMM yyyy", {
+          {format(new Date(data.created_at), "EEEE, d MMMM yyyy HH:mm:ss", {
             locale: id,
           })}
         </p>
