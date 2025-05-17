@@ -105,6 +105,12 @@ export default function Sidenav({ children, session }: SidenavProps) {
               active: pathname.startsWith("/dashboard/daycares/income"),
             },
             {
+              href: "/dashboard/daycares/monitoring",
+              label: "Monitoring Anak",
+              icon: MonitorSmartphone,
+              active: pathname.startsWith("/dashboard/daycares/monitoring"),
+            },
+            {
               href: "/dashboard/daycares/withdraw",
               label: "Penarikan Dana",
               icon: Wallet,

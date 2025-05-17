@@ -31,6 +31,11 @@ export interface DayCare {
   updated_at: Date;
 }
 
+export interface MyDaycare {
+  id: string;
+  name: string;
+}
+
 export interface FacilityImages {
   id: number;
   daycare_id: number;

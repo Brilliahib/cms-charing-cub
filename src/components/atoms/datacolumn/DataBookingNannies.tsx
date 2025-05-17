@@ -105,7 +105,7 @@ export const bookingNanniesColumns: ColumnDef<BookingNanniesProps>[] = [
       const data = row.original;
       return (
         <p suppressHydrationWarning className="md:line-clamp-2 line-clamp-1">
-          {format(data.start_time, "EEEE, d MMMM yyyy, HH:mm", {
+          {format(data.start_time, "EEEE, d MMMM yyyy HH:mm:ss", {
             locale: id,
           })}
         </p>
