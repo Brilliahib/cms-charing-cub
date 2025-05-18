@@ -6,10 +6,10 @@ export default function AlertInformationBookingDaycare() {
     <>
       <Alert variant={"warning"}>
         <TriangleAlert className="h-4 w-4" />
-        <AlertTitle>Information</AlertTitle>
+        <AlertTitle>Informasi</AlertTitle>
         <AlertDescription>
-          The total price will be available after selecting the daycare pricing
-          option.
+          Harga total akan muncul setelah Anda memilih pilihan harga dari
+          daycare.
         </AlertDescription>
       </Alert>
     </>
