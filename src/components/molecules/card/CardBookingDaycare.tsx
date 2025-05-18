@@ -78,12 +78,14 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
 
   const { mutate: addBookingDaycareHandler, isPending } = useAddBookingDaycare({
     onError: (error: AxiosError<any>) => {
-      toast.error("Failed to booking daycare", {
+      toast.error("Gagal melakukan booking daycare", {
         description: error.response?.data.message,
       });
     },
     onSuccess: (response) => {
-      toast.success("Successfully booked daycare. Redirecting to payment...");
+      toast.success(
+        "Berhasil melakukan booking daycare, Anda akan diarahkan ke halaman pembayaran"
+      );
       router.push(response.data.payment_url);
 
       queryClient.invalidateQueries({
@@ -138,7 +140,14 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
             <Card className="shadow border w-full">
               <CardContent className="md:p-8 p-6">
                 <div className="space-y-6 md:space-y-8 w-full">
-                  <h1 className="text-lg font-bold">Enter Your Details</h1>
+                  <div className="space-y-2">
+                    <h1 className="text-2xl font-paytone">
+                      Lengkapi Form Berikut
+                    </h1>
+                    <p className="text-muted-foreground">
+                      Masukkan data yang sesuai untuk melakukan booking daycare.
+                    </p>
+                  </div>
                   <div className="flex flex-col space-y-4 md:space-y-6">
                     <FormField
                       control={form.control}
@@ -146,12 +155,12 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Babies Name <span className="text-red-500">*</span>
+                            Nama Anak <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="text"
-                              placeholder="Masukkan nama bayi"
+                              placeholder="Masukkan nama anak Anda"
                               {...field}
                             />
                           </FormControl>
@@ -165,12 +174,12 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Age <span className="text-red-500">*</span>
+                            Umur <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
-                              placeholder="Masukkan umur bayi"
+                              placeholder="Masukkan umur anak Anda"
                               {...field}
                               className="text-muted-foreground"
                             />
@@ -185,7 +194,8 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Start Time <span className="text-red-500">*</span>
+                            Mulai Booking{" "}
+                            <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Popover>
@@ -201,7 +211,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                                     {field.value ? (
                                       format(new Date(field.value), "PPP p")
                                     ) : (
-                                      <span>Pick start time</span>
+                                      <span>Pilih waktu mulai</span>
                                     )}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
@@ -334,7 +344,8 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            End Time <span className="text-red-500">*</span>
+                            Selesai Booking{" "}
+                            <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Popover>
@@ -350,7 +361,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                                     {field.value ? (
                                       format(new Date(field.value), "PPP p")
                                     ) : (
-                                      <span>Pick end time</span>
+                                      <span>Pilih waktu selesai</span>
                                     )}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
@@ -484,12 +495,12 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Special Request{" "}
+                          Permintaan Khusus{" "}
                           <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Masukkan special request"
+                            placeholder="Masukkan permintaan khusus"
                             {...field}
                           />
                         </FormControl>
@@ -504,7 +515,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Price <span className="text-red-500">*</span>
+                          Pilihan Harga <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Select
@@ -518,7 +529,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                             }}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Pilih harga" />
+                              <SelectValue placeholder="Silahkan pilih harga yang diinginkan" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
@@ -549,7 +560,7 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
               <CardContent className="md:p-8 p-6">
                 <div className="space-y-8">
                   <div className="space-y-6">
-                    <h1 className="font-bold text-lg">Payment Details</h1>
+                    <h1 className="font-bold text-lg">Detail Pembayaran</h1>
                     <AlertInformationBookingDaycare />
                     <div className="flex justify-between">
                       <p>Harga Normal</p>
@@ -576,9 +587,10 @@ export default function CardBookingDaycare({ id }: CardBookingDaycareParams) {
                   <Button
                     type="submit"
                     disabled={isPending}
-                    className="w-full rounded-full"
+                    className="w-full rounded-md"
+                    size={"lg"}
                   >
-                    {isPending ? "Loading..." : "Request to Book"}
+                    {isPending ? "Loading..." : "Booking Sekarang"}
                   </Button>
                 </div>
               </CardContent>
