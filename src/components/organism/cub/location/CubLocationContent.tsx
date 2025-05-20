@@ -139,7 +139,7 @@ export default function CubLocationContent() {
                           <div className="flex justify-between">
                             <h1 className="font-bold">{daycare.name}</h1>
                             <div className="flex gap-1 items-center">
-                              <MapPin className="text-primary h-4 w-4" />
+                              <MapPin className="text-primary h-4 w-4 flex-shrink-0" />
                               <p className="text-sm">{daycare.distance} Km</p>
                             </div>
                           </div>

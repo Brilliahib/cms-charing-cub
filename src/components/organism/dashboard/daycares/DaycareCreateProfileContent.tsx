@@ -135,12 +135,12 @@ export default function DaycareCreateProfileContent() {
 
   const { mutate: addDaycareHandler, isPending } = useAddDaycare({
     onError: (error: AxiosError<any>) => {
-      toast.error("Failed to create profile daycare!", {
+      toast.error("Gagal menyimpan data profil daycare!", {
         description: error.response?.data.message,
       });
     },
     onSuccess: () => {
-      toast.success("Successfully create profile daycare!");
+      toast.success("Berhasil menyimpan data profil daycare!");
       queryClient.invalidateQueries({
         queryKey: ["daycare-profile"],
       });
