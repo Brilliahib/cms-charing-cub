@@ -124,8 +124,8 @@ export default function NanniesCreateContent() {
 
   return (
     <div className="w-full py-8">
-      <Card className="shadow-md">
-        <CardContent className="py-4">
+      <Card className="border">
+        <CardContent className="p-6">
           <Form {...form}>
             <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField

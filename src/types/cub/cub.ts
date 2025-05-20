@@ -2,7 +2,7 @@ import { Auth } from "../auth/auth";
 import { DayCare, DaycareReviews } from "../daycares/daycare";
 
 export interface Nannies {
-  id: number;
+  id: string;
   name: string;
   rating: number;
   rating_count: number;
@@ -13,7 +13,7 @@ export interface Nannies {
   price_half: number;
   price_full: number;
   experience_description: string;
-  daycare_id: number;
+  daycare_id: string;
   daycare_name: string;
   daycare_profile: string;
   daycare_location: string;
@@ -30,7 +30,7 @@ export interface Nannies {
 }
 
 export interface NanniesDaycareReview {
-  id: number;
+  id: string;
   daycare_id: number;
   user_id: number;
   rating: number;

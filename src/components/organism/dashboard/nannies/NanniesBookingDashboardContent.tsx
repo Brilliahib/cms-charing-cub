@@ -4,13 +4,13 @@ import ApproveBookingNanniesDialog from "@/components/atoms/alert/AlertApproveBo
 import { bookingNanniesColumns } from "@/components/atoms/datacolumn/DataBookingNannies";
 import SearchInput from "@/components/atoms/search/SearchInput";
 import { DataTable } from "@/components/molecules/datatable/DataTable";
-import { useToast } from "@/hooks/use-toast";
 import { useApproveBookingNannies } from "@/http/nannies/add-approve-booking";
 import { useGetBookingNannies } from "@/http/nannies/get-all-booking-nannies";
 import { BookingNannies } from "@/types/booking/booking";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function NanniesBookingDashboardContent() {
   const { data: session, status } = useSession();
@@ -18,8 +18,6 @@ export default function NanniesBookingDashboardContent() {
     null
   );
   const [searchQuery, setSearchQuery] = useState("");
-
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data, isPending } = useGetBookingNannies(
@@ -33,19 +31,14 @@ export default function NanniesBookingDashboardContent() {
     useApproveBookingNannies({
       onSuccess: () => {
         setSelectedBooking(null);
-        toast({
-          title: "Successfully approved booking!",
-          variant: "success",
-        });
+        toast.success("Berhasil menyetujui booking!");
         queryClient.invalidateQueries({
           queryKey: ["booking-nannies-list"],
         });
       },
       onError: (error) => {
-        toast({
-          title: "Failed to approve booking!",
-          variant: "destructive",
-          description: error.response?.data.message,
+        toast.error("Gagal menyetujui booking!", {
+          description: error.message,
         });
       },
     });
