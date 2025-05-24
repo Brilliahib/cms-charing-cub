@@ -84,6 +84,11 @@ export default function FooterContent() {
                     Syarat dan Ketentuan
                   </Link>
                 </li>
+                <li>
+                  <Link href={"/guides"} className="hover:underline">
+                    Video Panduan
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="space-y-4">
