@@ -32,20 +32,20 @@ const ApproveBookingNanniesDialog = ({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Approve Booking?</AlertDialogTitle>
+          <AlertDialogTitle>Menyetujui Booking?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to approve the booking request? Approved data
-            cannot be returned.
+            Apakah Anda yakin ingin menyetujui booking tersebut? Data yang sudah
+            disetujui tidak dapat dikembalikan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Batal</AlertDialogCancel>
           <AlertDialogAction
             disabled={isPending}
             className={buttonVariants({ variant: "default" })}
             onClick={confirmApprove}
           >
-            Approve
+            Setuju
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

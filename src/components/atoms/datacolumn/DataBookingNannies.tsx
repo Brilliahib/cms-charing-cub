@@ -18,7 +18,7 @@ const ActionsCell = ({ data }: { data: BookingNanniesProps }) => {
     <>
       <ActionButton>
         <div
-          className="text-green-500 cursor-pointer focus:text-green-700"
+          className="text-green-500 cursor-pointer focus:text-green-700 flex items-center hover:underline"
           onClick={() => data.approveBookingNanniesHandler(data)}
         >
           <Check className="h-4 w-4 " />

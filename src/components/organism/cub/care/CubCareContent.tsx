@@ -40,7 +40,7 @@ export default function CubCareContent() {
             <Settings2 /> <p className="md:flex hidden">Tambah Filter</p>
           </Button>
         </div>
-        <div className="grid md:grid-cols-4 grid-cols-1 md:gap-8 gap-4">
+        <div className="grid 2xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {isPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card key={index}>
@@ -70,7 +70,7 @@ export default function CubCareContent() {
                           alt={nannies.name}
                           width={1000}
                           height={1000}
-                          className="w-fit object-cover h-[200px] rounded-xl mx-auto"
+                          className="w-fit object-cover md:h-[200px] h-[220px] rounded-xl mx-auto"
                         />
                         <Image
                           src={`${baseUrl}/${nannies.daycare?.images}`}

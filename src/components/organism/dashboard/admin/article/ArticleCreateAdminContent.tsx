@@ -37,6 +37,7 @@ import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
 import { toast } from "sonner";
+import "react-quill/dist/quill.snow.css";
 
 export default function ArticleCreateAdminContent() {
   const form = useForm<ArticleType>({

@@ -68,8 +68,8 @@ export default function FormUpdateAccount({ session }: FormUpdateAccountProps) {
   return (
     <>
       <div className="w-full">
-        <Card className="shadow-md">
-          <CardContent className="py-4">
+        <Card className="border">
+          <CardContent className="p-6">
             <Form {...form}>
               <form
                 className="space-y-5"
