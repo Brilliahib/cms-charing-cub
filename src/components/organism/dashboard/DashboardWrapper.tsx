@@ -29,6 +29,11 @@ export default function DashboardContent() {
     return null;
   }
 
+  if (session.user.role === "psychiatrist") {
+    router.push("/dashboard/psychiatrist");
+    return null;
+  }
+
   return (
     <>
       <DashboardTitle
