@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { useAddUpdateAccount } from "@/http/auth/update-account";
 import {
   updateAccountSchema,
@@ -23,6 +22,7 @@ import { AxiosError } from "axios";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface FormUpdateAccountProps {
   session: Session;
@@ -39,22 +39,16 @@ export default function FormUpdateAccount({ session }: FormUpdateAccountProps) {
   });
 
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
 
   const { mutate: addUpdateAccountHandler, isPending } = useAddUpdateAccount({
     onError: (error: AxiosError<any>) => {
-      toast({
-        title: "Gagal mengupdate account!",
-        description: error.response?.data.message,
-        variant: "destructive",
+      toast.error("Gagal mengupdate account!", {
+        description: error.response?.data.message || "Terjadi kesalahan",
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Berhasil mengupdate account!",
-        variant: "success",
-      });
+      toast.success("Berhasil mengupdate account!");
       queryClient.invalidateQueries({
         queryKey: ["update-account"],
       });

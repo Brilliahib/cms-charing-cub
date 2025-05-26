@@ -1,22 +1,22 @@
 "use client";
 
-import { useGetArticle } from "@/http/article/get-all-article";
 import { baseUrl } from "@/utils/app";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetLastestArticle } from "@/http/article/get-lastest-article";
 
 export default function HomeArticle() {
-  const { data, isPending } = useGetArticle();
+  const { data, isPending } = useGetLastestArticle();
 
   return (
     <>
       <div className="pad-x-xl md:pt-24 pt-16 space-y-12">
         <div className="md:w-[70rem] w-fit">
           <h1 className="font-paytone tracking-tighter text-3xl sm:text-5xl text-zinc-700 relative z-10">
-            Artikel Kami📰
+            Artikel Terbaru📰
           </h1>
           <span className="md:w-[20rem] w-[10rem] h-[2rem] bg-gradient-to-r from-purple-500 to-purple-100 absolute -rotate-2 -translate-y-7 z-0 opacity-30"></span>
         </div>

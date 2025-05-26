@@ -8,8 +8,8 @@ import FooterContent from "@/components/atoms/footer/FooterContent";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { id as idLocal } from "date-fns/locale";
-import { useGetArticle } from "@/http/article/get-all-article";
 import CardListArticle from "@/components/molecules/card/CardListArticle";
+import { useGetLastestArticle } from "@/http/article/get-lastest-article";
 
 interface ArticleDetailContentParams {
   id: string;
@@ -19,7 +19,7 @@ export default function ArticleDetailContent({
   id,
 }: ArticleDetailContentParams) {
   const { data, isPending } = useGetDetailArticle({ id });
-  const { data: articles } = useGetArticle();
+  const { data: articles } = useGetLastestArticle();
   return (
     <>
       <Navbar />
